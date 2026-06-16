@@ -1,8 +1,8 @@
 
 
 [hardware]
-  model = "E5080B"
-  address = "TCPIP0::192.168.1.78::inst0::INSTR"
+  model = "ZNB"
+  address = "TCPIP0::192.168.1.123::inst0::INSTR"
   attenuation = 80
   port = "S21"
 
@@ -10,7 +10,7 @@
   name = "thinfat"
 
 [output]
-  data_path = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw"
+  data_path = "data/raw"
 
 [[resonator]]
   label = "C45312"

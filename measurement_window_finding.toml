@@ -1,11 +1,11 @@
 [hardware]
-  model = "E5080B"
-  address = 'TCPIP0::192.168.1.78::inst0::INSTR'
+  model = "ZNB"
+  address = "TCPIP0::192.168.1.123::inst0::INSTR"
   attenuation = 80
   port = "S21"
 
 [sample]
-  name = "ITRI"
+  name = "thinfat"
 
 
 [[measurement]]
