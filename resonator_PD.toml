@@ -4,16 +4,15 @@
   model = "ZNB"
   address = "TCPIP0::192.168.1.123::inst0::INSTR"
   attenuation = 80
-  port = "S21"
+  port = "S43"
 
 [sample]
   name = "thinfat"
 
 [output]
   data_path = "data/raw"
-
 [[resonator]]
-  label = "C45312"
+  label = "C12050"
   IF_bandwidth = 20
   [resonator.snr]
     max_repeat = 5
@@ -25,193 +24,6 @@
     max = 0
     step = 5
   [resonator.frequency]
-    start = 4.5311e9
-    stop = 4.5313e9
-    points = 501
-
-[[resonator]]
-  label = "C46157"
-  IF_bandwidth = 20
-  [resonator.snr]
-    max_repeat = 5
-    min_repeat = 1
-    power_ave_ratio = -140
-
-  [resonator.power]
-    min = -50
-    max = 0
-    step = 5
-  [resonator.frequency]
-    start = 4.6156e9
-    stop = 4.61585e9
-    points = 501
-
-[[resonator]]
-  label = "C46945"
-  IF_bandwidth = 20
-  [resonator.snr]
-    max_repeat = 5
-    min_repeat = 1
-    power_ave_ratio = -140
-
-  [resonator.power]
-    min = -50
-    max = 0
-    step = 5
-  [resonator.frequency]
-    start = 4.6944e9
-    stop = 4.69463e9
-    points = 501
-
-[[resonator]]
-  label = "C47625"
-  IF_bandwidth = 20
-  [resonator.snr]
-    max_repeat = 5
-    min_repeat = 1
-    power_ave_ratio = -140
-
-  [resonator.power]
-    min = -50
-    max = 0
-    step = 5
-  [resonator.frequency]
-    start = 4.7624e9
-    stop = 4.7627e9
-    points = 501
-
-[[resonator]]
-  label = "C48446"
-  IF_bandwidth = 20
-  [resonator.snr]
-    max_repeat = 5
-    min_repeat = 1
-    power_ave_ratio = -140
-
-  [resonator.power]
-    min = -50
-    max = 0
-    step = 5
-  [resonator.frequency]
-    start = 4.8445e9
-    stop = 4.84476e9
-    points = 501
-
-[[resonator]]
-  label = "C49276"
-  IF_bandwidth = 20
-  [resonator.snr]
-    max_repeat = 5
-    min_repeat = 1
-    power_ave_ratio = -140
-
-  [resonator.power]
-    min = -50
-    max = 0
-    step = 5
-  [resonator.frequency]
-    start = 4.9274e9
-    stop = 4.92775e9
-    points = 501
-
-[[resonator]]
-  label = "C54217"
-  IF_bandwidth = 20
-  [resonator.snr]
-    max_repeat = 5
-    min_repeat = 1
-    power_ave_ratio = -140
-
-  [resonator.power]
-    min = -50
-    max = 0
-    step = 5
-  [resonator.frequency]
-    start = 5.4216e9
-    stop = 5.42185e9
-    points = 501
-
-[[resonator]]
-  label = "C55020"
-  IF_bandwidth = 20
-  [resonator.snr]
-    max_repeat = 5
-    min_repeat = 1
-    power_ave_ratio = -140
-
-  [resonator.power]
-    min = -50
-    max = 0
-    step = 5
-  [resonator.frequency]
-    start = 5.5019e9
-    stop = 5.5021e9
-    points = 501
-
-[[resonator]]
-  label = "C55915"
-  IF_bandwidth = 20
-  [resonator.snr]
-    max_repeat = 5
-    min_repeat = 1
-    power_ave_ratio = -140
-
-  [resonator.power]
-    min = -50
-    max = 0
-    step = 5
-  [resonator.frequency]
-    start = 5.5913e9
-    stop = 5.59165e9
-    points = 501
-
-[[resonator]]
-  label = "C57232"
-  IF_bandwidth = 20
-  [resonator.snr]
-    max_repeat = 5
-    min_repeat = 1
-    power_ave_ratio = -140
-
-  [resonator.power]
-    min = -50
-    max = 0
-    step = 5
-  [resonator.frequency]
-    start = 5.7230e9
-    stop = 5.72342e9
-    points = 501
-
-[[resonator]]
-  label = "C58124"
-  IF_bandwidth = 20
-  [resonator.snr]
-    max_repeat = 5
-    min_repeat = 1
-    power_ave_ratio = -140
-
-  [resonator.power]
-    min = -50
-    max = 0
-    step = 5
-  [resonator.frequency]
-    start = 5.8122e9
-    stop = 5.8126e9
-    points = 501
-
-[[resonator]]
-  label = "C59004"
-  IF_bandwidth = 20
-  [resonator.snr]
-    max_repeat = 5
-    min_repeat = 1
-    power_ave_ratio = -140
-
-  [resonator.power]
-    min = -50
-    max = 0
-    step = 5
-  [resonator.frequency]
-    start = 5.9002e9
-    stop = 5.90055e9
+    start = 11.258342e9  # 填入優化後的 start
+    stop = 12.842470e9   # 填入優化後的 stop
     points = 501

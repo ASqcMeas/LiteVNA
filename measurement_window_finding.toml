@@ -2,28 +2,16 @@
   model = "ZNB"
   address = "TCPIP0::192.168.1.123::inst0::INSTR"
   attenuation = 80
-  port = "S21"
+  port = "S43"
 
 [sample]
   name = "thinfat"
 
-
 [[measurement]]
-
   IF_bandwidth = 1000
   power = 10
   
   [measurement.frequency]
-    deltafre = 5e6
-    resonator_fre = 4.5312e9
-    points = 501
-
-[[measurement]]
-
-  IF_bandwidth = 1000
-  power = 10
-  
-  [measurement.frequency]
-    deltafre = 5e6
-    resonator_fre = 4.6157e9
+    deltafre = 10e6            # 掃描範圍半寬（例如 10 MHz）
+    resonator_fre = 12.058e9   # 設定為您找到的中心頻率 (12.058 GHz)
     points = 501

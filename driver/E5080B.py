@@ -34,10 +34,16 @@ class VNA_E5080B( VNA ):
         # self.__inst.write(f':CALC:PAR:DEL {trace_name}')
 
     def check_error( self ):
-        # Check for errors
-        error = self.__inst.query('SYST:ERR?')
-        if error != '+0,"No error"':
-            print(f"Instrument Error: {error}")
+        # Retrieve all errors from queue
+        while True:
+            try:
+                error = self.__inst.query('SYST:ERR?')
+                if error.startswith('+0') or "No error" in error or not error:
+                    break
+                print(f"Instrument Error: {error}")
+            except Exception as e:
+                print(f"Error reading instrument status: {e}")
+                break
 
     def _setup_measurement(self, parameter: str):
         self.__inst.write(f':CALC:PAR:DEF:EXT {parameter},{parameter}')

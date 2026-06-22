@@ -6,7 +6,9 @@ import threading
 import tkinter as tk
 from tkinter import ttk, messagebox
 from tkinter.scrolledtext import ScrolledText
+import json
 import tomlkit
+
 
 # Configuration files to manage
 CONFIG_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -246,6 +248,29 @@ class VnaConfigApp(tk.Tk):
         self.ent_snr_min.grid(row=1, column=1, sticky="w", padx=5, pady=5)
 
         # ---------------- RIGHT PANEL: LOG & ACTION BUTTONS ----------------
+        # ---------------- RIGHT PANEL: ACTION CONTROLS & LOGS ----------------
+        # Action Control Panel
+        action_frame = ttk.Frame(right_panel, style="Card.TFrame")
+        action_frame.pack(fill="x", padx=5, pady=5)
+        
+        ttk.Label(action_frame, text="Measurement & Analysis Actions:", font=("Segoe UI", 9, "bold")).pack(anchor="w", padx=15, pady=(15, 5))
+        
+        # Buttons Row
+        btn_row = ttk.Frame(action_frame, style="Card.TFrame")
+        btn_row.pack(fill="x", padx=15, pady=(0, 15))
+        
+        self.btn_win = ttk.Button(btn_row, text="1. Find Window", style="Primary.TButton", command=lambda: self.run_stage("Find Window", "window_finding.ipynb"), width=15)
+        self.btn_win.pack(side="left", padx=5)
+        
+        self.btn_config = ttk.Button(btn_row, text="2. Gen Config", style="Primary.TButton", command=lambda: self.run_stage("Generate Config", "power_dep_resonator.ipynb"), width=15)
+        self.btn_config.pack(side="left", padx=5)
+        
+        self.btn_sweep = ttk.Button(btn_row, text="3. Run Sweep", style="Primary.TButton", command=lambda: self.run_stage("Run Sweep", "linear_freq_sweep.ipynb"), width=15)
+        self.btn_sweep.pack(side="left", padx=5)
+        
+        self.btn_analyze = ttk.Button(btn_row, text="4. Fit & Plot", style="Test.TButton", command=lambda: self.run_stage("Fit & Plot", "analyze_results.py"), width=15)
+        self.btn_analyze.pack(side="left", padx=5)
+
         # Log frame for dark visual aesthetic
         log_frame = ttk.Frame(right_panel, style="Card.TFrame")
         log_frame.pack(fill="both", expand=True, padx=5, pady=5)
@@ -256,7 +281,7 @@ class VnaConfigApp(tk.Tk):
         self.txt_log.pack(fill="both", expand=True, padx=15, pady=(0, 15))
         self.txt_log.insert(tk.END, "[System Logs Ready]\n")
         self.txt_log.configure(state="disabled")
-
+ 
         # Bottom buttons panel
         btn_frame = ttk.Frame(right_panel, style="TFrame")
         btn_frame.pack(fill="x", padx=5, pady=(10, 5))
@@ -266,6 +291,7 @@ class VnaConfigApp(tk.Tk):
         
         btn_reload = ttk.Button(btn_frame, text="Reload Configurations", command=self.load_configurations, width=22)
         btn_reload.pack(side="left", padx=5)
+
 
         # Bind events for auto-saving
         self.ent_ip.bind("<FocusOut>", lambda e: self.save_settings(silent=True))
@@ -321,11 +347,113 @@ class VnaConfigApp(tk.Tk):
         self.ent_lf_step.bind("<Return>", lambda e: self.on_step_change())
 
     def log(self, message):
-        """Append messages to log area"""
-        self.txt_log.configure(state="normal")
-        self.txt_log.insert(tk.END, f"{message}\n")
-        self.txt_log.see(tk.END)
-        self.txt_log.configure(state="disabled")
+        """Append messages to log area in a thread-safe manner"""
+        def append():
+            self.txt_log.configure(state="normal")
+            self.txt_log.insert(tk.END, f"{message}\n")
+            self.txt_log.see(tk.END)
+            self.txt_log.configure(state="disabled")
+        self.after(0, append)
+
+    def set_buttons_state(self, state):
+        """Enable or disable action buttons during task execution"""
+        self.btn_win.configure(state=state)
+        self.btn_config.configure(state=state)
+        self.btn_sweep.configure(state=state)
+        self.btn_analyze.configure(state=state)
+
+    def run_stage(self, stage_name, ipynb_name_or_py_name):
+        """Run a Jupyter notebook or Python script in the background and log output"""
+        self.lbl_status.configure(text=f"Running {stage_name}...", foreground="#E1A100")
+        self.log(f"\n[Execution] Starting {stage_name}...")
+        
+        # Disable buttons during execution to avoid concurrent runs
+        self.set_buttons_state("disabled")
+        
+        def thread_target():
+            temp_py = None
+            try:
+                # 1. Convert Jupyter Notebook to Python script if needed
+                if ipynb_name_or_py_name.endswith(".ipynb"):
+                    notebook_path = os.path.join(CONFIG_DIR, ipynb_name_or_py_name)
+                    temp_py = os.path.join(CONFIG_DIR, f"_temp_{ipynb_name_or_py_name[:-6]}.py")
+                    self.log(f"Converting {ipynb_name_or_py_name} to Python script...")
+                    
+                    with open(notebook_path, "r", encoding="utf-8") as f:
+                        nb = json.load(f)
+                    code_lines = []
+                    for cell in nb.get("cells", []):
+                        if cell.get("cell_type") == "code":
+                            source = cell.get("source", [])
+                            if isinstance(source, list):
+                                code_lines.extend(source)
+                                code_lines.append("\n\n")
+                            else:
+                                code_lines.append(source)
+                                code_lines.append("\n\n")
+                    
+                    cleaned_lines = []
+                    for line in code_lines:
+                        # Comment out IPython line magics (e.g. %matplotlib)
+                        if line.strip().startswith("%"):
+                            cleaned_lines.append(f"# {line}")
+                        else:
+                            cleaned_lines.append(line)
+                            
+                    with open(temp_py, "w", encoding="utf-8") as f:
+                        f.writelines(cleaned_lines)
+                        
+                    exec_path = temp_py
+                else:
+                    exec_path = os.path.join(os.path.dirname(CONFIG_DIR), ipynb_name_or_py_name)
+
+                # 2. Find Python binary path in .venv
+                python_bin = os.path.join(os.path.dirname(CONFIG_DIR), ".venv", "bin", "python")
+                if not os.path.exists(python_bin):
+                    python_bin = "python"
+                
+                self.log(f"Running command: {python_bin} {os.path.basename(exec_path)}")
+                
+                # 3. Start subprocess and capture stdout in real time
+                process = subprocess.Popen(
+                    [python_bin, exec_path],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
+                    text=True,
+                    bufsize=1,
+                    cwd=CONFIG_DIR
+                )
+                
+                while True:
+                    line = process.stdout.readline()
+                    if not line:
+                        break
+                    self.log(line.strip())
+                    
+                process.wait()
+                
+                if process.returncode == 0:
+                    self.log(f"\n{stage_name} finished successfully!")
+                    self.after(0, lambda: self.lbl_status.configure(text=f"{stage_name} Success", foreground="#28A745"))
+                else:
+                    self.log(f"\n{stage_name} failed with return code {process.returncode}")
+                    self.after(0, lambda: self.lbl_status.configure(text=f"{stage_name} Failed", foreground="#DC3545"))
+                    
+            except Exception as e:
+                self.log(f"\nError running {stage_name}: {e}")
+                self.after(0, lambda: self.lbl_status.configure(text="Error", foreground="#DC3545"))
+            finally:
+                # 4. Clean up temporary Python file
+                if temp_py and os.path.exists(temp_py):
+                    try:
+                        os.remove(temp_py)
+                    except Exception:
+                        pass
+                # Re-enable buttons on main thread
+                self.after(0, lambda: self.set_buttons_state("normal"))
+
+        threading.Thread(target=thread_target, daemon=True).start()
+
 
     def load_configurations(self):
         self.lbl_status.configure(text="Loading configurations...", foreground="#E1A100")

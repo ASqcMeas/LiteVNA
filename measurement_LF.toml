@@ -2,7 +2,7 @@
   model = "ZNB"
   address = "TCPIP0::192.168.1.123::inst0::INSTR"
   attenuation = 80
-  port = "S21"
+  port = "S43"
 
 [sample]
   name = "thinfat"
@@ -12,10 +12,10 @@
   label = "test"
   output = "data/lite_testing"
 
-  IF_bandwidth = 1000
+  IF_bandwidth = 100
   power = -20.0
   repeat = 1
   [measurement.frequency]
-    start = 4000000000.0
-    stop = 8000000000.0
-    points = 401
+    start = 1000000000.0
+    stop = 20000000000.0
+    points = 1001
