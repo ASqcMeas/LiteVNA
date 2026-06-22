@@ -9,9 +9,11 @@ from os import makedirs
 from os.path import exists
 
 # 1. Load configuration
-# config_path = 'power_dep_resonator.toml'
-# To use the wideband sweep config instead, uncomment the line below:'
-config_path = r'LiteMWSInstr/measurement_LF.toml' if exists(r'LiteMWSInstr/measurement_LF.toml') else 'measurement_LF.toml'
+if len(sys.argv) > 1:
+    config_path = sys.argv[1]
+else:
+    # Default to wideband sweep config
+    config_path = r'LiteMWSInstr/measurement_LF.toml' if exists(r'LiteMWSInstr/measurement_LF.toml') else 'measurement_LF.toml'
 
 if not exists(config_path):
     print(f"Error: Config file '{config_path}' not found.")
