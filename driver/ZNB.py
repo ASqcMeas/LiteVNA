@@ -4,7 +4,6 @@ from qcodes.instrument_drivers.rohde_schwarz import (
     RohdeSchwarzZNB20,
     RohdeSchwarzZNBChannel,
 )
-from qcodes.dataset.measurements import Measurement
 
 class VNA_ZNB20:
     def __init__(self, address: str):
@@ -56,8 +55,12 @@ class VNA_ZNB20:
     def measure(self):
         self.vna.rf_on()
         self.vna.channels.avg(1)
-        meas = Measurement()
-        meas.register_parameter(getattr(self.vna.channels, self.current_channel).trace_db_phase)
+        # Disable continuous sweep, trigger a single sweep, and wait for completion
+        # before reading data. This mirrors the *OPC? synchronization in E5080B.py
+        # and prevents returning stale data from a previous sweep's buffer.
+        self.vna.write(':INIT:CONT OFF')  # Stop continuous sweep mode
+        self.vna.write(':INIT:IMM')        # Trigger one sweep
+        self.vna.ask('*OPC?')              # Block until sweep is complete
 
     def lin_freq_sweep(self, start, stop, points: int, port, power: float = -20, IF_bandwith: int = 1000):
         
@@ -80,7 +83,11 @@ class VNA_ZNB20:
         return freq_array, s21_data
 
     def disconnect(self):
-        self.vna.close()
+        if hasattr(self, "vna"):
+            try:
+                self.vna.close()
+            except Exception as e:
+                print(f"Error closing RohdeSchwarzZNB20: {e}")
         print("VNA_ZNB20 object connection is closed.")
 
     def __del__(self):

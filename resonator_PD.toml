@@ -1,91 +1,48 @@
+# Empty config
+
+[[resonator]]
+label = "C44000"
+IF_bandwidth = 20
+snr = {max_repeat = 5, min_repeat = 1, power_ave_ratio = -140.0}
+power = {min = -50.0, max = 0.0, step = 5.0}
+frequency = {start = 4399250000.0, stop = 4400750000.0, points = 501}
+
+[[resonator]]
+label = "C52000"
+IF_bandwidth = 20
+snr = {max_repeat = 5, min_repeat = 1, power_ave_ratio = -140.0}
+power = {min = -50.0, max = 0.0, step = 5.0}
+frequency = {start = 5199250000.0, stop = 5200750000.0, points = 501}
+
+[[resonator]]
+label = "C60000"
+IF_bandwidth = 20
+snr = {max_repeat = 5, min_repeat = 1, power_ave_ratio = -140.0}
+power = {min = -50.0, max = 0.0, step = 5.0}
+frequency = {start = 5999250000.0, stop = 6000750000.0, points = 501}
+
+[[resonator]]
+label = "C68000"
+IF_bandwidth = 20
+snr = {max_repeat = 5, min_repeat = 1, power_ave_ratio = -140.0}
+power = {min = -50.0, max = 0.0, step = 5.0}
+frequency = {start = 6799250000.0, stop = 6800750000.0, points = 501}
+
+[[resonator]]
+label = "C76000"
+IF_bandwidth = 20
+snr = {max_repeat = 5, min_repeat = 1, power_ave_ratio = -140.0}
+power = {min = -50.0, max = 0.0, step = 5.0}
+frequency = {start = 7599250000.0, stop = 7600750000.0, points = 501}
+[output]
+data_path = "data/dummyTest_20260623_164516"
+
 [hardware]
-  model = "ZNB"
-  address = "TCPIP0::192.168.1.123::inst0::INSTR"
+  model = "DUMMY"
+  address = "DUMMY_VISA_ADDRESS"
   attenuation = 80
-  port = "S21"
+  port = "S43"
 
 [sample]
-  name = "resonator0622"
+  name = "dummyTest" # 樣品名稱
 
-[output]
-  data_path = "data/raw"
-
-[[resonator]]
-  label = "C46090"
-  IF_bandwidth = 20
-  [resonator.snr]
-    max_repeat = 5
-    min_repeat = 1
-    power_ave_ratio = -140
-  [resonator.power]
-    min = -50
-    max = 0
-    step = 5
-  [resonator.frequency]
-    start = 4.608362e9
-    stop = 4.610253e9
-    points = 501
-
-[[resonator]]
-  label = "C48230"
-  IF_bandwidth = 20
-  [resonator.snr]
-    max_repeat = 5
-    min_repeat = 1
-    power_ave_ratio = -140
-  [resonator.power]
-    min = -50
-    max = 0
-    step = 5
-  [resonator.frequency]
-    start = 4.822364e9
-    stop = 4.824157e9
-    points = 501
-
-[[resonator]]
-  label = "C58270"
-  IF_bandwidth = 20
-  [resonator.snr]
-    max_repeat = 5
-    min_repeat = 1
-    power_ave_ratio = -140
-  [resonator.power]
-    min = -50
-    max = 0
-    step = 5
-  [resonator.frequency]
-    start = 5.825789e9
-    stop = 5.828091e9
-    points = 501
-
-[[resonator]]
-  label = "C59085"
-  IF_bandwidth = 20
-  [resonator.snr]
-    max_repeat = 5
-    min_repeat = 1
-    power_ave_ratio = -140
-  [resonator.power]
-    min = -50
-    max = 0
-    step = 5
-  [resonator.frequency]
-    start = 5.906889e9
-    stop = 5.909727e9
-    points = 501
-
-[[resonator]]
-  label = "C59915"
-  IF_bandwidth = 20
-  [resonator.snr]
-    max_repeat = 5
-    min_repeat = 1
-    power_ave_ratio = -140
-  [resonator.power]
-    min = -50
-    max = 0
-    step = 5
-  [resonator.frequency]
-    start = 5.990273e9
-    stop = 5.993033e9
-    points = 501

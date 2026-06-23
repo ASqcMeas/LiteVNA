@@ -2,47 +2,15 @@
   model = "ZNB"
   address = "TCPIP0::192.168.1.123::inst0::INSTR"
   attenuation = 80
-  port = "S21"
+  port = "S43"
 
 [sample]
-  name = "resonator0622"
+  name = "resonator06234"
 
 [[measurement]]
   IF_bandwidth = 1000
   power = -20.0
   [measurement.frequency]
-    deltafre = 10e6
-    resonator_fre = 4.6090e9
-    points = 501
-
-[[measurement]]
-  IF_bandwidth = 1000
-  power = -20.0
-  [measurement.frequency]
-    deltafre = 10e6
-    resonator_fre = 4.8230e9
-    points = 501
-
-[[measurement]]
-  IF_bandwidth = 1000
-  power = -20.0
-  [measurement.frequency]
-    deltafre = 10e6
-    resonator_fre = 5.8270e9
-    points = 501
-
-[[measurement]]
-  IF_bandwidth = 1000
-  power = -20.0
-  [measurement.frequency]
-    deltafre = 10e6
-    resonator_fre = 5.9085e9
-    points = 501
-
-[[measurement]]
-  IF_bandwidth = 1000
-  power = -20.0
-  [measurement.frequency]
-    deltafre = 10e6
-    resonator_fre = 5.9915e9
+    deltafre = 100e6
+    resonator_fre = 12.05e9
     points = 501

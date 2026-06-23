@@ -1,668 +1,668 @@
 [hardware]
-model = "ZNB"
-address = "TCPIP0::192.168.1.123::inst0::INSTR"
+model = "DUMMY"
+address = "DUMMY_VISA_ADDRESS"
 attenuation = 80
-port = "S21"
+port = "S43"
 
 [sample]
-name = "resonator0622"
+name = "dummyTest"
 
 [[measurement]]
-label = "C46090"
+label = "C44000"
 IF_bandwidth = 20
 power = -50.0
 repeat = 1
-output = "data/raw/C46090/att80_-50.0"
+output = "data/dummyTest_20260623_164516/C44000/att80_-50.0"
 
 [measurement.frequency]
-start = 4608362000.0
-stop = 4610253000.0
+start = 4399250000.0
+stop = 4400750000.0
 points = 501
 
 [[measurement]]
-label = "C46090"
+label = "C44000"
 IF_bandwidth = 20
 power = -45.0
 repeat = 1
-output = "data/raw/C46090/att80_-45.0"
+output = "data/dummyTest_20260623_164516/C44000/att80_-45.0"
 
 [measurement.frequency]
-start = 4608362000.0
-stop = 4610253000.0
+start = 4399250000.0
+stop = 4400750000.0
 points = 501
 
 [[measurement]]
-label = "C46090"
+label = "C44000"
 IF_bandwidth = 20
 power = -40.0
 repeat = 1
-output = "data/raw/C46090/att80_-40.0"
+output = "data/dummyTest_20260623_164516/C44000/att80_-40.0"
 
 [measurement.frequency]
-start = 4608362000.0
-stop = 4610253000.0
+start = 4399250000.0
+stop = 4400750000.0
 points = 501
 
 [[measurement]]
-label = "C46090"
+label = "C44000"
 IF_bandwidth = 20
 power = -35.0
 repeat = 1
-output = "data/raw/C46090/att80_-35.0"
+output = "data/dummyTest_20260623_164516/C44000/att80_-35.0"
 
 [measurement.frequency]
-start = 4608362000.0
-stop = 4610253000.0
+start = 4399250000.0
+stop = 4400750000.0
 points = 501
 
 [[measurement]]
-label = "C46090"
+label = "C44000"
 IF_bandwidth = 20
 power = -30.0
 repeat = 1
-output = "data/raw/C46090/att80_-30.0"
+output = "data/dummyTest_20260623_164516/C44000/att80_-30.0"
 
 [measurement.frequency]
-start = 4608362000.0
-stop = 4610253000.0
+start = 4399250000.0
+stop = 4400750000.0
 points = 501
 
 [[measurement]]
-label = "C46090"
+label = "C44000"
 IF_bandwidth = 20
 power = -25.0
 repeat = 1
-output = "data/raw/C46090/att80_-25.0"
+output = "data/dummyTest_20260623_164516/C44000/att80_-25.0"
 
 [measurement.frequency]
-start = 4608362000.0
-stop = 4610253000.0
+start = 4399250000.0
+stop = 4400750000.0
 points = 501
 
 [[measurement]]
-label = "C46090"
+label = "C44000"
 IF_bandwidth = 20
 power = -20.0
 repeat = 1
-output = "data/raw/C46090/att80_-20.0"
+output = "data/dummyTest_20260623_164516/C44000/att80_-20.0"
 
 [measurement.frequency]
-start = 4608362000.0
-stop = 4610253000.0
+start = 4399250000.0
+stop = 4400750000.0
 points = 501
 
 [[measurement]]
-label = "C46090"
+label = "C44000"
 IF_bandwidth = 20
 power = -15.0
 repeat = 1
-output = "data/raw/C46090/att80_-15.0"
+output = "data/dummyTest_20260623_164516/C44000/att80_-15.0"
 
 [measurement.frequency]
-start = 4608362000.0
-stop = 4610253000.0
+start = 4399250000.0
+stop = 4400750000.0
 points = 501
 
 [[measurement]]
-label = "C46090"
+label = "C44000"
 IF_bandwidth = 20
 power = -10.0
 repeat = 1
-output = "data/raw/C46090/att80_-10.0"
+output = "data/dummyTest_20260623_164516/C44000/att80_-10.0"
 
 [measurement.frequency]
-start = 4608362000.0
-stop = 4610253000.0
+start = 4399250000.0
+stop = 4400750000.0
 points = 501
 
 [[measurement]]
-label = "C46090"
+label = "C44000"
 IF_bandwidth = 20
 power = -5.0
 repeat = 1
-output = "data/raw/C46090/att80_-5.0"
+output = "data/dummyTest_20260623_164516/C44000/att80_-5.0"
 
 [measurement.frequency]
-start = 4608362000.0
-stop = 4610253000.0
+start = 4399250000.0
+stop = 4400750000.0
 points = 501
 
 [[measurement]]
-label = "C46090"
+label = "C44000"
 IF_bandwidth = 20
 power = 0.0
 repeat = 1
-output = "data/raw/C46090/att80_0.0"
+output = "data/dummyTest_20260623_164516/C44000/att80_0.0"
 
 [measurement.frequency]
-start = 4608362000.0
-stop = 4610253000.0
+start = 4399250000.0
+stop = 4400750000.0
 points = 501
 
 [[measurement]]
-label = "C48230"
+label = "C52000"
 IF_bandwidth = 20
 power = -50.0
 repeat = 1
-output = "data/raw/C48230/att80_-50.0"
+output = "data/dummyTest_20260623_164516/C52000/att80_-50.0"
 
 [measurement.frequency]
-start = 4822364000.0
-stop = 4824157000.0
+start = 5199250000.0
+stop = 5200750000.0
 points = 501
 
 [[measurement]]
-label = "C48230"
+label = "C52000"
 IF_bandwidth = 20
 power = -45.0
 repeat = 1
-output = "data/raw/C48230/att80_-45.0"
+output = "data/dummyTest_20260623_164516/C52000/att80_-45.0"
 
 [measurement.frequency]
-start = 4822364000.0
-stop = 4824157000.0
+start = 5199250000.0
+stop = 5200750000.0
 points = 501
 
 [[measurement]]
-label = "C48230"
+label = "C52000"
 IF_bandwidth = 20
 power = -40.0
 repeat = 1
-output = "data/raw/C48230/att80_-40.0"
+output = "data/dummyTest_20260623_164516/C52000/att80_-40.0"
 
 [measurement.frequency]
-start = 4822364000.0
-stop = 4824157000.0
+start = 5199250000.0
+stop = 5200750000.0
 points = 501
 
 [[measurement]]
-label = "C48230"
+label = "C52000"
 IF_bandwidth = 20
 power = -35.0
 repeat = 1
-output = "data/raw/C48230/att80_-35.0"
+output = "data/dummyTest_20260623_164516/C52000/att80_-35.0"
 
 [measurement.frequency]
-start = 4822364000.0
-stop = 4824157000.0
+start = 5199250000.0
+stop = 5200750000.0
 points = 501
 
 [[measurement]]
-label = "C48230"
+label = "C52000"
 IF_bandwidth = 20
 power = -30.0
 repeat = 1
-output = "data/raw/C48230/att80_-30.0"
+output = "data/dummyTest_20260623_164516/C52000/att80_-30.0"
 
 [measurement.frequency]
-start = 4822364000.0
-stop = 4824157000.0
+start = 5199250000.0
+stop = 5200750000.0
 points = 501
 
 [[measurement]]
-label = "C48230"
+label = "C52000"
 IF_bandwidth = 20
 power = -25.0
 repeat = 1
-output = "data/raw/C48230/att80_-25.0"
+output = "data/dummyTest_20260623_164516/C52000/att80_-25.0"
 
 [measurement.frequency]
-start = 4822364000.0
-stop = 4824157000.0
+start = 5199250000.0
+stop = 5200750000.0
 points = 501
 
 [[measurement]]
-label = "C48230"
+label = "C52000"
 IF_bandwidth = 20
 power = -20.0
 repeat = 1
-output = "data/raw/C48230/att80_-20.0"
+output = "data/dummyTest_20260623_164516/C52000/att80_-20.0"
 
 [measurement.frequency]
-start = 4822364000.0
-stop = 4824157000.0
+start = 5199250000.0
+stop = 5200750000.0
 points = 501
 
 [[measurement]]
-label = "C48230"
+label = "C52000"
 IF_bandwidth = 20
 power = -15.0
 repeat = 1
-output = "data/raw/C48230/att80_-15.0"
+output = "data/dummyTest_20260623_164516/C52000/att80_-15.0"
 
 [measurement.frequency]
-start = 4822364000.0
-stop = 4824157000.0
+start = 5199250000.0
+stop = 5200750000.0
 points = 501
 
 [[measurement]]
-label = "C48230"
+label = "C52000"
 IF_bandwidth = 20
 power = -10.0
 repeat = 1
-output = "data/raw/C48230/att80_-10.0"
+output = "data/dummyTest_20260623_164516/C52000/att80_-10.0"
 
 [measurement.frequency]
-start = 4822364000.0
-stop = 4824157000.0
+start = 5199250000.0
+stop = 5200750000.0
 points = 501
 
 [[measurement]]
-label = "C48230"
+label = "C52000"
 IF_bandwidth = 20
 power = -5.0
 repeat = 1
-output = "data/raw/C48230/att80_-5.0"
+output = "data/dummyTest_20260623_164516/C52000/att80_-5.0"
 
 [measurement.frequency]
-start = 4822364000.0
-stop = 4824157000.0
+start = 5199250000.0
+stop = 5200750000.0
 points = 501
 
 [[measurement]]
-label = "C48230"
+label = "C52000"
 IF_bandwidth = 20
 power = 0.0
 repeat = 1
-output = "data/raw/C48230/att80_0.0"
+output = "data/dummyTest_20260623_164516/C52000/att80_0.0"
 
 [measurement.frequency]
-start = 4822364000.0
-stop = 4824157000.0
+start = 5199250000.0
+stop = 5200750000.0
 points = 501
 
 [[measurement]]
-label = "C58270"
+label = "C60000"
 IF_bandwidth = 20
 power = -50.0
 repeat = 1
-output = "data/raw/C58270/att80_-50.0"
+output = "data/dummyTest_20260623_164516/C60000/att80_-50.0"
 
 [measurement.frequency]
-start = 5825789000.0
-stop = 5828091000.0
+start = 5999250000.0
+stop = 6000750000.0
 points = 501
 
 [[measurement]]
-label = "C58270"
+label = "C60000"
 IF_bandwidth = 20
 power = -45.0
 repeat = 1
-output = "data/raw/C58270/att80_-45.0"
+output = "data/dummyTest_20260623_164516/C60000/att80_-45.0"
 
 [measurement.frequency]
-start = 5825789000.0
-stop = 5828091000.0
+start = 5999250000.0
+stop = 6000750000.0
 points = 501
 
 [[measurement]]
-label = "C58270"
+label = "C60000"
 IF_bandwidth = 20
 power = -40.0
 repeat = 1
-output = "data/raw/C58270/att80_-40.0"
+output = "data/dummyTest_20260623_164516/C60000/att80_-40.0"
 
 [measurement.frequency]
-start = 5825789000.0
-stop = 5828091000.0
+start = 5999250000.0
+stop = 6000750000.0
 points = 501
 
 [[measurement]]
-label = "C58270"
+label = "C60000"
 IF_bandwidth = 20
 power = -35.0
 repeat = 1
-output = "data/raw/C58270/att80_-35.0"
+output = "data/dummyTest_20260623_164516/C60000/att80_-35.0"
 
 [measurement.frequency]
-start = 5825789000.0
-stop = 5828091000.0
+start = 5999250000.0
+stop = 6000750000.0
 points = 501
 
 [[measurement]]
-label = "C58270"
+label = "C60000"
 IF_bandwidth = 20
 power = -30.0
 repeat = 1
-output = "data/raw/C58270/att80_-30.0"
+output = "data/dummyTest_20260623_164516/C60000/att80_-30.0"
 
 [measurement.frequency]
-start = 5825789000.0
-stop = 5828091000.0
+start = 5999250000.0
+stop = 6000750000.0
 points = 501
 
 [[measurement]]
-label = "C58270"
+label = "C60000"
 IF_bandwidth = 20
 power = -25.0
 repeat = 1
-output = "data/raw/C58270/att80_-25.0"
+output = "data/dummyTest_20260623_164516/C60000/att80_-25.0"
 
 [measurement.frequency]
-start = 5825789000.0
-stop = 5828091000.0
+start = 5999250000.0
+stop = 6000750000.0
 points = 501
 
 [[measurement]]
-label = "C58270"
+label = "C60000"
 IF_bandwidth = 20
 power = -20.0
 repeat = 1
-output = "data/raw/C58270/att80_-20.0"
+output = "data/dummyTest_20260623_164516/C60000/att80_-20.0"
 
 [measurement.frequency]
-start = 5825789000.0
-stop = 5828091000.0
+start = 5999250000.0
+stop = 6000750000.0
 points = 501
 
 [[measurement]]
-label = "C58270"
+label = "C60000"
 IF_bandwidth = 20
 power = -15.0
 repeat = 1
-output = "data/raw/C58270/att80_-15.0"
+output = "data/dummyTest_20260623_164516/C60000/att80_-15.0"
 
 [measurement.frequency]
-start = 5825789000.0
-stop = 5828091000.0
+start = 5999250000.0
+stop = 6000750000.0
 points = 501
 
 [[measurement]]
-label = "C58270"
+label = "C60000"
 IF_bandwidth = 20
 power = -10.0
 repeat = 1
-output = "data/raw/C58270/att80_-10.0"
+output = "data/dummyTest_20260623_164516/C60000/att80_-10.0"
 
 [measurement.frequency]
-start = 5825789000.0
-stop = 5828091000.0
+start = 5999250000.0
+stop = 6000750000.0
 points = 501
 
 [[measurement]]
-label = "C58270"
+label = "C60000"
 IF_bandwidth = 20
 power = -5.0
 repeat = 1
-output = "data/raw/C58270/att80_-5.0"
+output = "data/dummyTest_20260623_164516/C60000/att80_-5.0"
 
 [measurement.frequency]
-start = 5825789000.0
-stop = 5828091000.0
+start = 5999250000.0
+stop = 6000750000.0
 points = 501
 
 [[measurement]]
-label = "C58270"
+label = "C60000"
 IF_bandwidth = 20
 power = 0.0
 repeat = 1
-output = "data/raw/C58270/att80_0.0"
+output = "data/dummyTest_20260623_164516/C60000/att80_0.0"
 
 [measurement.frequency]
-start = 5825789000.0
-stop = 5828091000.0
+start = 5999250000.0
+stop = 6000750000.0
 points = 501
 
 [[measurement]]
-label = "C59085"
+label = "C68000"
 IF_bandwidth = 20
 power = -50.0
 repeat = 1
-output = "data/raw/C59085/att80_-50.0"
+output = "data/dummyTest_20260623_164516/C68000/att80_-50.0"
 
 [measurement.frequency]
-start = 5906889000.0
-stop = 5909727000.0
+start = 6799250000.0
+stop = 6800750000.0
 points = 501
 
 [[measurement]]
-label = "C59085"
+label = "C68000"
 IF_bandwidth = 20
 power = -45.0
 repeat = 1
-output = "data/raw/C59085/att80_-45.0"
+output = "data/dummyTest_20260623_164516/C68000/att80_-45.0"
 
 [measurement.frequency]
-start = 5906889000.0
-stop = 5909727000.0
+start = 6799250000.0
+stop = 6800750000.0
 points = 501
 
 [[measurement]]
-label = "C59085"
+label = "C68000"
 IF_bandwidth = 20
 power = -40.0
 repeat = 1
-output = "data/raw/C59085/att80_-40.0"
+output = "data/dummyTest_20260623_164516/C68000/att80_-40.0"
 
 [measurement.frequency]
-start = 5906889000.0
-stop = 5909727000.0
+start = 6799250000.0
+stop = 6800750000.0
 points = 501
 
 [[measurement]]
-label = "C59085"
+label = "C68000"
 IF_bandwidth = 20
 power = -35.0
 repeat = 1
-output = "data/raw/C59085/att80_-35.0"
+output = "data/dummyTest_20260623_164516/C68000/att80_-35.0"
 
 [measurement.frequency]
-start = 5906889000.0
-stop = 5909727000.0
+start = 6799250000.0
+stop = 6800750000.0
 points = 501
 
 [[measurement]]
-label = "C59085"
+label = "C68000"
 IF_bandwidth = 20
 power = -30.0
 repeat = 1
-output = "data/raw/C59085/att80_-30.0"
+output = "data/dummyTest_20260623_164516/C68000/att80_-30.0"
 
 [measurement.frequency]
-start = 5906889000.0
-stop = 5909727000.0
+start = 6799250000.0
+stop = 6800750000.0
 points = 501
 
 [[measurement]]
-label = "C59085"
+label = "C68000"
 IF_bandwidth = 20
 power = -25.0
 repeat = 1
-output = "data/raw/C59085/att80_-25.0"
+output = "data/dummyTest_20260623_164516/C68000/att80_-25.0"
 
 [measurement.frequency]
-start = 5906889000.0
-stop = 5909727000.0
+start = 6799250000.0
+stop = 6800750000.0
 points = 501
 
 [[measurement]]
-label = "C59085"
+label = "C68000"
 IF_bandwidth = 20
 power = -20.0
 repeat = 1
-output = "data/raw/C59085/att80_-20.0"
+output = "data/dummyTest_20260623_164516/C68000/att80_-20.0"
 
 [measurement.frequency]
-start = 5906889000.0
-stop = 5909727000.0
+start = 6799250000.0
+stop = 6800750000.0
 points = 501
 
 [[measurement]]
-label = "C59085"
+label = "C68000"
 IF_bandwidth = 20
 power = -15.0
 repeat = 1
-output = "data/raw/C59085/att80_-15.0"
+output = "data/dummyTest_20260623_164516/C68000/att80_-15.0"
 
 [measurement.frequency]
-start = 5906889000.0
-stop = 5909727000.0
+start = 6799250000.0
+stop = 6800750000.0
 points = 501
 
 [[measurement]]
-label = "C59085"
+label = "C68000"
 IF_bandwidth = 20
 power = -10.0
 repeat = 1
-output = "data/raw/C59085/att80_-10.0"
+output = "data/dummyTest_20260623_164516/C68000/att80_-10.0"
 
 [measurement.frequency]
-start = 5906889000.0
-stop = 5909727000.0
+start = 6799250000.0
+stop = 6800750000.0
 points = 501
 
 [[measurement]]
-label = "C59085"
+label = "C68000"
 IF_bandwidth = 20
 power = -5.0
 repeat = 1
-output = "data/raw/C59085/att80_-5.0"
+output = "data/dummyTest_20260623_164516/C68000/att80_-5.0"
 
 [measurement.frequency]
-start = 5906889000.0
-stop = 5909727000.0
+start = 6799250000.0
+stop = 6800750000.0
 points = 501
 
 [[measurement]]
-label = "C59085"
+label = "C68000"
 IF_bandwidth = 20
 power = 0.0
 repeat = 1
-output = "data/raw/C59085/att80_0.0"
+output = "data/dummyTest_20260623_164516/C68000/att80_0.0"
 
 [measurement.frequency]
-start = 5906889000.0
-stop = 5909727000.0
+start = 6799250000.0
+stop = 6800750000.0
 points = 501
 
 [[measurement]]
-label = "C59915"
+label = "C76000"
 IF_bandwidth = 20
 power = -50.0
 repeat = 1
-output = "data/raw/C59915/att80_-50.0"
+output = "data/dummyTest_20260623_164516/C76000/att80_-50.0"
 
 [measurement.frequency]
-start = 5990273000.0
-stop = 5993033000.0
+start = 7599250000.0
+stop = 7600750000.0
 points = 501
 
 [[measurement]]
-label = "C59915"
+label = "C76000"
 IF_bandwidth = 20
 power = -45.0
 repeat = 1
-output = "data/raw/C59915/att80_-45.0"
+output = "data/dummyTest_20260623_164516/C76000/att80_-45.0"
 
 [measurement.frequency]
-start = 5990273000.0
-stop = 5993033000.0
+start = 7599250000.0
+stop = 7600750000.0
 points = 501
 
 [[measurement]]
-label = "C59915"
+label = "C76000"
 IF_bandwidth = 20
 power = -40.0
 repeat = 1
-output = "data/raw/C59915/att80_-40.0"
+output = "data/dummyTest_20260623_164516/C76000/att80_-40.0"
 
 [measurement.frequency]
-start = 5990273000.0
-stop = 5993033000.0
+start = 7599250000.0
+stop = 7600750000.0
 points = 501
 
 [[measurement]]
-label = "C59915"
+label = "C76000"
 IF_bandwidth = 20
 power = -35.0
 repeat = 1
-output = "data/raw/C59915/att80_-35.0"
+output = "data/dummyTest_20260623_164516/C76000/att80_-35.0"
 
 [measurement.frequency]
-start = 5990273000.0
-stop = 5993033000.0
+start = 7599250000.0
+stop = 7600750000.0
 points = 501
 
 [[measurement]]
-label = "C59915"
+label = "C76000"
 IF_bandwidth = 20
 power = -30.0
 repeat = 1
-output = "data/raw/C59915/att80_-30.0"
+output = "data/dummyTest_20260623_164516/C76000/att80_-30.0"
 
 [measurement.frequency]
-start = 5990273000.0
-stop = 5993033000.0
+start = 7599250000.0
+stop = 7600750000.0
 points = 501
 
 [[measurement]]
-label = "C59915"
+label = "C76000"
 IF_bandwidth = 20
 power = -25.0
 repeat = 1
-output = "data/raw/C59915/att80_-25.0"
+output = "data/dummyTest_20260623_164516/C76000/att80_-25.0"
 
 [measurement.frequency]
-start = 5990273000.0
-stop = 5993033000.0
+start = 7599250000.0
+stop = 7600750000.0
 points = 501
 
 [[measurement]]
-label = "C59915"
+label = "C76000"
 IF_bandwidth = 20
 power = -20.0
 repeat = 1
-output = "data/raw/C59915/att80_-20.0"
+output = "data/dummyTest_20260623_164516/C76000/att80_-20.0"
 
 [measurement.frequency]
-start = 5990273000.0
-stop = 5993033000.0
+start = 7599250000.0
+stop = 7600750000.0
 points = 501
 
 [[measurement]]
-label = "C59915"
+label = "C76000"
 IF_bandwidth = 20
 power = -15.0
 repeat = 1
-output = "data/raw/C59915/att80_-15.0"
+output = "data/dummyTest_20260623_164516/C76000/att80_-15.0"
 
 [measurement.frequency]
-start = 5990273000.0
-stop = 5993033000.0
+start = 7599250000.0
+stop = 7600750000.0
 points = 501
 
 [[measurement]]
-label = "C59915"
+label = "C76000"
 IF_bandwidth = 20
 power = -10.0
 repeat = 1
-output = "data/raw/C59915/att80_-10.0"
+output = "data/dummyTest_20260623_164516/C76000/att80_-10.0"
 
 [measurement.frequency]
-start = 5990273000.0
-stop = 5993033000.0
+start = 7599250000.0
+stop = 7600750000.0
 points = 501
 
 [[measurement]]
-label = "C59915"
+label = "C76000"
 IF_bandwidth = 20
 power = -5.0
 repeat = 1
-output = "data/raw/C59915/att80_-5.0"
+output = "data/dummyTest_20260623_164516/C76000/att80_-5.0"
 
 [measurement.frequency]
-start = 5990273000.0
-stop = 5993033000.0
+start = 7599250000.0
+stop = 7600750000.0
 points = 501
 
 [[measurement]]
-label = "C59915"
+label = "C76000"
 IF_bandwidth = 20
 power = 0.0
 repeat = 1
-output = "data/raw/C59915/att80_0.0"
+output = "data/dummyTest_20260623_164516/C76000/att80_0.0"
 
 [measurement.frequency]
-start = 5990273000.0
-stop = 5993033000.0
+start = 7599250000.0
+stop = 7600750000.0
 points = 501

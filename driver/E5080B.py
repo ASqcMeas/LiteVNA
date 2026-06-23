@@ -80,7 +80,11 @@ class VNA_E5080B( VNA ):
 
 
     def disconnect(self):
-        self.__inst.close()
+        if hasattr(self, "_VNA_E5080B__inst"):
+            try:
+                self.__inst.close()
+            except Exception as e:
+                print(f"Error closing VNA_E5080B: {e}")
         print("VNA_E5080B object connection is closed.")
 
     def __del__(self):

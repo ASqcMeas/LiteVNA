@@ -79,9 +79,9 @@ try:
                 coords={"s_params": np.array(["real", "imag"]), "frequency": freq_array}
             )
             
-            dataset.attrs["IF_bandwidth"] = IF_bandwidth
-            dataset.attrs["power"] = vna_power
-            dataset.attrs["attenuation"] = attenuation
+            dataset.attrs["IF_bandwidth"] = int(IF_bandwidth)
+            dataset.attrs["power"] = float(vna_power)
+            dataset.attrs["attenuation"] = int(attenuation)
             dataset.attrs["start_time"] = str(start_time.strftime("%Y%m%d_%H%M%S"))
             dataset.attrs["end_time"] = str(end_time.strftime("%Y%m%d_%H%M%S"))
 
