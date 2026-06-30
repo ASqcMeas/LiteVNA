@@ -7,7 +7,7 @@ class ResonanceAnalyzer:
         self.config_manager = config_manager
         self.vna_config = config_manager.vna_config
 
-    def find_dips(self, freq_array, s_params, expected_count=None, prominence=2.0, discarded_dips=None):
+    def find_dips(self, freq_array, s_params, expected_count=None, prominence: float | str | None = 2.0, discarded_dips=None):
         """
         Locates downward dips (peaks in -magnitude) and filters/sorts them.
         Filters out dips that do not satisfy the FWHM boundaries.

@@ -11,6 +11,7 @@ import tomlkit
 import tomli_w
 import pandas as pd
 from datetime import datetime
+from typing import Any
 
 # Resolve local module paths before importing local packages.
 # This ensures imports succeed regardless of the current working directory.
@@ -109,6 +110,10 @@ class VNAOrchestrator:
         
         # 6. Fitter
         self.fitter = BatchFitter(self.cfg)
+        
+        # Temporary status trackers for reports
+        self.current_v_start: float | None = None
+        self.current_v_stop: float | None = None
 
     def _save_toml(self, config, path):
         """
@@ -247,7 +252,7 @@ class VNAOrchestrator:
             
         candidate_freqs = []
         cached_sweeps = []
-        class ReportList(list):
+        class ReportList(list[dict[str, Any]]):
             def __init__(self, orchestrator):
                 super().__init__()
                 self.orchestrator = orchestrator
