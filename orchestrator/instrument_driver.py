@@ -45,9 +45,11 @@ class InstrumentDriver:
         if self.vna is not None and hasattr(self.vna, "setup_measurement"):
             self.vna.setup_measurement(port)
 
-    def measure_sweep(self, start, stop, points, port, power, IF_bandwidth):
+    def measure_sweep(self, start, stop, points, port, power, IF_bandwidth) -> tuple:
         """
         Performs a frequency sweep.
         """
+        if self.vna is None:
+            raise RuntimeError("VNA is not connected. Call connect() first.")
         return self.vna.lin_freq_sweep(start, stop, points, port, power, IF_bandwidth)
 

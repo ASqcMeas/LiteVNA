@@ -160,7 +160,7 @@ class VNAOrchestrator:
         # Dynamically update resonator_PD.toml
         self.cfg.update_resonator_pd_config(refined_resonators)
 
-    def blind_search(self, start_freq, stop_freq, expected_count=None, prominence=2.0):
+    def blind_search(self, start_freq, stop_freq, expected_count=None, prominence: float | str = 2.0):
         """
         Task 1: Performs a blind search in [start_freq, stop_freq] to find all active resonators.
         Runs multi-pass sweeps with different power and noise levels, merges candidates,
@@ -401,6 +401,7 @@ class VNAOrchestrator:
                 print(f"  {idx+1}: {f_c/1e9:.5f} GHz (found at {p_c} dBm, initial score: {score_c:.1f})")
                 
             # Step B: Verification Sweep (Narrow High-Resolution sweeps around candidates)
+            v_power = np.nan
             temp_refined_resonators = []
             all_verification_candidates = []
             for idx, (f_c, m_c, fwhm_c, p_c, score_c) in enumerate(candidate_freqs):
@@ -1153,6 +1154,7 @@ def main():
         if "sample" in orchestrator.res_pd_config:
             orchestrator.res_pd_config["sample"]["name"] = sample_name
             
+    dynamic_data_path = ""
     # Set dynamic data path only if we are starting a new measurement/search workflow
     # (prevents overriding the data path during standalone fits or sweeps of existing directories)
     generate_new_timestamp = args.run_all or args.blind_search or args.find_windows

@@ -5,9 +5,9 @@ label = "C61500"
 IF_bandwidth = 20
 snr = {max_repeat = 10, min_repeat = 1, power_ave_ratio = -120.0}
 power = {min = -60.0, max = 0.0, step = 5.0}
-frequency = {start = 6149678018.056584, stop = 6150322103.258498, points = 501}
+frequency = {start = 6149681540.913697, stop = 6150320591.537557, points = 501}
 [output]
-data_path = "data/TestDummy_0629_20260630_121251"
+data_path = "data/TestDummy_0629_20260630_131905"
 
 [hardware]
   model = "DUMMY"
