@@ -1,164 +1,1592 @@
 [hardware]
-model = "DUMMY"
-address = "DUMMY_VISA_ADDRESS"
+model = "E5080B"
+address = "TCPIP0::192.168.1.78::inst0::INSTR"
 attenuation = 80
 port = "S21"
 
 [sample]
-name = "TestDummy_0629"
+name = "thinfat"
 
 [[measurement]]
-label = "C61500"
-IF_bandwidth = 20
-power = -60.0
-repeat = 10
-output = "data/TestDummy_0629_20260630_131905/C61500/att80_-60.0"
-
-[measurement.frequency]
-start = 6149681540.913697
-stop = 6150320591.537557
-points = 501
-
-[[measurement]]
-label = "C61500"
-IF_bandwidth = 20
-power = -55.0
-repeat = 10
-output = "data/TestDummy_0629_20260630_131905/C61500/att80_-55.0"
-
-[measurement.frequency]
-start = 6149681540.913697
-stop = 6150320591.537557
-points = 501
-
-[[measurement]]
-label = "C61500"
+label = "C45312"
 IF_bandwidth = 20
 power = -50.0
-repeat = 10
-output = "data/TestDummy_0629_20260630_131905/C61500/att80_-50.0"
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C45312\\att80_-50.0"
 
 [measurement.frequency]
-start = 6149681540.913697
-stop = 6150320591.537557
+start = 4531100000.0
+stop = 4531300000.0
 points = 501
 
 [[measurement]]
-label = "C61500"
+label = "C45312"
 IF_bandwidth = 20
 power = -45.0
-repeat = 3
-output = "data/TestDummy_0629_20260630_131905/C61500/att80_-45.0"
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C45312\\att80_-45.0"
 
 [measurement.frequency]
-start = 6149681540.913697
-stop = 6150320591.537557
+start = 4531100000.0
+stop = 4531300000.0
 points = 501
 
 [[measurement]]
-label = "C61500"
+label = "C45312"
 IF_bandwidth = 20
 power = -40.0
 repeat = 1
-output = "data/TestDummy_0629_20260630_131905/C61500/att80_-40.0"
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C45312\\att80_-40.0"
 
 [measurement.frequency]
-start = 6149681540.913697
-stop = 6150320591.537557
+start = 4531100000.0
+stop = 4531300000.0
 points = 501
 
 [[measurement]]
-label = "C61500"
+label = "C45312"
 IF_bandwidth = 20
 power = -35.0
 repeat = 1
-output = "data/TestDummy_0629_20260630_131905/C61500/att80_-35.0"
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C45312\\att80_-35.0"
 
 [measurement.frequency]
-start = 6149681540.913697
-stop = 6150320591.537557
+start = 4531100000.0
+stop = 4531300000.0
 points = 501
 
 [[measurement]]
-label = "C61500"
+label = "C45312"
 IF_bandwidth = 20
 power = -30.0
 repeat = 1
-output = "data/TestDummy_0629_20260630_131905/C61500/att80_-30.0"
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C45312\\att80_-30.0"
 
 [measurement.frequency]
-start = 6149681540.913697
-stop = 6150320591.537557
+start = 4531100000.0
+stop = 4531300000.0
 points = 501
 
 [[measurement]]
-label = "C61500"
+label = "C45312"
 IF_bandwidth = 20
 power = -25.0
 repeat = 1
-output = "data/TestDummy_0629_20260630_131905/C61500/att80_-25.0"
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C45312\\att80_-25.0"
 
 [measurement.frequency]
-start = 6149681540.913697
-stop = 6150320591.537557
+start = 4531100000.0
+stop = 4531300000.0
 points = 501
 
 [[measurement]]
-label = "C61500"
+label = "C45312"
 IF_bandwidth = 20
 power = -20.0
 repeat = 1
-output = "data/TestDummy_0629_20260630_131905/C61500/att80_-20.0"
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C45312\\att80_-20.0"
 
 [measurement.frequency]
-start = 6149681540.913697
-stop = 6150320591.537557
+start = 4531100000.0
+stop = 4531300000.0
 points = 501
 
 [[measurement]]
-label = "C61500"
+label = "C45312"
 IF_bandwidth = 20
 power = -15.0
 repeat = 1
-output = "data/TestDummy_0629_20260630_131905/C61500/att80_-15.0"
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C45312\\att80_-15.0"
 
 [measurement.frequency]
-start = 6149681540.913697
-stop = 6150320591.537557
+start = 4531100000.0
+stop = 4531300000.0
 points = 501
 
 [[measurement]]
-label = "C61500"
+label = "C45312"
 IF_bandwidth = 20
 power = -10.0
 repeat = 1
-output = "data/TestDummy_0629_20260630_131905/C61500/att80_-10.0"
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C45312\\att80_-10.0"
 
 [measurement.frequency]
-start = 6149681540.913697
-stop = 6150320591.537557
+start = 4531100000.0
+stop = 4531300000.0
 points = 501
 
 [[measurement]]
-label = "C61500"
+label = "C45312"
 IF_bandwidth = 20
 power = -5.0
 repeat = 1
-output = "data/TestDummy_0629_20260630_131905/C61500/att80_-5.0"
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C45312\\att80_-5.0"
 
 [measurement.frequency]
-start = 6149681540.913697
-stop = 6150320591.537557
+start = 4531100000.0
+stop = 4531300000.0
 points = 501
 
 [[measurement]]
-label = "C61500"
+label = "C45312"
 IF_bandwidth = 20
 power = 0.0
 repeat = 1
-output = "data/TestDummy_0629_20260630_131905/C61500/att80_0.0"
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C45312\\att80_0.0"
 
 [measurement.frequency]
-start = 6149681540.913697
-stop = 6150320591.537557
+start = 4531100000.0
+stop = 4531300000.0
+points = 501
+
+[[measurement]]
+label = "C46157"
+IF_bandwidth = 20
+power = -50.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46157\\att80_-50.0"
+
+[measurement.frequency]
+start = 4615600000.0
+stop = 4615850000.0
+points = 501
+
+[[measurement]]
+label = "C46157"
+IF_bandwidth = 20
+power = -45.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46157\\att80_-45.0"
+
+[measurement.frequency]
+start = 4615600000.0
+stop = 4615850000.0
+points = 501
+
+[[measurement]]
+label = "C46157"
+IF_bandwidth = 20
+power = -40.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46157\\att80_-40.0"
+
+[measurement.frequency]
+start = 4615600000.0
+stop = 4615850000.0
+points = 501
+
+[[measurement]]
+label = "C46157"
+IF_bandwidth = 20
+power = -35.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46157\\att80_-35.0"
+
+[measurement.frequency]
+start = 4615600000.0
+stop = 4615850000.0
+points = 501
+
+[[measurement]]
+label = "C46157"
+IF_bandwidth = 20
+power = -30.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46157\\att80_-30.0"
+
+[measurement.frequency]
+start = 4615600000.0
+stop = 4615850000.0
+points = 501
+
+[[measurement]]
+label = "C46157"
+IF_bandwidth = 20
+power = -25.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46157\\att80_-25.0"
+
+[measurement.frequency]
+start = 4615600000.0
+stop = 4615850000.0
+points = 501
+
+[[measurement]]
+label = "C46157"
+IF_bandwidth = 20
+power = -20.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46157\\att80_-20.0"
+
+[measurement.frequency]
+start = 4615600000.0
+stop = 4615850000.0
+points = 501
+
+[[measurement]]
+label = "C46157"
+IF_bandwidth = 20
+power = -15.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46157\\att80_-15.0"
+
+[measurement.frequency]
+start = 4615600000.0
+stop = 4615850000.0
+points = 501
+
+[[measurement]]
+label = "C46157"
+IF_bandwidth = 20
+power = -10.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46157\\att80_-10.0"
+
+[measurement.frequency]
+start = 4615600000.0
+stop = 4615850000.0
+points = 501
+
+[[measurement]]
+label = "C46157"
+IF_bandwidth = 20
+power = -5.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46157\\att80_-5.0"
+
+[measurement.frequency]
+start = 4615600000.0
+stop = 4615850000.0
+points = 501
+
+[[measurement]]
+label = "C46157"
+IF_bandwidth = 20
+power = 0.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46157\\att80_0.0"
+
+[measurement.frequency]
+start = 4615600000.0
+stop = 4615850000.0
+points = 501
+
+[[measurement]]
+label = "C46945"
+IF_bandwidth = 20
+power = -50.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46945\\att80_-50.0"
+
+[measurement.frequency]
+start = 4694400000.0
+stop = 4694630000.0
+points = 501
+
+[[measurement]]
+label = "C46945"
+IF_bandwidth = 20
+power = -45.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46945\\att80_-45.0"
+
+[measurement.frequency]
+start = 4694400000.0
+stop = 4694630000.0
+points = 501
+
+[[measurement]]
+label = "C46945"
+IF_bandwidth = 20
+power = -40.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46945\\att80_-40.0"
+
+[measurement.frequency]
+start = 4694400000.0
+stop = 4694630000.0
+points = 501
+
+[[measurement]]
+label = "C46945"
+IF_bandwidth = 20
+power = -35.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46945\\att80_-35.0"
+
+[measurement.frequency]
+start = 4694400000.0
+stop = 4694630000.0
+points = 501
+
+[[measurement]]
+label = "C46945"
+IF_bandwidth = 20
+power = -30.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46945\\att80_-30.0"
+
+[measurement.frequency]
+start = 4694400000.0
+stop = 4694630000.0
+points = 501
+
+[[measurement]]
+label = "C46945"
+IF_bandwidth = 20
+power = -25.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46945\\att80_-25.0"
+
+[measurement.frequency]
+start = 4694400000.0
+stop = 4694630000.0
+points = 501
+
+[[measurement]]
+label = "C46945"
+IF_bandwidth = 20
+power = -20.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46945\\att80_-20.0"
+
+[measurement.frequency]
+start = 4694400000.0
+stop = 4694630000.0
+points = 501
+
+[[measurement]]
+label = "C46945"
+IF_bandwidth = 20
+power = -15.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46945\\att80_-15.0"
+
+[measurement.frequency]
+start = 4694400000.0
+stop = 4694630000.0
+points = 501
+
+[[measurement]]
+label = "C46945"
+IF_bandwidth = 20
+power = -10.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46945\\att80_-10.0"
+
+[measurement.frequency]
+start = 4694400000.0
+stop = 4694630000.0
+points = 501
+
+[[measurement]]
+label = "C46945"
+IF_bandwidth = 20
+power = -5.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46945\\att80_-5.0"
+
+[measurement.frequency]
+start = 4694400000.0
+stop = 4694630000.0
+points = 501
+
+[[measurement]]
+label = "C46945"
+IF_bandwidth = 20
+power = 0.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C46945\\att80_0.0"
+
+[measurement.frequency]
+start = 4694400000.0
+stop = 4694630000.0
+points = 501
+
+[[measurement]]
+label = "C47625"
+IF_bandwidth = 20
+power = -50.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C47625\\att80_-50.0"
+
+[measurement.frequency]
+start = 4762400000.0
+stop = 4762700000.0
+points = 501
+
+[[measurement]]
+label = "C47625"
+IF_bandwidth = 20
+power = -45.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C47625\\att80_-45.0"
+
+[measurement.frequency]
+start = 4762400000.0
+stop = 4762700000.0
+points = 501
+
+[[measurement]]
+label = "C47625"
+IF_bandwidth = 20
+power = -40.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C47625\\att80_-40.0"
+
+[measurement.frequency]
+start = 4762400000.0
+stop = 4762700000.0
+points = 501
+
+[[measurement]]
+label = "C47625"
+IF_bandwidth = 20
+power = -35.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C47625\\att80_-35.0"
+
+[measurement.frequency]
+start = 4762400000.0
+stop = 4762700000.0
+points = 501
+
+[[measurement]]
+label = "C47625"
+IF_bandwidth = 20
+power = -30.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C47625\\att80_-30.0"
+
+[measurement.frequency]
+start = 4762400000.0
+stop = 4762700000.0
+points = 501
+
+[[measurement]]
+label = "C47625"
+IF_bandwidth = 20
+power = -25.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C47625\\att80_-25.0"
+
+[measurement.frequency]
+start = 4762400000.0
+stop = 4762700000.0
+points = 501
+
+[[measurement]]
+label = "C47625"
+IF_bandwidth = 20
+power = -20.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C47625\\att80_-20.0"
+
+[measurement.frequency]
+start = 4762400000.0
+stop = 4762700000.0
+points = 501
+
+[[measurement]]
+label = "C47625"
+IF_bandwidth = 20
+power = -15.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C47625\\att80_-15.0"
+
+[measurement.frequency]
+start = 4762400000.0
+stop = 4762700000.0
+points = 501
+
+[[measurement]]
+label = "C47625"
+IF_bandwidth = 20
+power = -10.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C47625\\att80_-10.0"
+
+[measurement.frequency]
+start = 4762400000.0
+stop = 4762700000.0
+points = 501
+
+[[measurement]]
+label = "C47625"
+IF_bandwidth = 20
+power = -5.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C47625\\att80_-5.0"
+
+[measurement.frequency]
+start = 4762400000.0
+stop = 4762700000.0
+points = 501
+
+[[measurement]]
+label = "C47625"
+IF_bandwidth = 20
+power = 0.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C47625\\att80_0.0"
+
+[measurement.frequency]
+start = 4762400000.0
+stop = 4762700000.0
+points = 501
+
+[[measurement]]
+label = "C48446"
+IF_bandwidth = 20
+power = -50.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C48446\\att80_-50.0"
+
+[measurement.frequency]
+start = 4844500000.0
+stop = 4844760000.0
+points = 501
+
+[[measurement]]
+label = "C48446"
+IF_bandwidth = 20
+power = -45.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C48446\\att80_-45.0"
+
+[measurement.frequency]
+start = 4844500000.0
+stop = 4844760000.0
+points = 501
+
+[[measurement]]
+label = "C48446"
+IF_bandwidth = 20
+power = -40.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C48446\\att80_-40.0"
+
+[measurement.frequency]
+start = 4844500000.0
+stop = 4844760000.0
+points = 501
+
+[[measurement]]
+label = "C48446"
+IF_bandwidth = 20
+power = -35.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C48446\\att80_-35.0"
+
+[measurement.frequency]
+start = 4844500000.0
+stop = 4844760000.0
+points = 501
+
+[[measurement]]
+label = "C48446"
+IF_bandwidth = 20
+power = -30.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C48446\\att80_-30.0"
+
+[measurement.frequency]
+start = 4844500000.0
+stop = 4844760000.0
+points = 501
+
+[[measurement]]
+label = "C48446"
+IF_bandwidth = 20
+power = -25.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C48446\\att80_-25.0"
+
+[measurement.frequency]
+start = 4844500000.0
+stop = 4844760000.0
+points = 501
+
+[[measurement]]
+label = "C48446"
+IF_bandwidth = 20
+power = -20.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C48446\\att80_-20.0"
+
+[measurement.frequency]
+start = 4844500000.0
+stop = 4844760000.0
+points = 501
+
+[[measurement]]
+label = "C48446"
+IF_bandwidth = 20
+power = -15.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C48446\\att80_-15.0"
+
+[measurement.frequency]
+start = 4844500000.0
+stop = 4844760000.0
+points = 501
+
+[[measurement]]
+label = "C48446"
+IF_bandwidth = 20
+power = -10.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C48446\\att80_-10.0"
+
+[measurement.frequency]
+start = 4844500000.0
+stop = 4844760000.0
+points = 501
+
+[[measurement]]
+label = "C48446"
+IF_bandwidth = 20
+power = -5.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C48446\\att80_-5.0"
+
+[measurement.frequency]
+start = 4844500000.0
+stop = 4844760000.0
+points = 501
+
+[[measurement]]
+label = "C48446"
+IF_bandwidth = 20
+power = 0.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C48446\\att80_0.0"
+
+[measurement.frequency]
+start = 4844500000.0
+stop = 4844760000.0
+points = 501
+
+[[measurement]]
+label = "C49276"
+IF_bandwidth = 20
+power = -50.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C49276\\att80_-50.0"
+
+[measurement.frequency]
+start = 4927400000.0
+stop = 4927750000.0
+points = 501
+
+[[measurement]]
+label = "C49276"
+IF_bandwidth = 20
+power = -45.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C49276\\att80_-45.0"
+
+[measurement.frequency]
+start = 4927400000.0
+stop = 4927750000.0
+points = 501
+
+[[measurement]]
+label = "C49276"
+IF_bandwidth = 20
+power = -40.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C49276\\att80_-40.0"
+
+[measurement.frequency]
+start = 4927400000.0
+stop = 4927750000.0
+points = 501
+
+[[measurement]]
+label = "C49276"
+IF_bandwidth = 20
+power = -35.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C49276\\att80_-35.0"
+
+[measurement.frequency]
+start = 4927400000.0
+stop = 4927750000.0
+points = 501
+
+[[measurement]]
+label = "C49276"
+IF_bandwidth = 20
+power = -30.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C49276\\att80_-30.0"
+
+[measurement.frequency]
+start = 4927400000.0
+stop = 4927750000.0
+points = 501
+
+[[measurement]]
+label = "C49276"
+IF_bandwidth = 20
+power = -25.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C49276\\att80_-25.0"
+
+[measurement.frequency]
+start = 4927400000.0
+stop = 4927750000.0
+points = 501
+
+[[measurement]]
+label = "C49276"
+IF_bandwidth = 20
+power = -20.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C49276\\att80_-20.0"
+
+[measurement.frequency]
+start = 4927400000.0
+stop = 4927750000.0
+points = 501
+
+[[measurement]]
+label = "C49276"
+IF_bandwidth = 20
+power = -15.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C49276\\att80_-15.0"
+
+[measurement.frequency]
+start = 4927400000.0
+stop = 4927750000.0
+points = 501
+
+[[measurement]]
+label = "C49276"
+IF_bandwidth = 20
+power = -10.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C49276\\att80_-10.0"
+
+[measurement.frequency]
+start = 4927400000.0
+stop = 4927750000.0
+points = 501
+
+[[measurement]]
+label = "C49276"
+IF_bandwidth = 20
+power = -5.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C49276\\att80_-5.0"
+
+[measurement.frequency]
+start = 4927400000.0
+stop = 4927750000.0
+points = 501
+
+[[measurement]]
+label = "C49276"
+IF_bandwidth = 20
+power = 0.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C49276\\att80_0.0"
+
+[measurement.frequency]
+start = 4927400000.0
+stop = 4927750000.0
+points = 501
+
+[[measurement]]
+label = "C54217"
+IF_bandwidth = 20
+power = -50.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C54217\\att80_-50.0"
+
+[measurement.frequency]
+start = 5421600000.0
+stop = 5421850000.0
+points = 501
+
+[[measurement]]
+label = "C54217"
+IF_bandwidth = 20
+power = -45.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C54217\\att80_-45.0"
+
+[measurement.frequency]
+start = 5421600000.0
+stop = 5421850000.0
+points = 501
+
+[[measurement]]
+label = "C54217"
+IF_bandwidth = 20
+power = -40.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C54217\\att80_-40.0"
+
+[measurement.frequency]
+start = 5421600000.0
+stop = 5421850000.0
+points = 501
+
+[[measurement]]
+label = "C54217"
+IF_bandwidth = 20
+power = -35.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C54217\\att80_-35.0"
+
+[measurement.frequency]
+start = 5421600000.0
+stop = 5421850000.0
+points = 501
+
+[[measurement]]
+label = "C54217"
+IF_bandwidth = 20
+power = -30.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C54217\\att80_-30.0"
+
+[measurement.frequency]
+start = 5421600000.0
+stop = 5421850000.0
+points = 501
+
+[[measurement]]
+label = "C54217"
+IF_bandwidth = 20
+power = -25.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C54217\\att80_-25.0"
+
+[measurement.frequency]
+start = 5421600000.0
+stop = 5421850000.0
+points = 501
+
+[[measurement]]
+label = "C54217"
+IF_bandwidth = 20
+power = -20.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C54217\\att80_-20.0"
+
+[measurement.frequency]
+start = 5421600000.0
+stop = 5421850000.0
+points = 501
+
+[[measurement]]
+label = "C54217"
+IF_bandwidth = 20
+power = -15.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C54217\\att80_-15.0"
+
+[measurement.frequency]
+start = 5421600000.0
+stop = 5421850000.0
+points = 501
+
+[[measurement]]
+label = "C54217"
+IF_bandwidth = 20
+power = -10.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C54217\\att80_-10.0"
+
+[measurement.frequency]
+start = 5421600000.0
+stop = 5421850000.0
+points = 501
+
+[[measurement]]
+label = "C54217"
+IF_bandwidth = 20
+power = -5.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C54217\\att80_-5.0"
+
+[measurement.frequency]
+start = 5421600000.0
+stop = 5421850000.0
+points = 501
+
+[[measurement]]
+label = "C54217"
+IF_bandwidth = 20
+power = 0.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C54217\\att80_0.0"
+
+[measurement.frequency]
+start = 5421600000.0
+stop = 5421850000.0
+points = 501
+
+[[measurement]]
+label = "C55020"
+IF_bandwidth = 20
+power = -50.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55020\\att80_-50.0"
+
+[measurement.frequency]
+start = 5501900000.0
+stop = 5502100000.0
+points = 501
+
+[[measurement]]
+label = "C55020"
+IF_bandwidth = 20
+power = -45.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55020\\att80_-45.0"
+
+[measurement.frequency]
+start = 5501900000.0
+stop = 5502100000.0
+points = 501
+
+[[measurement]]
+label = "C55020"
+IF_bandwidth = 20
+power = -40.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55020\\att80_-40.0"
+
+[measurement.frequency]
+start = 5501900000.0
+stop = 5502100000.0
+points = 501
+
+[[measurement]]
+label = "C55020"
+IF_bandwidth = 20
+power = -35.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55020\\att80_-35.0"
+
+[measurement.frequency]
+start = 5501900000.0
+stop = 5502100000.0
+points = 501
+
+[[measurement]]
+label = "C55020"
+IF_bandwidth = 20
+power = -30.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55020\\att80_-30.0"
+
+[measurement.frequency]
+start = 5501900000.0
+stop = 5502100000.0
+points = 501
+
+[[measurement]]
+label = "C55020"
+IF_bandwidth = 20
+power = -25.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55020\\att80_-25.0"
+
+[measurement.frequency]
+start = 5501900000.0
+stop = 5502100000.0
+points = 501
+
+[[measurement]]
+label = "C55020"
+IF_bandwidth = 20
+power = -20.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55020\\att80_-20.0"
+
+[measurement.frequency]
+start = 5501900000.0
+stop = 5502100000.0
+points = 501
+
+[[measurement]]
+label = "C55020"
+IF_bandwidth = 20
+power = -15.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55020\\att80_-15.0"
+
+[measurement.frequency]
+start = 5501900000.0
+stop = 5502100000.0
+points = 501
+
+[[measurement]]
+label = "C55020"
+IF_bandwidth = 20
+power = -10.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55020\\att80_-10.0"
+
+[measurement.frequency]
+start = 5501900000.0
+stop = 5502100000.0
+points = 501
+
+[[measurement]]
+label = "C55020"
+IF_bandwidth = 20
+power = -5.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55020\\att80_-5.0"
+
+[measurement.frequency]
+start = 5501900000.0
+stop = 5502100000.0
+points = 501
+
+[[measurement]]
+label = "C55020"
+IF_bandwidth = 20
+power = 0.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55020\\att80_0.0"
+
+[measurement.frequency]
+start = 5501900000.0
+stop = 5502100000.0
+points = 501
+
+[[measurement]]
+label = "C55915"
+IF_bandwidth = 20
+power = -50.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55915\\att80_-50.0"
+
+[measurement.frequency]
+start = 5591300000.0
+stop = 5591650000.0
+points = 501
+
+[[measurement]]
+label = "C55915"
+IF_bandwidth = 20
+power = -45.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55915\\att80_-45.0"
+
+[measurement.frequency]
+start = 5591300000.0
+stop = 5591650000.0
+points = 501
+
+[[measurement]]
+label = "C55915"
+IF_bandwidth = 20
+power = -40.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55915\\att80_-40.0"
+
+[measurement.frequency]
+start = 5591300000.0
+stop = 5591650000.0
+points = 501
+
+[[measurement]]
+label = "C55915"
+IF_bandwidth = 20
+power = -35.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55915\\att80_-35.0"
+
+[measurement.frequency]
+start = 5591300000.0
+stop = 5591650000.0
+points = 501
+
+[[measurement]]
+label = "C55915"
+IF_bandwidth = 20
+power = -30.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55915\\att80_-30.0"
+
+[measurement.frequency]
+start = 5591300000.0
+stop = 5591650000.0
+points = 501
+
+[[measurement]]
+label = "C55915"
+IF_bandwidth = 20
+power = -25.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55915\\att80_-25.0"
+
+[measurement.frequency]
+start = 5591300000.0
+stop = 5591650000.0
+points = 501
+
+[[measurement]]
+label = "C55915"
+IF_bandwidth = 20
+power = -20.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55915\\att80_-20.0"
+
+[measurement.frequency]
+start = 5591300000.0
+stop = 5591650000.0
+points = 501
+
+[[measurement]]
+label = "C55915"
+IF_bandwidth = 20
+power = -15.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55915\\att80_-15.0"
+
+[measurement.frequency]
+start = 5591300000.0
+stop = 5591650000.0
+points = 501
+
+[[measurement]]
+label = "C55915"
+IF_bandwidth = 20
+power = -10.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55915\\att80_-10.0"
+
+[measurement.frequency]
+start = 5591300000.0
+stop = 5591650000.0
+points = 501
+
+[[measurement]]
+label = "C55915"
+IF_bandwidth = 20
+power = -5.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55915\\att80_-5.0"
+
+[measurement.frequency]
+start = 5591300000.0
+stop = 5591650000.0
+points = 501
+
+[[measurement]]
+label = "C55915"
+IF_bandwidth = 20
+power = 0.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C55915\\att80_0.0"
+
+[measurement.frequency]
+start = 5591300000.0
+stop = 5591650000.0
+points = 501
+
+[[measurement]]
+label = "C57232"
+IF_bandwidth = 20
+power = -50.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C57232\\att80_-50.0"
+
+[measurement.frequency]
+start = 5723000000.0
+stop = 5723420000.0
+points = 501
+
+[[measurement]]
+label = "C57232"
+IF_bandwidth = 20
+power = -45.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C57232\\att80_-45.0"
+
+[measurement.frequency]
+start = 5723000000.0
+stop = 5723420000.0
+points = 501
+
+[[measurement]]
+label = "C57232"
+IF_bandwidth = 20
+power = -40.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C57232\\att80_-40.0"
+
+[measurement.frequency]
+start = 5723000000.0
+stop = 5723420000.0
+points = 501
+
+[[measurement]]
+label = "C57232"
+IF_bandwidth = 20
+power = -35.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C57232\\att80_-35.0"
+
+[measurement.frequency]
+start = 5723000000.0
+stop = 5723420000.0
+points = 501
+
+[[measurement]]
+label = "C57232"
+IF_bandwidth = 20
+power = -30.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C57232\\att80_-30.0"
+
+[measurement.frequency]
+start = 5723000000.0
+stop = 5723420000.0
+points = 501
+
+[[measurement]]
+label = "C57232"
+IF_bandwidth = 20
+power = -25.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C57232\\att80_-25.0"
+
+[measurement.frequency]
+start = 5723000000.0
+stop = 5723420000.0
+points = 501
+
+[[measurement]]
+label = "C57232"
+IF_bandwidth = 20
+power = -20.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C57232\\att80_-20.0"
+
+[measurement.frequency]
+start = 5723000000.0
+stop = 5723420000.0
+points = 501
+
+[[measurement]]
+label = "C57232"
+IF_bandwidth = 20
+power = -15.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C57232\\att80_-15.0"
+
+[measurement.frequency]
+start = 5723000000.0
+stop = 5723420000.0
+points = 501
+
+[[measurement]]
+label = "C57232"
+IF_bandwidth = 20
+power = -10.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C57232\\att80_-10.0"
+
+[measurement.frequency]
+start = 5723000000.0
+stop = 5723420000.0
+points = 501
+
+[[measurement]]
+label = "C57232"
+IF_bandwidth = 20
+power = -5.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C57232\\att80_-5.0"
+
+[measurement.frequency]
+start = 5723000000.0
+stop = 5723420000.0
+points = 501
+
+[[measurement]]
+label = "C57232"
+IF_bandwidth = 20
+power = 0.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C57232\\att80_0.0"
+
+[measurement.frequency]
+start = 5723000000.0
+stop = 5723420000.0
+points = 501
+
+[[measurement]]
+label = "C58124"
+IF_bandwidth = 20
+power = -50.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C58124\\att80_-50.0"
+
+[measurement.frequency]
+start = 5812200000.0
+stop = 5812600000.0
+points = 501
+
+[[measurement]]
+label = "C58124"
+IF_bandwidth = 20
+power = -45.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C58124\\att80_-45.0"
+
+[measurement.frequency]
+start = 5812200000.0
+stop = 5812600000.0
+points = 501
+
+[[measurement]]
+label = "C58124"
+IF_bandwidth = 20
+power = -40.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C58124\\att80_-40.0"
+
+[measurement.frequency]
+start = 5812200000.0
+stop = 5812600000.0
+points = 501
+
+[[measurement]]
+label = "C58124"
+IF_bandwidth = 20
+power = -35.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C58124\\att80_-35.0"
+
+[measurement.frequency]
+start = 5812200000.0
+stop = 5812600000.0
+points = 501
+
+[[measurement]]
+label = "C58124"
+IF_bandwidth = 20
+power = -30.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C58124\\att80_-30.0"
+
+[measurement.frequency]
+start = 5812200000.0
+stop = 5812600000.0
+points = 501
+
+[[measurement]]
+label = "C58124"
+IF_bandwidth = 20
+power = -25.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C58124\\att80_-25.0"
+
+[measurement.frequency]
+start = 5812200000.0
+stop = 5812600000.0
+points = 501
+
+[[measurement]]
+label = "C58124"
+IF_bandwidth = 20
+power = -20.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C58124\\att80_-20.0"
+
+[measurement.frequency]
+start = 5812200000.0
+stop = 5812600000.0
+points = 501
+
+[[measurement]]
+label = "C58124"
+IF_bandwidth = 20
+power = -15.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C58124\\att80_-15.0"
+
+[measurement.frequency]
+start = 5812200000.0
+stop = 5812600000.0
+points = 501
+
+[[measurement]]
+label = "C58124"
+IF_bandwidth = 20
+power = -10.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C58124\\att80_-10.0"
+
+[measurement.frequency]
+start = 5812200000.0
+stop = 5812600000.0
+points = 501
+
+[[measurement]]
+label = "C58124"
+IF_bandwidth = 20
+power = -5.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C58124\\att80_-5.0"
+
+[measurement.frequency]
+start = 5812200000.0
+stop = 5812600000.0
+points = 501
+
+[[measurement]]
+label = "C58124"
+IF_bandwidth = 20
+power = 0.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C58124\\att80_0.0"
+
+[measurement.frequency]
+start = 5812200000.0
+stop = 5812600000.0
+points = 501
+
+[[measurement]]
+label = "C59004"
+IF_bandwidth = 20
+power = -50.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C59004\\att80_-50.0"
+
+[measurement.frequency]
+start = 5900200000.0
+stop = 5900550000.0
+points = 501
+
+[[measurement]]
+label = "C59004"
+IF_bandwidth = 20
+power = -45.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C59004\\att80_-45.0"
+
+[measurement.frequency]
+start = 5900200000.0
+stop = 5900550000.0
+points = 501
+
+[[measurement]]
+label = "C59004"
+IF_bandwidth = 20
+power = -40.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C59004\\att80_-40.0"
+
+[measurement.frequency]
+start = 5900200000.0
+stop = 5900550000.0
+points = 501
+
+[[measurement]]
+label = "C59004"
+IF_bandwidth = 20
+power = -35.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C59004\\att80_-35.0"
+
+[measurement.frequency]
+start = 5900200000.0
+stop = 5900550000.0
+points = 501
+
+[[measurement]]
+label = "C59004"
+IF_bandwidth = 20
+power = -30.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C59004\\att80_-30.0"
+
+[measurement.frequency]
+start = 5900200000.0
+stop = 5900550000.0
+points = 501
+
+[[measurement]]
+label = "C59004"
+IF_bandwidth = 20
+power = -25.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C59004\\att80_-25.0"
+
+[measurement.frequency]
+start = 5900200000.0
+stop = 5900550000.0
+points = 501
+
+[[measurement]]
+label = "C59004"
+IF_bandwidth = 20
+power = -20.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C59004\\att80_-20.0"
+
+[measurement.frequency]
+start = 5900200000.0
+stop = 5900550000.0
+points = 501
+
+[[measurement]]
+label = "C59004"
+IF_bandwidth = 20
+power = -15.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C59004\\att80_-15.0"
+
+[measurement.frequency]
+start = 5900200000.0
+stop = 5900550000.0
+points = 501
+
+[[measurement]]
+label = "C59004"
+IF_bandwidth = 20
+power = -10.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C59004\\att80_-10.0"
+
+[measurement.frequency]
+start = 5900200000.0
+stop = 5900550000.0
+points = 501
+
+[[measurement]]
+label = "C59004"
+IF_bandwidth = 20
+power = -5.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C59004\\att80_-5.0"
+
+[measurement.frequency]
+start = 5900200000.0
+stop = 5900550000.0
+points = 501
+
+[[measurement]]
+label = "C59004"
+IF_bandwidth = 20
+power = 0.0
+repeat = 1
+output = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw\\C59004\\att80_0.0"
+
+[measurement.frequency]
+start = 5900200000.0
+stop = 5900550000.0
 points = 501

@@ -1,20 +1,217 @@
-# Empty config
 
-[[resonator]]
-label = "C61500"
-IF_bandwidth = 20
-snr = {max_repeat = 10, min_repeat = 1, power_ave_ratio = -120.0}
-power = {min = -60.0, max = 0.0, step = 5.0}
-frequency = {start = 6149681540.913697, stop = 6150320591.537557, points = 501}
-[output]
-data_path = "data/TestDummy_0629_20260630_131905"
 
 [hardware]
-  model = "DUMMY"
-  address = "DUMMY_VISA_ADDRESS"
+  model = "E5080B"
+  address = "TCPIP0::192.168.1.78::inst0::INSTR"
   attenuation = 80
   port = "S21"
 
 [sample]
-  name = "TestDummy_0629" # 樣品名稱
+  name = "thinfat"
 
+[output]
+  data_path = "C:\\Users\\ASUS\\Documents\\python training\\THINFAT\\raw"
+
+[[resonator]]
+  label = "C45312"
+  IF_bandwidth = 20
+  [resonator.snr]
+    max_repeat = 5
+    min_repeat = 1
+    power_ave_ratio = -140
+
+  [resonator.power]
+    min = -50
+    max = 0
+    step = 5
+  [resonator.frequency]
+    start = 4.5311e9
+    stop = 4.5313e9
+    points = 501
+
+[[resonator]]
+  label = "C46157"
+  IF_bandwidth = 20
+  [resonator.snr]
+    max_repeat = 5
+    min_repeat = 1
+    power_ave_ratio = -140
+
+  [resonator.power]
+    min = -50
+    max = 0
+    step = 5
+  [resonator.frequency]
+    start = 4.6156e9
+    stop = 4.61585e9
+    points = 501
+
+[[resonator]]
+  label = "C46945"
+  IF_bandwidth = 20
+  [resonator.snr]
+    max_repeat = 5
+    min_repeat = 1
+    power_ave_ratio = -140
+
+  [resonator.power]
+    min = -50
+    max = 0
+    step = 5
+  [resonator.frequency]
+    start = 4.6944e9
+    stop = 4.69463e9
+    points = 501
+
+[[resonator]]
+  label = "C47625"
+  IF_bandwidth = 20
+  [resonator.snr]
+    max_repeat = 5
+    min_repeat = 1
+    power_ave_ratio = -140
+
+  [resonator.power]
+    min = -50
+    max = 0
+    step = 5
+  [resonator.frequency]
+    start = 4.7624e9
+    stop = 4.7627e9
+    points = 501
+
+[[resonator]]
+  label = "C48446"
+  IF_bandwidth = 20
+  [resonator.snr]
+    max_repeat = 5
+    min_repeat = 1
+    power_ave_ratio = -140
+
+  [resonator.power]
+    min = -50
+    max = 0
+    step = 5
+  [resonator.frequency]
+    start = 4.8445e9
+    stop = 4.84476e9
+    points = 501
+
+[[resonator]]
+  label = "C49276"
+  IF_bandwidth = 20
+  [resonator.snr]
+    max_repeat = 5
+    min_repeat = 1
+    power_ave_ratio = -140
+
+  [resonator.power]
+    min = -50
+    max = 0
+    step = 5
+  [resonator.frequency]
+    start = 4.9274e9
+    stop = 4.92775e9
+    points = 501
+
+[[resonator]]
+  label = "C54217"
+  IF_bandwidth = 20
+  [resonator.snr]
+    max_repeat = 5
+    min_repeat = 1
+    power_ave_ratio = -140
+
+  [resonator.power]
+    min = -50
+    max = 0
+    step = 5
+  [resonator.frequency]
+    start = 5.4216e9
+    stop = 5.42185e9
+    points = 501
+
+[[resonator]]
+  label = "C55020"
+  IF_bandwidth = 20
+  [resonator.snr]
+    max_repeat = 5
+    min_repeat = 1
+    power_ave_ratio = -140
+
+  [resonator.power]
+    min = -50
+    max = 0
+    step = 5
+  [resonator.frequency]
+    start = 5.5019e9
+    stop = 5.5021e9
+    points = 501
+
+[[resonator]]
+  label = "C55915"
+  IF_bandwidth = 20
+  [resonator.snr]
+    max_repeat = 5
+    min_repeat = 1
+    power_ave_ratio = -140
+
+  [resonator.power]
+    min = -50
+    max = 0
+    step = 5
+  [resonator.frequency]
+    start = 5.5913e9
+    stop = 5.59165e9
+    points = 501
+
+[[resonator]]
+  label = "C57232"
+  IF_bandwidth = 20
+  [resonator.snr]
+    max_repeat = 5
+    min_repeat = 1
+    power_ave_ratio = -140
+
+  [resonator.power]
+    min = -50
+    max = 0
+    step = 5
+  [resonator.frequency]
+    start = 5.7230e9
+    stop = 5.72342e9
+    points = 501
+
+[[resonator]]
+  label = "C58124"
+  IF_bandwidth = 20
+  [resonator.snr]
+    max_repeat = 5
+    min_repeat = 1
+    power_ave_ratio = -140
+
+  [resonator.power]
+    min = -50
+    max = 0
+    step = 5
+  [resonator.frequency]
+    start = 5.8122e9
+    stop = 5.8126e9
+    points = 501
+
+[[resonator]]
+  label = "C59004"
+  IF_bandwidth = 20
+  [resonator.snr]
+    max_repeat = 5
+    min_repeat = 1
+    power_ave_ratio = -140
+
+  [resonator.power]
+    min = -50
+    max = 0
+    step = 5
+  [resonator.frequency]
+    start = 5.9002e9
+    stop = 5.90055e9
+    points = 501
