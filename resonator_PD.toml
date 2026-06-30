@@ -1,48 +1,20 @@
 # Empty config
 
 [[resonator]]
-label = "C44000"
+label = "C61500"
 IF_bandwidth = 20
-snr = {max_repeat = 5, min_repeat = 1, power_ave_ratio = -140.0}
-power = {min = -50.0, max = 0.0, step = 5.0}
-frequency = {start = 4399250000.0, stop = 4400750000.0, points = 501}
-
-[[resonator]]
-label = "C52000"
-IF_bandwidth = 20
-snr = {max_repeat = 5, min_repeat = 1, power_ave_ratio = -140.0}
-power = {min = -50.0, max = 0.0, step = 5.0}
-frequency = {start = 5199250000.0, stop = 5200750000.0, points = 501}
-
-[[resonator]]
-label = "C60000"
-IF_bandwidth = 20
-snr = {max_repeat = 5, min_repeat = 1, power_ave_ratio = -140.0}
-power = {min = -50.0, max = 0.0, step = 5.0}
-frequency = {start = 5999250000.0, stop = 6000750000.0, points = 501}
-
-[[resonator]]
-label = "C68000"
-IF_bandwidth = 20
-snr = {max_repeat = 5, min_repeat = 1, power_ave_ratio = -140.0}
-power = {min = -50.0, max = 0.0, step = 5.0}
-frequency = {start = 6799250000.0, stop = 6800750000.0, points = 501}
-
-[[resonator]]
-label = "C76000"
-IF_bandwidth = 20
-snr = {max_repeat = 5, min_repeat = 1, power_ave_ratio = -140.0}
-power = {min = -50.0, max = 0.0, step = 5.0}
-frequency = {start = 7599250000.0, stop = 7600750000.0, points = 501}
+snr = {max_repeat = 10, min_repeat = 1, power_ave_ratio = -120.0}
+power = {min = -60.0, max = 0.0, step = 5.0}
+frequency = {start = 6149678018.056584, stop = 6150322103.258498, points = 501}
 [output]
-data_path = "data/dummyTest_20260623_164516"
+data_path = "data/TestDummy_0629_20260630_121251"
 
 [hardware]
   model = "DUMMY"
   address = "DUMMY_VISA_ADDRESS"
   attenuation = 80
-  port = "S43"
+  port = "S21"
 
 [sample]
-  name = "dummyTest" # 樣品名稱
+  name = "TestDummy_0629" # 樣品名稱
 

@@ -6,22 +6,34 @@ class VNA_E5080B( VNA ):
 
     def __init__(self, address):
         self.address = address
-        # Initialize VISA resource manager
+        self.connect()
+
+    def connect(self) -> bool:
         rm = pyvisa.ResourceManager()
+        max_connect_attempts = 3
+        for attempt in range(1, max_connect_attempts + 1):
+            try:
+                self.__inst = rm.open_resource(self.address)
+                idn_result = str(self.inst.query('*IDN?'))
+                print(f'Connected to: {format(idn_result)}')
+                self.__inst.timeout = 2000000
 
-        try:
-            self.__inst = rm.open_resource(address)
-            idn_result = str(self.inst.query('*IDN?'))
-            print(f'Connected to: {format(idn_result)}')
-            self.__inst.timeout = 2000000
+                # Perform a preset operation
+                self.__inst.write('*RST')
+                self.__inst.write(':SYST:PRES')
+                stat = self.inst.write('*CLS')  # Clear buffer memory
+                print(f'Clear Status: {stat}')
+                return True
+            except pyvisa.VisaIOError as e:
+                print(f"Connection attempt {attempt}/{max_connect_attempts} to VNA at {self.address} failed: {e}")
+                if attempt < max_connect_attempts:
+                    time.sleep(2)
+        return False
 
-            # Perform a preset operation
-            self.__inst.write('*RST')
-            self.__inst.write(':SYST:PRES')
-            stat = self.inst.write('*CLS')  # Clear buffer memory
-            print(f'Clear Status: {stat}')
-        except pyvisa.VisaIOError as e:
-            print(f"VISA IO Error: {e}")
+    def reconnect(self) -> bool:
+        print(f"Attempting to reconnect to VNA at {self.address}...")
+        self.disconnect()
+        return self.connect()
 
     @property
     def inst(self) -> pyvisa.resources.Resource:
@@ -29,9 +41,12 @@ class VNA_E5080B( VNA ):
 
 
     def _delete_trace(self, trace_name: str=None):
-        self.__inst.write(f':CALC:PAR:DEL:ALL')
-
-        # self.__inst.write(f':CALC:PAR:DEL {trace_name}')
+        try:
+            self.__inst.write(f':CALC:PAR:DEL:ALL')
+        except Exception as e:
+            print(f"Error deleting traces: {e}. Retrying after reconnect...")
+            self.reconnect()
+            self.__inst.write(f':CALC:PAR:DEL:ALL')
 
     def check_error( self ):
         # Retrieve all errors from queue
@@ -46,9 +61,16 @@ class VNA_E5080B( VNA ):
                 break
 
     def _setup_measurement(self, parameter: str):
-        self.__inst.write(f':CALC:PAR:DEF:EXT {parameter},{parameter}')
-        self.__inst.write(f':CALC:PAR:SEL {parameter}')
-        self.__inst.write(f':DISP:WIND:TRAC:FEED {parameter}')
+        try:
+            self.__inst.write(f':CALC:PAR:DEF:EXT {parameter},{parameter}')
+            self.__inst.write(f':CALC:PAR:SEL {parameter}')
+            self.__inst.write(f':DISP:WIND:TRAC:FEED {parameter}')
+        except Exception as e:
+            print(f"Error setting up measurement: {e}. Retrying after reconnect...")
+            self.reconnect()
+            self.__inst.write(f':CALC:PAR:DEF:EXT {parameter},{parameter}')
+            self.__inst.write(f':CALC:PAR:SEL {parameter}')
+            self.__inst.write(f':DISP:WIND:TRAC:FEED {parameter}')
 
     def _set_linfreq(self, start: float, stop: float):
         self.__inst.write('SENS:SWE:TYPE LINEAR')  # by default: Freq Sweep
@@ -85,6 +107,9 @@ class VNA_E5080B( VNA ):
                 self.__inst.close()
             except Exception as e:
                 print(f"Error closing VNA_E5080B: {e}")
+            finally:
+                if hasattr(self, "_VNA_E5080B__inst"):
+                    del self.__inst
         print("VNA_E5080B object connection is closed.")
 
     def __del__(self):
@@ -107,35 +132,48 @@ class VNA_E5080B( VNA ):
         #     print(f"Trace: {trace}, Parameter: {param}")
 
     def lin_freq_sweep( self, start, stop, points:int, port:str="s21", power:float=-20, IF_bandwith:int=1000):
+        import time
+        import pyvisa
 
-        self._delete_trace()
-        self._setup_measurement(port)
-        self._set_power(power)
-        self._set_IFbandwidth( IF_bandwith )
+        max_attempts = 3
+        for attempt in range(1, max_attempts + 1):
+            try:
+                if attempt > 1:
+                    print(f"Retrying VNA sweep (attempt {attempt}/{max_attempts})...")
+                    self.reconnect()
 
-        self._set_linfreq( start, stop )
-        self._set_sweep_points( points )
+                self._delete_trace()
+                self._setup_measurement(port)
+                self._set_power(power)
+                self._set_IFbandwidth( IF_bandwith )
 
-        self._measure()
-        ready = self.__inst.query("*OPC?")
-        print(f"Sweep completed: {ready}")
+                self._set_linfreq( start, stop )
+                self._set_sweep_points( points )
 
-        # # Read and print the measurement data
-        data = self._get_data()
+                self._measure()
+                ready = self.__inst.query("*OPC?")
+                print(f"Sweep completed: {ready}")
 
-        start_freq = float(self.inst.query(':SENS:FREQ:START?'))
-        stop_freq = float(self.inst.query(':SENS:FREQ:STOP?'))
-        num_points = int(self.inst.query(':SENS:SWE:POIN?'))
-        # # Generate the frequency array
-        freq_array = np.linspace(start_freq, stop_freq, num_points)
+                # # Read and print the measurement data
+                data = self._get_data()
 
-        # print(freq_array.shape)
-        # print(data.shape)    
-        iqdata = data.reshape((2,freq_array.shape[-1]), order='F')
-        s21_data = iqdata[0]+ 1j*iqdata[1]
+                start_freq = float(self.inst.query(':SENS:FREQ:START?'))
+                stop_freq = float(self.inst.query(':SENS:FREQ:STOP?'))
+                num_points = int(self.inst.query(':SENS:SWE:POIN?'))
+                # # Generate the frequency array
+                freq_array = np.linspace(start_freq, stop_freq, num_points)
 
+                # print(freq_array.shape)
+                # print(data.shape)    
+                iqdata = data.reshape((2,freq_array.shape[-1]), order='F')
+                s21_data = iqdata[0]+ 1j*iqdata[1]
 
-        return freq_array, s21_data
+                return freq_array, s21_data
+            except (pyvisa.errors.VisaIOError, Exception) as e:
+                print(f"Error during VNA sweep on attempt {attempt}: {e}")
+                if attempt == max_attempts:
+                    raise e
+                time.sleep(2)
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
