@@ -22,7 +22,7 @@ graph TD
 
 | 檔案路徑 | 核心類別/模組 | 主要職責 |
 | :--- | :--- | :--- |
-| [`orchestrator/config_manager.py`](file:///Users/Shared/中研院/LiteMWSInstr/orchestrator/config_manager.py) | `ConfigManager` | 負責讀寫 TOML 檔（`vna.config` 等），並執行 **Overlap Guard** 防止掃描窗口重疊。 |
+| [`orchestrator/config_manager.py`](file:///Users/Shared/中研院/LiteMWSInstr/orchestrator/config_manager.py) | `ConfigManager` | 負責讀寫 TOML 檔（`vna.toml` 等），並執行 **Overlap Guard** 防止掃描窗口重疊。 |
 | [`orchestrator/instrument_driver.py`](file:///Users/Shared/中研院/LiteMWSInstr/orchestrator/instrument_driver.py) | `InstrumentDriver` | 封裝 VNA 連線、生命週期管理與單次掃描，支援 DUMMY 離線物理模擬。 |
 | [`orchestrator/resonance_analyzer.py`](file:///Users/Shared/中研院/LiteMWSInstr/orchestrator/resonance_analyzer.py) | `ResonanceAnalyzer` | **純演算法模組**，負責 Dip 搜尋、信心度評分與細掃描 Trial Circle Fit 驗證，不含 I/O。 |
 | [`orchestrator/report_generator.py`](file:///Users/Shared/中研院/LiteMWSInstr/orchestrator/report_generator.py) | `ReportGenerator` | 負責輸出，包含 NetCDF (.nc) 數據存檔、CSV 審計報告（Audit Trail）寫入與光譜繪圖。 |
@@ -75,7 +75,7 @@ graph TD
 
 系統依賴三個核心 TOML 設定檔進行流程控制：
 
-### 1. `vna.config` (全域控制設定)
+### 1. `vna.toml` (全域控制設定)
 
 定義硬體連線、盲搜尋參數及預設量測設定：
 
@@ -198,7 +198,7 @@ graph TD
 #### 【階段 A】粗掃描與候選頻率搜尋 (Coarse Sweep & Peak Detection)
 
 1. **掃描設定 (VNA Config Passes)**：
-   依序執行三個 Pass 的全頻寬掃描。若 `vna.config` 未指定則套用預設值：
+   依序執行三個 Pass 的全頻寬掃描。若 `vna.toml` 未指定則套用預設值：
    * **Pass 1 (高功率)**：功率 = `-15.0` dBm，中頻頻寬 = `1000` Hz，掃描點數 = `16001` 點。
    * **Pass 2 (低功率)**：功率 = `-35.0` dBm，中頻頻寬 = `200` Hz，掃描點數 = `16001` 點。
    * **Pass 3 (極低功率)**：功率 = `-45.0` dBm，中頻頻寬 = `100` Hz，掃描點數 = `16001` 點。

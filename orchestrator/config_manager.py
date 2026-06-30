@@ -9,7 +9,7 @@ class ConfigManager:
         self.config_dir = config_dir
         
         # Configuration file paths
-        self.file_vna_config = os.path.join(config_dir, "vna.config")
+        self.file_vna_config = os.path.join(config_dir, "vna.toml")
         self.file_res_pd = os.path.join(config_dir, "resonator_PD.toml")
         self.file_power_task = os.path.join(config_dir, "power_dep_resonator.toml")
 

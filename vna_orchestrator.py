@@ -175,7 +175,7 @@ class VNAOrchestrator:
         print(f"BLIND RESONATOR SEARCH: {start_freq/1e9:.3f} to {stop_freq/1e9:.3f} GHz")
         print("="*60)
         
-        # Load configurations from vna.config
+        # Load configurations from vna.toml
         verification_config = self.vna_config.get("verification", {})
         verification_span = float(verification_config.get("window_span_mhz", 10.0)) * 1e6
         verification_points = int(verification_config.get("points", 501))
@@ -1082,7 +1082,7 @@ def main():
     # Initialize Orchestrator
     orchestrator = VNAOrchestrator(args.config_dir)
     
-    # Load defaults from execution/blind_search section of vna.config if not provided via CLI
+    # Load defaults from execution/blind_search section of vna.toml if not provided via CLI
     exec_config = orchestrator.vna_config.get("execution", {})
     
     # Dummy mode override
