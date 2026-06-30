@@ -1,4 +1,3 @@
-import numpy as np
 from driver import get_VNA
 
 class InstrumentDriver:
