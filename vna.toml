@@ -5,11 +5,14 @@
   port = "S21"
 
 [sample]
-  name = "Sample0713S21"  # 樣品名稱
+  name = "aligned_test"  # 樣品名稱
 
 [execution]
   action = "run-all"      # 可選: "run-all", "blind-search", "find-windows", "compile", "sweep", "fit"
   dummy = true            # 是否使用模擬模式 (Offline Dummy)
+
+[dummy]
+  noise_multiplier = 2.0     # 虛擬 VNA 的量測噪聲放大倍數
 
 [blind_search]
   start_freq_ghz = 4.0
@@ -42,7 +45,7 @@
 [fwhm]
   # 頻寬估算與護欄參數
   min_khz = 5.0                # 硬性 FWHM 下限 (kHz)
-  max_mhz = 15.0               # 硬性 FWHM 上限 (MHz)
+  max_mhz = 30.0               # 硬性 FWHM 上限 (MHz)
   target_fwhm_khz = 300.0      # 評分滿分中心寬度 (kHz)
   fwhm_sigma_decade = 0.5      # 評分容忍度對數標準差 (Decades)
   noise_sigma_multiplier = 15.0 # 訊噪比降噪門檻標準差倍數 (N-sigma)
@@ -60,7 +63,7 @@
   # 輸出到 resonator_PD.toml 的共振腔預設掃描規格
   if_bandwidth = 50
   points = 501
-  max_repeat = 5
+  max_repeat = 10
   min_repeat = 1
   power_ave_ratio = -120
   power_min = -60
@@ -75,4 +78,14 @@
   retry_2_range_multiplier = 2.0
   retry_3_power_boost_db = 5.0
   fallback_window_mhz = 2.0   # 尋找失敗時降級的預設窗口大小 (MHz)
+
+[fitting]
+  mode = "refined"            # "refined" (兩階段固定 Qc 擬合) 或 "free" (單次 autofit)
+
+[tls_analysis]
+  enabled = true              # 是否在 run-all 時自動執行 TLS 擬合
+  n_sat_lowerbound = 0.01     # N_sat 下界
+  n_sat_upperbound = 10000    # N_sat 上界
+  alpha_lowerbound = 0.2      # alpha 下界
+  max_error_threshold = 1e8   # Qi 誤差過濾閾值
 

@@ -92,6 +92,18 @@ class VNA_DUMMY(VNA):
         # Using empirical VNA noise floor model fitted from real measurements.
         # To match realistic VNA physical noise floor exactly, we use noise_multiplier = 1.0.
         noise_multiplier = 10.0
+        try:
+            import os
+            import tomlkit
+            config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "vna.toml")
+            if os.path.exists(config_path):
+                with open(config_path, 'r', encoding='utf-8') as f:
+                    config = tomlkit.parse(f.read())
+                    if "dummy" in config and "noise_multiplier" in config["dummy"]:
+                        noise_multiplier = float(config["dummy"]["noise_multiplier"])
+        except Exception:
+            pass
+
         c_base = 2.236e-5 * noise_multiplier
         noise_std = c_base * np.sqrt(IF_bandwidth) * (10 ** (-0.952 * power / 20.0))
         noise = np.random.normal(0, noise_std, points) + 1j * np.random.normal(0, noise_std, points)

@@ -19,7 +19,7 @@ if _parent_dir not in sys.path:
 from resonator_tools import circuit
 
 # Import refactored components
-from orchestrator import ConfigManager, InstrumentDriver, ResonanceAnalyzer, ReportGenerator, TaskCompiler, BatchFitter
+from orchestrator import ConfigManager, InstrumentDriver, ResonanceAnalyzer, ReportGenerator, TaskCompiler, BatchFitter, TLSAnalyzer
 import builtins
 
 # Headless matplotlib backend for automated scripts
@@ -104,6 +104,9 @@ class VNAOrchestrator:
         
         # 6. Fitter
         self.fitter = BatchFitter(self.cfg)
+        
+        # 7. TLS Analyzer
+        self.tls_analyzer = TLSAnalyzer(self.cfg)
         
         # Temporary status trackers for reports
         self.current_v_start: float | None = None
@@ -1050,6 +1053,12 @@ class VNAOrchestrator:
         """
         self.fitter.run_batch_fitting()
 
+    def run_tls_analysis(self):
+        """
+        Delegates Phase 6 TLS loss fitting to the TLSAnalyzer.
+        """
+        self.tls_analyzer.run_tls_analysis()
+
 
 def main():
     parser = argparse.ArgumentParser(description="Unified VNA Resonator Measurement Orchestrator")
@@ -1057,7 +1066,8 @@ def main():
     parser.add_argument("--compile-tasks", action="store_true", help="Compile power-dependent SNR-adaptive task list (Phase 3)")
     parser.add_argument("--run-sweep", action="store_true", help="Execute the VNA power sweep (Phase 4)")
     parser.add_argument("--fit", action="store_true", help="Perform batch circle fitting on measured data (Phase 5)")
-    parser.add_argument("--run-all", action="store_true", help="Run full orchestrator pipeline (Phase 1 to 5)")
+    parser.add_argument("--tls-fit", action="store_true", help="Perform TLS saturation loss fitting on fitted resonator data (Phase 6)")
+    parser.add_argument("--run-all", action="store_true", help="Run full orchestrator pipeline (Phase 1 to 6)")
     parser.add_argument("--expected-dips", type=int, default=None, help="Expected number of dips to find in the sweep range")
     parser.add_argument("--dummy", action="store_true", help="Force VNA model to DUMMY for offline testing")
     parser.add_argument("--config-dir", type=str, default=None, help="Directory containing configuration TOML files")
@@ -1115,7 +1125,7 @@ def main():
         
     # Action override
     action = exec_config.get("action", None)
-    if action and not (args.find_windows or args.compile_tasks or args.run_sweep or args.fit or args.run_all or args.blind_search):
+    if action and not (args.find_windows or args.compile_tasks or args.run_sweep or args.fit or args.tls_fit or args.run_all or args.blind_search):
 
         if action == "run-all":
             args.run_all = True
@@ -1129,9 +1139,11 @@ def main():
             args.run_sweep = True
         elif action == "fit":
             args.fit = True
+        elif action == "tls-fit":
+            args.tls_fit = True
  
     # If still no action is specified, default to running the full pipeline (--run-all) with blind search
-    if not (args.find_windows or args.compile_tasks or args.run_sweep or args.fit or args.run_all or args.blind_search):
+    if not (args.find_windows or args.compile_tasks or args.run_sweep or args.fit or args.tls_fit or args.run_all or args.blind_search):
         print("No action specified in CLI or config. Defaulting to running the full pipeline (--run-all) with blind search.")
         args.run_all = True
     
@@ -1230,6 +1242,9 @@ def main():
             
         if args.fit or args.run_all:
             orchestrator.run_batch_fitting()
+            
+        if args.tls_fit or (args.run_all and orchestrator.vna_config.get("tls_analysis", {}).get("enabled", True)):
+            orchestrator.run_tls_analysis()
     finally:
         logger.close()
 
