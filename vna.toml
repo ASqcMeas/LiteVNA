@@ -5,7 +5,7 @@
   port = "S21"
 
 [sample]
-  name = "TestDummySample" # 樣品名稱
+  name = "Sample0713S21"  # 樣品名稱
 
 [execution]
   action = "run-all"      # 可選: "run-all", "blind-search", "find-windows", "compile", "sweep", "fit"
@@ -29,11 +29,11 @@
   # 評分與硬門檻配置 (若不安裝某門檻，可不設定、註解掉或設為 "none")
   scoring_method = "geometric"         # 選擇評分計算方式: "geometric" (幾何平均) 或 "arithmetic" (算術平均)
   min_arithmetic_score = 50.0          # 算術平均分數硬門檻，如50.0/100 (若不設定則無此門檻)
-  min_geometric_score = 30.0           # 幾何平均分數硬門檻，如30.0/100 (若不設定則無此門檻)
+  min_geometric_score = 20.0           # 幾何平均分數硬門檻，如20.0/100 (若不設定則無此門檻)
   max_chisq_fit = 0.05                 # 物理圓擬合殘差硬門檻 (若不設定則無此門檻)
-  max_fwhm_ratio = 10.0                # 擬合FWHM與光譜FWHM最大不一致允許倍數 (如10.0倍)
+  max_fwhm_ratio = 100.0                # 擬合FWHM與光譜FWHM最大不一致允許倍數 (如100.0倍)
   min_fwhm_khz = 5.0                   # 細掃驗證 FWHM 硬性下限 (kHz, 若不設定則無此門檻)
-  max_fwhm_mhz = 15.0                  # 細掃驗證 FWHM 硬性上限 (MHz, 若不設定則無此門檻)
+  max_fwhm_mhz = 100.0                  # 細掃驗證 FWHM 硬性上限 (MHz, 若不設定則無此門檻)
   weight_fwhm = 0.4                    # 頻寬分數權重
   weight_depth = 0.3                   # 波谷深度分數權重
   weight_iq = 0.3                      # 圓擬合品質分數權重
@@ -58,9 +58,9 @@
 
 [resonator_defaults]
   # 輸出到 resonator_PD.toml 的共振腔預設掃描規格
-  if_bandwidth = 20
+  if_bandwidth = 50
   points = 501
-  max_repeat = 10
+  max_repeat = 5
   min_repeat = 1
   power_ave_ratio = -120
   power_min = -60
