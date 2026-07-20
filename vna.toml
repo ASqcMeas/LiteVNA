@@ -31,6 +31,7 @@
 [filtering]
   # 評分與硬門檻配置 (若不安裝某門檻，可不設定、註解掉或設為 "none")
   scoring_method = "geometric"         # 選擇評分計算方式: "geometric" (幾何平均) 或 "arithmetic" (算術平均)
+  allow_negative_qi = true             # 是否允許/放行圓擬合 Qi < 0 的共振腔 (預設 true)
   min_arithmetic_score = 50.0          # 算術平均分數硬門檻，如50.0/100 (若不設定則無此門檻)
   min_geometric_score = 20.0           # 幾何平均分數硬門檻，如20.0/100 (若不設定則無此門檻)
   max_chisq_fit = 0.05                 # 物理圓擬合殘差硬門檻 (若不設定則無此門檻)

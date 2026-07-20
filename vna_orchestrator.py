@@ -219,6 +219,12 @@ class VNAOrchestrator:
         weight_depth = float(filtering_config.get("weight_depth", 0.3))
         weight_iq = float(filtering_config.get("weight_iq", 0.3))
 
+        raw_allow_neg_qi = filtering_config.get("allow_negative_qi", True)
+        if isinstance(raw_allow_neg_qi, str):
+            allow_negative_qi = raw_allow_neg_qi.strip().lower() in ["true", "1", "yes"]
+        else:
+            allow_negative_qi = bool(raw_allow_neg_qi)
+
         min_fwhm_hard_hz = min_fwhm_hard_khz * 1e3 if min_fwhm_hard_khz is not None else None
         max_fwhm_hard_hz = max_fwhm_hard_mhz * 1e6 if max_fwhm_hard_mhz is not None else None
 
@@ -567,7 +573,8 @@ class VNAOrchestrator:
                                 qi_val = fit_port.fitresults.get("Qi_dia_corr", np.nan)
                             chi_val = fit_port.fitresults.get("chi_square", np.nan)
                             
-                            if np.isnan(qi_val) or qi_val < 0 or np.isnan(chi_val):
+                            is_invalid_qi = np.isnan(qi_val) or (qi_val < 0 and not allow_negative_qi)
+                            if is_invalid_qi or np.isnan(chi_val):
                                 print(f"  [Verification Fit] Non-physical fit results (Qi={qi_val}, chi={chi_val}). Discarding candidate as false positive.")
                                 search_report.append({
                                     "Type": "Fit Failure",
