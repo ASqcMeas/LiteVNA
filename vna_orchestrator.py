@@ -188,9 +188,23 @@ class VNAOrchestrator:
         coarse_spacing = float(dedup_config.get("coarse_spacing_mhz", 0.25)) * 1e6
         precise_spacing = float(dedup_config.get("precise_spacing_mhz", 0.15)) * 1e6
 
+        def parse_optional_float(val, default=None):
+            if val is None:
+                return default
+            if isinstance(val, str) and val.strip().lower() in ["none", "null", "", "auto"]:
+                return default
+            try:
+                return float(val)
+            except ValueError:
+                return default
+
         fwhm_config = self.vna_config.get("fwhm", {})
-        min_fwhm = float(fwhm_config.get("min_khz", 5.0)) * 1e3
-        max_fwhm = float(fwhm_config.get("max_mhz", 15.0)) * 1e6
+        min_fwhm_raw = parse_optional_float(fwhm_config.get("min_khz", 5.0))
+        min_fwhm = min_fwhm_raw * 1e3 if min_fwhm_raw is not None else 5.0 * 1e3
+
+        max_fwhm_raw = parse_optional_float(fwhm_config.get("max_mhz", 30.0))
+        max_fwhm = max_fwhm_raw * 1e6 if max_fwhm_raw is not None else 30.0 * 1e6
+
         target_fwhm = float(fwhm_config.get("target_fwhm_khz", 300.0)) * 1e3
         sigma_dec = float(fwhm_config.get("fwhm_sigma_decade", 0.5))
         ns_mult = float(fwhm_config.get("noise_sigma_multiplier", 6.0))
@@ -198,16 +212,6 @@ class VNAOrchestrator:
 
         filtering_config = self.vna_config.get("filtering", {})
         scoring_method = str(filtering_config.get("scoring_method", "geometric")).strip().lower()
-
-        def parse_optional_float(val):
-            if val is None:
-                return None
-            if isinstance(val, str) and val.strip().lower() in ["none", "null", "", "auto"]:
-                return None
-            try:
-                return float(val)
-            except ValueError:
-                return None
 
         min_arithmetic_score = parse_optional_float(filtering_config.get("min_arithmetic_score", None))
         min_geometric_score = parse_optional_float(filtering_config.get("min_geometric_score", None))
@@ -603,59 +607,28 @@ class VNAOrchestrator:
                             else:
                                 fwhm_fit_hz = np.nan
 
-                            # Hard Threshold Check 2b: Fitted FWHM filtering
+                            # Hard Threshold Check 2b & 2c: Fitted FWHM filtering & ratio check
+                            is_deep_dip = (peak_mag < -30.0) or allow_negative_qi
                             if not np.isnan(fwhm_fit_hz):
+                                is_failed_fwhm = False
+                                reason_msg = ""
                                 if min_fwhm_hard_hz is not None and fwhm_fit_hz < min_fwhm_hard_hz:
+                                    is_failed_fwhm = True
                                     reason_msg = f"Fitted FWHM ({fwhm_fit_hz/1e3:.1f} kHz) below min_fwhm_khz threshold ({min_fwhm_hard_khz:.1f} kHz)"
-                                    print(f"  [Verification Fit] {reason_msg}. Discarding candidate as false positive.")
-                                    search_report.append({
-                                        "Type": "Fit Failure",
-                                        "Coarse_Frequency_GHz": f_c / 1e9,
-                                        "Refined_Frequency_GHz": peak_freq / 1e9,
-                                        "Power_dBm": v_power,
-                                        "IF_Bandwidth_Hz": verification_ibw,
-                                        "Points": verification_points,
-                                        "FWHM_MHz": fwhm_v / 1e6,
-                                        "FWHM_fit_MHz": fwhm_fit_hz / 1e6,
-                                        "Depth_dB": peak_mag,
-                                        "Qi_fit": qi_val,
-                                        "ChiSq_fit": chi_val,
-                                        "Confidence_Score": np.nan,
-                                        "Status": "Discarded",
-                                        "Reason": reason_msg,
-                                        "Start_Frequency_GHz": np.nan,
-                                        "Stop_Frequency_GHz": np.nan
-                                    })
-                                    continue
-
-                                if max_fwhm_hard_hz is not None and fwhm_fit_hz > max_fwhm_hard_hz:
+                                elif max_fwhm_hard_hz is not None and fwhm_fit_hz > max_fwhm_hard_hz:
+                                    is_failed_fwhm = True
                                     reason_msg = f"Fitted FWHM ({fwhm_fit_hz/1e6:.2f} MHz) exceeded max_fwhm_mhz threshold ({max_fwhm_hard_mhz:.1f} MHz)"
-                                    print(f"  [Verification Fit] {reason_msg}. Discarding candidate as false positive.")
-                                    search_report.append({
-                                        "Type": "Fit Failure",
-                                        "Coarse_Frequency_GHz": f_c / 1e9,
-                                        "Refined_Frequency_GHz": peak_freq / 1e9,
-                                        "Power_dBm": v_power,
-                                        "IF_Bandwidth_Hz": verification_ibw,
-                                        "Points": verification_points,
-                                        "FWHM_MHz": fwhm_v / 1e6,
-                                        "FWHM_fit_MHz": fwhm_fit_hz / 1e6,
-                                        "Depth_dB": peak_mag,
-                                        "Qi_fit": qi_val,
-                                        "ChiSq_fit": chi_val,
-                                        "Confidence_Score": np.nan,
-                                        "Status": "Discarded",
-                                        "Reason": reason_msg,
-                                        "Start_Frequency_GHz": np.nan,
-                                        "Stop_Frequency_GHz": np.nan
-                                    })
-                                    continue
-
-                                # Hard Threshold Check 2c: Fitted vs Spectrum FWHM Ratio Consistency
-                                if max_fwhm_ratio is not None and fwhm_v > 0 and fwhm_fit_hz > 0:
+                                elif max_fwhm_ratio is not None and fwhm_v > 0 and fwhm_fit_hz > 0:
                                     ratio = max(fwhm_fit_hz / fwhm_v, fwhm_v / fwhm_fit_hz)
                                     if ratio > max_fwhm_ratio:
+                                        is_failed_fwhm = True
                                         reason_msg = f"Fitted FWHM ({fwhm_fit_hz/1e6:.3f} MHz) and Spectrum FWHM ({fwhm_v/1e6:.3f} MHz) ratio ({ratio:.1f}x) exceeded max_fwhm_ratio threshold ({max_fwhm_ratio:.1f}x)"
+
+                                if is_failed_fwhm:
+                                    if is_deep_dip:
+                                        print(f"  [Verification Fit] {reason_msg}, but deep dip / allow_negative_qi enabled. Falling back to spectrum FWHM ({fwhm_v/1e6:.3f} MHz).")
+                                        fwhm_fit_hz = fwhm_v
+                                    else:
                                         print(f"  [Verification Fit] {reason_msg}. Discarding candidate as false positive.")
                                         search_report.append({
                                             "Type": "Fit Failure",
