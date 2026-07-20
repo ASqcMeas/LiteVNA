@@ -653,6 +653,8 @@ class VNAOrchestrator:
                             # Calculate circularity score S_IQ
                             chisq_norm = max_chisq_fit if max_chisq_fit is not None and max_chisq_fit > 0 else 0.05
                             s_iq = max(0.0, 100.0 * (1.0 - chi_val / chisq_norm))
+                            if is_deep_dip:
+                                s_iq = max(50.0, s_iq)
                             
                             # Re-evaluate S_FWHM score component using Geometric Mean of Spectrum and Fitted FWHM
                             if not np.isnan(fwhm_fit_hz) and fwhm_fit_hz > 0 and fwhm_v > 0:
