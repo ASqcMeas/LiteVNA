@@ -26,9 +26,23 @@ class ResonanceAnalyzer:
         else:
             noise_std = 0.05
             
+        def parse_optional_float(val, default=None):
+            if val is None:
+                return default
+            if isinstance(val, str) and val.strip().lower() in ["none", "null", "", "auto"]:
+                return default
+            try:
+                return float(val)
+            except ValueError:
+                return default
+
         fwhm_config = self.vna_config.get("fwhm", {})
-        min_fwhm = float(fwhm_config.get("min_khz", 5.0)) * 1e3
-        max_fwhm = float(fwhm_config.get("max_mhz", 15.0)) * 1e6
+        min_fwhm_raw = parse_optional_float(fwhm_config.get("min_khz", 5.0))
+        min_fwhm = min_fwhm_raw * 1e3 if min_fwhm_raw is not None else 5.0 * 1e3
+
+        max_fwhm_raw = parse_optional_float(fwhm_config.get("max_mhz", 30.0))
+        max_fwhm = max_fwhm_raw * 1e6 if max_fwhm_raw is not None else 30.0 * 1e6
+
         target_fwhm = float(fwhm_config.get("target_fwhm_khz", 300.0)) * 1e3
         sigma_dec = float(fwhm_config.get("fwhm_sigma_decade", 0.5))
         ns_mult = float(fwhm_config.get("noise_sigma_multiplier", 6.0))
@@ -107,8 +121,8 @@ class ResonanceAnalyzer:
                     d = 0.5 * (y1 - y3) / denom
                     precise_freq = freq_array[p] + d * freq_step
 
-            # Hard Cutoff: FWHM boundaries check
-            if fwhm_val < min_fwhm:
+            # Hard Cutoff: FWHM boundaries check (only if configured)
+            if min_fwhm_raw is not None and fwhm_val < min_fwhm:
                 print(f"  [Filter] Discarding dip at {precise_freq/1e9:.5f} GHz: FWHM too narrow ({fwhm_val/1e3:.1f} kHz < {min_fwhm/1e3:.1f} kHz)")
                 if discarded_dips is not None:
                     discarded_dips.append({
@@ -118,7 +132,7 @@ class ResonanceAnalyzer:
                         "reason": f"FWHM too narrow ({fwhm_val/1e3:.1f} kHz < {min_fwhm/1e3:.1f} kHz)"
                     })
                 continue
-            if fwhm_val > max_fwhm:
+            if max_fwhm_raw is not None and fwhm_val > max_fwhm:
                 print(f"  [Filter] Discarding dip at {precise_freq/1e9:.5f} GHz: FWHM too wide ({fwhm_val/1e6:.1f} MHz > {max_fwhm/1e6:.1f} MHz)")
                 if discarded_dips is not None:
                     discarded_dips.append({
