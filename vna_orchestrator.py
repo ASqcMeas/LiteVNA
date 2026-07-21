@@ -177,12 +177,18 @@ class VNAOrchestrator:
         verification_span = float(verification_config.get("window_span_mhz", 10.0)) * 1e6
         verification_points = int(verification_config.get("points", 501))
         verification_power = verification_config.get("power", None)
-        if verification_power is not None:
-            verification_power = float(verification_power)
+        if verification_power is not None and str(verification_power).strip().lower() not in ["none", "auto", "null", ""]:
+            try:
+                verification_power = float(verification_power)
+            except ValueError:
+                verification_power = None
+        else:
+            verification_power = None
         verification_ibw = int(verification_config.get("if_bandwidth_hz", 200))
         verification_min_span = float(verification_config.get("min_span_mhz", 0.2)) * 1e6
         high_q_trigger_ratio = float(verification_config.get("high_q_trigger_ratio", 2.5))
         min_resweep_span = float(verification_config.get("min_resweep_span_mhz", 0.05)) * 1e6
+        verification_prominence = verification_config.get("prominence_db", prominence)
 
         dedup_config = self.vna_config.get("deduplication", {})
         coarse_spacing = float(dedup_config.get("coarse_spacing_mhz", 0.25)) * 1e6
@@ -208,7 +214,9 @@ class VNAOrchestrator:
         target_fwhm = float(fwhm_config.get("target_fwhm_khz", 300.0)) * 1e3
         sigma_dec = float(fwhm_config.get("fwhm_sigma_decade", 0.5))
         ns_mult = float(fwhm_config.get("noise_sigma_multiplier", 6.0))
-        window_multiplier = float(fwhm_config.get("window_multiplier", 15.0))
+        search_window_multiplier = float(fwhm_config.get("search_window_multiplier", fwhm_config.get("window_multiplier", 5.0)))
+        fit_measurement_window_multiplier = float(fwhm_config.get("fit_measurement_window_multiplier", fwhm_config.get("window_multiplier", 15.0)))
+        window_multiplier = fit_measurement_window_multiplier
 
         filtering_config = self.vna_config.get("filtering", {})
         scoring_method = str(filtering_config.get("scoring_method", "geometric")).strip().lower()
@@ -419,8 +427,8 @@ class VNAOrchestrator:
             for idx, (f_c, m_c, fwhm_c, p_c, score_c) in enumerate(candidate_freqs):
                 print(f"\n--- Verifying Candidate {idx+1}/{len(candidate_freqs)} ({f_c/1e9:.5f} GHz) ---")
                                 
-                # Dynamic verification span: window_multiplier * coarse_FWHM, with a safe lower bound of 0.2 MHz
-                span_v = max(verification_min_span, window_multiplier * fwhm_c)
+                # Dynamic verification span: search_window_multiplier * coarse_FWHM, with a safe lower bound of 0.2 MHz
+                span_v = max(verification_min_span, search_window_multiplier * fwhm_c)
                 self.current_v_start = (f_c - span_v/2) / 1e9
                 self.current_v_stop = (f_c + span_v/2) / 1e9
                 
@@ -457,7 +465,7 @@ class VNAOrchestrator:
                 discarded_verification_dips = []
                 dips_v = self.analyzer.find_dips(
                     freq_array_v, s_params_v, expected_count=1, 
-                    prominence=prominence, discarded_dips=discarded_verification_dips
+                    prominence=verification_prominence, discarded_dips=discarded_verification_dips
                 )
                 
                 # Log verification FWHM filter discards
@@ -492,8 +500,8 @@ class VNAOrchestrator:
 
                         # Option B: High-Q Narrow Dip Dynamic Resweep
                         # If actual verified FWHM is much narrower than initial verification span, perform high-resolution resweep
-                        if fwhm_v > 0 and span_v > high_q_trigger_ratio * (window_multiplier * fwhm_v):
-                            span_resweep = max(min_resweep_span, window_multiplier * fwhm_v)
+                        if fwhm_v > 0 and span_v > high_q_trigger_ratio * (search_window_multiplier * fwhm_v):
+                            span_resweep = max(min_resweep_span, search_window_multiplier * fwhm_v)
                             print(f"  [Verification High-Q] Narrow dip detected (FWHM: {fwhm_v/1e3:.1f} kHz vs initial Span: {span_v/1e6:.2f} MHz).")
                             print(f"  [Verification High-Q] Performing dynamic high-resolution resweep across {span_resweep/1e6:.3f} MHz...")
                             freq_array_v, s_params_v = self.driver.measure_sweep(
@@ -502,7 +510,7 @@ class VNAOrchestrator:
                             # Re-detect dip on high-resolution sweep
                             dips_resweep = self.analyzer.find_dips(
                                 freq_array_v, s_params_v, expected_count=1,
-                                prominence=prominence, discarded_dips=[]
+                                prominence=verification_prominence, discarded_dips=[]
                             )
                             if dips_resweep:
                                 dip_v = dips_resweep[0]
@@ -653,8 +661,6 @@ class VNAOrchestrator:
                             # Calculate circularity score S_IQ
                             chisq_norm = max_chisq_fit if max_chisq_fit is not None and max_chisq_fit > 0 else 0.05
                             s_iq = max(0.0, 100.0 * (1.0 - chi_val / chisq_norm))
-                            if is_deep_dip:
-                                s_iq = max(50.0, s_iq)
                             
                             # Re-evaluate S_FWHM score component using Geometric Mean of Spectrum and Fitted FWHM
                             if not np.isnan(fwhm_fit_hz) and fwhm_fit_hz > 0 and fwhm_v > 0:
@@ -778,9 +784,10 @@ class VNAOrchestrator:
                         if fwhm_v < min_fwhm: fwhm_v = min_fwhm
                         if fwhm_v > max_fwhm_adaptive: fwhm_v = max_fwhm_adaptive
                         
-                        # Final window using standard FWHM multiple
-                        final_start = peak_freq - window_multiplier * fwhm_v
-                        final_stop = peak_freq + window_multiplier * fwhm_v
+                        # Final window using standard FWHM multiple, bounded below by verification_min_span
+                        half_window_span = max(window_multiplier * fwhm_v, 0.5 * verification_min_span)
+                        final_start = peak_freq - half_window_span
+                        final_stop = peak_freq + half_window_span
                         cand_info["start"] = final_start
                         cand_info["stop"] = final_stop
                         cand_info["fwhm"] = fwhm_v

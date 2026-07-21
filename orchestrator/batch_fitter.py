@@ -449,18 +449,8 @@ class BatchFitter:
                     plt.savefig(os.path.join(parent_dir, "fit_IQ.png"), dpi=120)
                     plt.close()
                     
-                    # Determine dynamic frequency plotting range
-                    fr_ghz = fr_fit / 1e9 if not np.isnan(fr_fit) else (freq[0] + freq[-1]) / 2 / 1e9
-                    if not np.isnan(fr_fit) and not np.isnan(ql_fit) and ql_fit > 0:
-                        fwhm_ghz = fr_ghz / ql_fit
-                        half_width_ghz = 15.0 * fwhm_ghz
-                        # Guardrail: do not exceed the actual swept frequency range
-                        swept_span_ghz = (freq[-1] - freq[0]) / 1e9
-                        if half_width_ghz > swept_span_ghz / 2:
-                            half_width_ghz = swept_span_ghz / 2
-                        xlim_range = (fr_ghz - half_width_ghz, fr_ghz + half_width_ghz)
-                    else:
-                        xlim_range = (freq[0]/1e9, freq[-1]/1e9)
+                    # Display full measured dataset frequency range so baseline is always fully visible
+                    xlim_range = (freq[0]/1e9, freq[-1]/1e9)
                         
                     # 2. Amplitude Plot (|S| vs Frequency)
                     plt.figure(figsize=(6, 4))

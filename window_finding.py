@@ -47,10 +47,12 @@ def measure_and_find_peak(port, start, stop, points, power, IF_bandwidth):
         peak_frequency = freq_array[peak_index]
         print(f"Found dip at: {peak_frequency/1e9:.6f} GHz ({magnitude[peak_index]:.2f} dB)")
 
-        # Find the full width at half maximum (FWHM) of the peak
-        results_half = peak_widths(-magnitude, [peak_index], rel_height=0.5)
+        # Find the full width at half maximum (FWHM) of the peak using linear magnitude depth
+        lin_mag = np.abs(s_params)
+        lin_depth = np.max(lin_mag) - lin_mag
+        results_half = peak_widths(lin_depth, [peak_index], rel_height=1.0 / np.sqrt(2))
         fwhm = results_half[0][0] * (freq_array[1] - freq_array[0])
-        print(f"FWHM: {fwhm/1e6:.3f} MHz")
+        print(f"Physical FWHM: {fwhm/1e6:.3f} MHz")
 
         # Determine new start and stop frequencies based on the peak and FWHM
         new_start = peak_frequency - 15 * fwhm

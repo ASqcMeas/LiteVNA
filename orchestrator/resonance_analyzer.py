@@ -48,8 +48,9 @@ class ResonanceAnalyzer:
         ns_mult = float(fwhm_config.get("noise_sigma_multiplier", 6.0))
         min_ns_mult = float(fwhm_config.get("min_noise_sigma_multiplier", 3.0))
 
+        verif_config = self.vna_config.get("verification", {})
         blind_config = self.vna_config.get("blind_search", {})
-        min_prom_val = blind_config.get("min_prominence_db", 0.3)
+        min_prom_val = verif_config.get("min_prominence_db", blind_config.get("min_prominence_db", 0.3))
         
         is_min_prom_auto = False
         if min_prom_val is None:
@@ -101,8 +102,11 @@ class ResonanceAnalyzer:
         if len(peaks) == 0:
             return []
             
-        # Calculate FWHM in Hz
-        widths_results = peak_widths(-magnitude, peaks, rel_height=0.5)
+        # Calculate physical FWHM in Hz using linear magnitude depth
+        # rel_height = 1 / sqrt(2) (~0.7071) measures down to S21^2 = 0.5 (exact 3dB Lorentzian linewidth)
+        lin_mag = np.abs(s_params)
+        lin_depth = np.max(lin_mag) - lin_mag
+        widths_results = peak_widths(lin_depth, peaks, rel_height=1.0 / np.sqrt(2))
         freq_step = freq_array[1] - freq_array[0] if len(freq_array) > 1 else 1.0
         fwhms = widths_results[0] * freq_step
 
@@ -195,7 +199,8 @@ class ResonanceAnalyzer:
         fwhm_config = self.vna_config.get("fwhm", {})
         min_fwhm = float(fwhm_config.get("min_khz", 50.0)) * 1e3
         max_fwhm = float(fwhm_config.get("max_mhz", 1.0)) * 1e6
-        window_multiplier = float(fwhm_config.get("window_multiplier", 15.0))
+        search_window_multiplier = float(fwhm_config.get("search_window_multiplier", fwhm_config.get("window_multiplier", 5.0)))
+        fit_measurement_window_multiplier = float(fwhm_config.get("fit_measurement_window_multiplier", fwhm_config.get("window_multiplier", 15.0)))
 
         retry_config = self.vna_config.get("peak_finding_retry", {})
         max_retries = int(retry_config.get("max_retries", 3))
@@ -240,9 +245,9 @@ class ResonanceAnalyzer:
                     print(f"  [Guardrail] FWHM {fwhm/1e6:.2f} MHz too large. Capping at {max_fwhm/1e6:.2f} MHz.")
                     fwhm = max_fwhm
                     
-                # Define Step B window
-                new_start = peak_freq - window_multiplier * fwhm
-                new_stop = peak_freq + window_multiplier * fwhm
+                # Define Step B window (using search_window_multiplier)
+                new_start = peak_freq - search_window_multiplier * fwhm
+                new_stop = peak_freq + search_window_multiplier * fwhm
                 break
             else:
                 print("  [Step A] No dip found. Adjusting parameters for retry...")
@@ -305,8 +310,8 @@ class ResonanceAnalyzer:
             if fwhm_fine < min_fwhm: fwhm_fine = min_fwhm
             if fwhm_fine > max_fwhm: fwhm_fine = max_fwhm
             
-            final_start = peak_freq - window_multiplier * fwhm_fine
-            final_stop = peak_freq + window_multiplier * fwhm_fine
+            final_start = peak_freq - fit_measurement_window_multiplier * fwhm_fine
+            final_stop = peak_freq + fit_measurement_window_multiplier * fwhm_fine
             return final_start, final_stop
         else:
             print("  [Step B] No dip found in fine sweep. Using Step A optimized window.")
