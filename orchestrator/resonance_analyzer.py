@@ -14,6 +14,14 @@ class ResonanceAnalyzer:
         Computes FWHM and Depth confidence scores.
         Returns a list of tuples: (freq, magnitude, peak_idx, fwhm, score, s_fwhm, s_depth)
         """
+        # Guardrail: ensure freq_array length matches s_params length to prevent IndexError
+        if len(freq_array) != len(s_params):
+            print(f"  [Guardrail] Length mismatch: freq_array ({len(freq_array)}) vs s_params ({len(s_params)}). Aligning freq_array.")
+            if len(freq_array) > 1:
+                freq_array = np.linspace(freq_array[0], freq_array[-1], len(s_params))
+            else:
+                freq_array = np.linspace(0, 1, len(s_params))
+
         # Use np.maximum to guard against log10(0) = -inf when signal is zero
         magnitude = 20 * np.log10(np.maximum(np.abs(s_params), 1e-18))
         

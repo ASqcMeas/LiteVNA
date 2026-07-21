@@ -121,10 +121,9 @@ class VNA_ZNB20:
 
                 start_freq = getattr(self.vna.channels, self.current_channel).start()
                 stop_freq = getattr(self.vna.channels, self.current_channel).stop()
-                num_points = getattr(self.vna.channels, self.current_channel).npts()
-                
-                freq_array = np.linspace(start_freq, stop_freq, num_points)
                 s21_data = data
+                num_points = len(s21_data) if s21_data is not None and len(s21_data) > 0 else getattr(self.vna.channels, self.current_channel).npts()
+                freq_array = np.linspace(start_freq, stop_freq, num_points)
                 return freq_array, s21_data
             except (pyvisa.errors.VisaIOError, Exception) as e:
                 print(f"Error during VNA sweep on attempt {attempt}: {e}")
