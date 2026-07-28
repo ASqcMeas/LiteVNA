@@ -109,6 +109,8 @@ class ConfigManager:
             res_entry = tomlkit.table()
             res_entry["label"] = r["label"]
             res_entry["IF_bandwidth"] = default_if_bandwidth
+            if "fwhm" in r:
+                res_entry["fwhm_hz"] = float(r["fwhm"])
             
             snr = tomlkit.inline_table()
             snr.update({

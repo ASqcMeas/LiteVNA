@@ -58,8 +58,8 @@ class VNA_DUMMY(VNA):
         # FWHMs are set to ~3-5 MHz so they are resolved with deep dips under larger VNA sweep steps.
         if start <= 8.0e9 and stop >= 4.0e9:
             demo_dips = [
-                {"f0": 5.5000e9, "depth": 0.90, "fwhm": 4.5e6},
-                {"f0": 5.6000e9, "depth": 0.60, "fwhm": 1.0e5},
+                {"f0": 4.5000e9, "depth": 0.30, "fwhm": 2e7},
+                {"f0": 5.8450e9, "depth": 0.60, "fwhm": 1.0e5},
                 {"f0": 5.8500e9, "depth": 0.75, "fwhm": 4.0e6},
                 {"f0": 6.0000e9, "depth": 0.25, "fwhm": 3.5e6},
                 {"f0": 6.1500e9, "depth": 0.95, "fwhm": 1.0e5},

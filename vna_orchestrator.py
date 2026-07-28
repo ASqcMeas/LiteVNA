@@ -45,6 +45,7 @@ class TerminalLogger:
         # Filter console print
         msg_stripped = msg.lstrip()
         is_plot = "plot" in msg.lower() or "heatmap" in msg.lower() or "plots" in msg.lower()
+        is_manual_prompt = "manual rescue" in msg.lower() or "manual range" in msg.lower()
         is_detailed = msg.startswith(" ") or msg.startswith("\t") or is_plot
         
         # Exceptions to always print on console (but never plot saving messages)
@@ -61,7 +62,7 @@ class TerminalLogger:
             )
         )
         
-        if not is_detailed or is_exception:
+        if not is_detailed or is_exception or is_manual_prompt:
             if end == "\r":
                 if sys.stdout.isatty():
                     self.original_print(f"\r{msg}\033[K", end="", flush=True)
@@ -118,6 +119,38 @@ class VNAOrchestrator:
         """
         self.cfg.save_toml(config, path)
 
+    @staticmethod
+    def _estimate_manual_fwhm(freq_array, magnitude_db, minimum_idx):
+        """Estimate dip FWHM from edge baseline and interpolated half-depth crossings."""
+        freq_array = np.asarray(freq_array, dtype=float)
+        magnitude_db = np.asarray(magnitude_db, dtype=float)
+        edge_count = max(3, min(len(magnitude_db) // 10, 50))
+        edge_values = np.concatenate((magnitude_db[:edge_count], magnitude_db[-edge_count:]))
+        baseline_db = float(np.median(edge_values))
+        minimum_db = float(magnitude_db[minimum_idx])
+        half_level_db = minimum_db + 0.5 * (baseline_db - minimum_db)
+
+        left_candidates = np.flatnonzero(magnitude_db[:minimum_idx] >= half_level_db)
+        right_candidates = np.flatnonzero(magnitude_db[minimum_idx + 1:] >= half_level_db)
+        if not len(left_candidates) or not len(right_candidates):
+            return np.nan, half_level_db
+
+        left_hi = int(left_candidates[-1])
+        left_lo = left_hi + 1
+        right_hi = int(minimum_idx + 1 + right_candidates[0])
+        right_lo = right_hi - 1
+
+        def interpolate_crossing(i0, i1):
+            y0, y1 = magnitude_db[i0], magnitude_db[i1]
+            if y1 == y0:
+                return float(freq_array[i0])
+            fraction = (half_level_db - y0) / (y1 - y0)
+            return float(freq_array[i0] + fraction * (freq_array[i1] - freq_array[i0]))
+
+        left_crossing = interpolate_crossing(left_hi, left_lo)
+        right_crossing = interpolate_crossing(right_lo, right_hi)
+        return max(0.0, right_crossing - left_crossing), half_level_db
+
     def find_all_windows(self, expected_dips_count=1):
         """
         Runs the window finding phase for all resonators defined in measurement_window_finding.toml.
@@ -162,11 +195,14 @@ class VNAOrchestrator:
         # Dynamically update resonator_PD.toml
         self.cfg.update_resonator_pd_config(refined_resonators)
 
-    def blind_search(self, start_freq, stop_freq, expected_count=None, prominence: float | str = 2.0):
+    def blind_search(self, start_freq, stop_freq, expected_count=None, prominence: float | str = 2.0,
+                     manual_ranges=None, interactive_manual=False):
         """
         Task 1: Performs a blind search in [start_freq, stop_freq] to find all active resonators.
         Runs multi-pass sweeps with different power and noise levels, merges candidates,
         verifies ALL candidates first, and then filters based on expected count.
+        Optional manual ranges are re-swept and their absolute minimum is force-added
+        as a resonator, which provides a recovery path when automatic detection fails.
         """
         print("\n" + "="*60)
         print(f"BLIND RESONATOR SEARCH: {start_freq/1e9:.3f} to {stop_freq/1e9:.3f} GHz")
@@ -174,6 +210,7 @@ class VNAOrchestrator:
         
         # Load configurations from vna.toml
         verification_config = self.vna_config.get("verification", {})
+        manual_ranges = list(manual_ranges or [])
         verification_span = float(verification_config.get("window_span_mhz", 10.0)) * 1e6
         verification_points = int(verification_config.get("points", 501))
         verification_power = verification_config.get("power", None)
@@ -415,6 +452,33 @@ class VNAOrchestrator:
             
             if not candidate_freqs:
                 print("No candidate frequencies found in coarse sweeps.")
+
+            if interactive_manual:
+                base_data_dir = self.cfg.res_pd_config.get("output", {}).get("data_path", "data/raw")
+                selection_plot = self.reporter.save_manual_selection_preview(
+                    base_data_dir, cached_sweeps, sweep_passes, vna_port,
+                    detected_frequencies=[candidate[0] for candidate in candidate_freqs]
+                )
+                print("\nManual rescue: enter frequency windows in GHz.")
+                if selection_plot:
+                    print(f"Manual rescue selection file (open it before entering ranges):\n  {selection_plot}")
+                print("Format: start:stop (for example 4.48:4.52). Enter a blank line when finished.")
+                while True:
+                    try:
+                        raw_range = input("Manual range [GHz]: ").strip()
+                    except EOFError:
+                        raw_range = ""
+                    if not raw_range:
+                        break
+                    try:
+                        left, right = raw_range.replace(",", ":").split(":", 1)
+                        range_start, range_stop = sorted((float(left), float(right)))
+                        if range_start == range_stop:
+                            raise ValueError("start and stop must differ")
+                        manual_ranges.append((range_start * 1e9, range_stop * 1e9))
+                        print(f"  Added manual window: {range_start:.6f} to {range_stop:.6f} GHz")
+                    except ValueError as exc:
+                        print(f"  Invalid range '{raw_range}': {exc}")
                 
             print(f"\nTotal candidate frequencies before verification: {len(candidate_freqs)}")
             for idx, (f_c, m_c, fwhm_c, p_c, score_c) in enumerate(candidate_freqs):
@@ -813,6 +877,120 @@ class VNAOrchestrator:
                         "Stop_Frequency_GHz": np.nan
                     })
             
+            # Manual rescue: re-sweep each user-selected range and force the lowest
+            # magnitude point into the final resonator list. This intentionally bypasses
+            # the automatic prominence/FWHM/fit filters.
+            manual_cfg = self.vna_config.get("manual_rescue", {})
+            manual_points = int(manual_cfg.get("points", max(verification_points, 1001)))
+            manual_ibw = int(manual_cfg.get("if_bandwidth_hz", verification_ibw))
+            manual_window_multiplier = float(manual_cfg.get("window_multiplier", 6.0))
+            manual_power_cfg = manual_cfg.get("power", verification_power)
+            if manual_power_cfg is None or str(manual_power_cfg).strip().lower() in ["auto", "none", "null", ""]:
+                manual_power = float(sweep_passes[-1]["power"])
+            else:
+                manual_power = float(manual_power_cfg)
+
+            for manual_idx, (range_start, range_stop) in enumerate(manual_ranges, start=1):
+                range_start, range_stop = sorted((float(range_start), float(range_stop)))
+                clipped_start = max(start_freq, range_start)
+                clipped_stop = min(stop_freq, range_stop)
+                if clipped_start >= clipped_stop:
+                    print(f"Warning: Manual range {range_start/1e9:.6f}:{range_stop/1e9:.6f} GHz is outside the blind-search span; skipped.")
+                    continue
+
+                print(f"\n--- Manual Rescue {manual_idx}/{len(manual_ranges)} ({clipped_start/1e9:.6f} to {clipped_stop/1e9:.6f} GHz) ---")
+                start_time_manual = datetime.now()
+                freq_manual, s_params_manual = self.driver.measure_sweep(
+                    clipped_start, clipped_stop, manual_points, vna_port, manual_power, manual_ibw
+                )
+                mag_manual = 20 * np.log10(np.maximum(np.abs(s_params_manual), 1e-18))
+                minimum_idx = int(np.argmin(mag_manual))
+                minimum_freq = float(freq_manual[minimum_idx])
+                minimum_mag = float(mag_manual[minimum_idx])
+                label = f"C{int(minimum_freq/1e5)}"
+                measured_fwhm, half_level_db = self._estimate_manual_fwhm(
+                    freq_manual, mag_manual, minimum_idx
+                )
+                if not np.isfinite(measured_fwhm) or measured_fwhm <= 0:
+                    measured_fwhm = max(
+                        (clipped_stop - clipped_start) / max(2.0 * manual_window_multiplier, 1.0),
+                        min_fwhm
+                    )
+                    fwhm_method = "fallback_from_selection_span"
+                    print(f"  Warning: FWHM crossings not contained in the selected range; using {measured_fwhm/1e6:.3f} MHz fallback.")
+                else:
+                    measured_fwhm = max(measured_fwhm, min_fwhm)
+                    fwhm_method = "half_depth_crossings"
+
+                manual_half_window = max(manual_window_multiplier * measured_fwhm, 0.5 * verification_min_span)
+                manual_window_start = max(start_freq, minimum_freq - manual_half_window)
+                manual_window_stop = min(stop_freq, minimum_freq + manual_half_window)
+
+                base_data_dir = self.cfg.res_pd_config.get("output", {}).get("data_path", "data/raw")
+                manual_file_path = os.path.join(
+                    base_data_dir, "nc",
+                    f"manual_rescue_{manual_idx}_{minimum_freq/1e9:.6f}GHz_{start_time_manual.strftime('%Y%m%d_%H%M%S')}.nc"
+                )
+                self.reporter.save_sweep_netcdf(manual_file_path, freq_manual, s_params_manual, {
+                    "IF_bandwidth": manual_ibw,
+                    "power": manual_power,
+                    "port": str(vna_port),
+                    "points": manual_points,
+                    "selection_start_ghz": clipped_start / 1e9,
+                    "selection_stop_ghz": clipped_stop / 1e9,
+                    "selection_method": "manual_window_minimum",
+                    "fwhm_hz": measured_fwhm,
+                    "fwhm_method": fwhm_method,
+                    "half_depth_level_db": half_level_db,
+                    "final_window_start_ghz": manual_window_start / 1e9,
+                    "final_window_stop_ghz": manual_window_stop / 1e9
+                }, vna_port)
+
+                cand_info = {
+                    "label": label,
+                    "start": manual_window_start,
+                    "stop": manual_window_stop,
+                    "design_freq": minimum_freq,
+                    "verified_depth": minimum_mag,
+                    "fwhm": measured_fwhm,
+                    "fwhm_fit": np.nan,
+                    "freq_v": freq_manual,
+                    "s21_v": s_params_manual,
+                    "s21_sim": None,
+                    "z_data_raw": s_params_manual,
+                    "confidence_score": 10000.0,
+                    "qi_fit": np.nan,
+                    "chisq_fit": np.nan,
+                    "coarse_freq": minimum_freq,
+                    "v_power": manual_power,
+                    "v_ibw": manual_ibw,
+                    "v_pts": manual_points,
+                    "status": "Passed",
+                    "source": "manual_window_minimum"
+                }
+                temp_refined_resonators.append(cand_info)
+                all_verification_candidates.append(cand_info)
+                print(f"  Resonator {label}: minimum at {minimum_freq/1e9:.9f} GHz ({minimum_mag:.2f} dB), FWHM {measured_fwhm/1e6:.3f} MHz")
+                print(f"  Adaptive window (±{manual_window_multiplier:g} x FWHM): {manual_window_start/1e9:.9f} to {manual_window_stop/1e9:.9f} GHz")
+                search_report.append({
+                    "Type": "Manual Rescue",
+                    "Coarse_Frequency_GHz": minimum_freq / 1e9,
+                    "Refined_Frequency_GHz": minimum_freq / 1e9,
+                    "Power_dBm": manual_power,
+                    "IF_Bandwidth_Hz": manual_ibw,
+                    "Points": manual_points,
+                    "FWHM_MHz": measured_fwhm / 1e6,
+                    "FWHM_fit_MHz": np.nan,
+                    "Depth_dB": minimum_mag,
+                    "Qi_fit": np.nan,
+                    "ChiSq_fit": np.nan,
+                    "Confidence_Score": 10000.0,
+                    "Status": "Passed",
+                    "Reason": "User-selected window; absolute minimum force-added",
+                    "Next_Sweep_Start_GHz": manual_window_start / 1e9,
+                    "Next_Sweep_Stop_GHz": manual_window_stop / 1e9
+                })
+
             # Deduplicate verified resonators based on precise design_freq using adaptive spacing
             unique_refined = []
             for r in temp_refined_resonators:
@@ -996,6 +1174,7 @@ class VNAOrchestrator:
         measurements = sweep_config["measurement"]
         
         self.driver.connect()
+        first_window_sweeps = {}
         
         try:
             self.driver.setup_measurement(vna_port)
@@ -1017,6 +1196,12 @@ class VNAOrchestrator:
                     freq_array, s_params = self.driver.measure_sweep(
                         freq_start, freq_stop, sweep_point, vna_port, vna_power, IF_bandwidth
                     )
+                    if label not in first_window_sweeps:
+                        first_window_sweeps[label] = {
+                            "frequency": np.array(freq_array, copy=True),
+                            "s_params": np.array(s_params, copy=True),
+                            "power": float(vna_power)
+                        }
                     
                     end_time = datetime.now()
                     
@@ -1033,6 +1218,8 @@ class VNAOrchestrator:
                     self.reporter.save_sweep_netcdf(file_path, freq_array, s_params, attrs, vna_port)
             # Print a final newline to clear the carriage return line
             print()
+            base_data_dir = self.cfg.res_pd_config.get("output", {}).get("data_path", "data/raw")
+            self.reporter.generate_run_all_window_overview(base_data_dir, first_window_sweeps, vna_port)
         finally:
             self.driver.disconnect()
 
@@ -1066,17 +1253,33 @@ def main():
     parser.add_argument("--start-freq", type=float, default=None, help="Blind search start frequency in GHz")
     parser.add_argument("--stop-freq", type=float, default=None, help="Blind search stop frequency in GHz")
     parser.add_argument("--prominence", type=str, default=None, help="Prominence threshold in dB for finding dips (can be float or 'auto')")
+    parser.add_argument("--manual-rescue", action="store_true", help="After automatic blind search, interactively add user-selected GHz windows using their minimum points")
+    parser.add_argument("--manual-range", action="append", default=[], metavar="START:STOP", help="Force-add the minimum from a GHz window; may be supplied multiple times")
     parser.add_argument("--sample-name", type=str, default=None, help="Automatically override the sample name in configurations")
     parser.add_argument("--vna-ip", type=str, default=None, help="Automatically override the VNA IP address or VISA address in configurations")
     parser.add_argument("--port", type=str, default=None, help="Override the measured S-parameter port (e.g. S21, S11, S22... S44) in configurations")
     
     args = parser.parse_args()
+
+    parsed_manual_ranges = []
+    for raw_range in args.manual_range:
+        try:
+            left, right = raw_range.replace(",", ":").split(":", 1)
+            range_start, range_stop = sorted((float(left), float(right)))
+            if range_start == range_stop:
+                raise ValueError("start and stop must differ")
+            parsed_manual_ranges.append((range_start * 1e9, range_stop * 1e9))
+        except ValueError as exc:
+            parser.error(f"invalid --manual-range '{raw_range}': {exc}")
     
     # Initialize Orchestrator
     orchestrator = VNAOrchestrator(args.config_dir)
     
     # Load defaults from execution/blind_search section of vna.toml if not provided via CLI
     exec_config = orchestrator.vna_config.get("execution", {})
+    manual_rescue_config = orchestrator.vna_config.get("manual_rescue", {})
+    if not args.manual_rescue and manual_rescue_config.get("enabled", False):
+        args.manual_rescue = True
     
     # Dummy mode override
     if not args.dummy and exec_config.get("dummy", False):
@@ -1218,7 +1421,11 @@ def main():
             
         if args.run_all or args.blind_search:
             # Run blind search
-            orchestrator.blind_search(args.start_freq * 1e9, args.stop_freq * 1e9, expected_count=args.expected_dips, prominence=args.prominence)
+            orchestrator.blind_search(
+                args.start_freq * 1e9, args.stop_freq * 1e9,
+                expected_count=args.expected_dips, prominence=args.prominence,
+                manual_ranges=parsed_manual_ranges, interactive_manual=args.manual_rescue
+            )
         elif args.find_windows:
             # Run manual legacy window finding from TOML
             orchestrator.find_all_windows(expected_dips_count=args.expected_dips)

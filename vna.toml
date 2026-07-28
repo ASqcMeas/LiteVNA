@@ -15,7 +15,14 @@
   data_path = "data/raw"            # 原始量測 NetCDF 與數據輸出之根目錄路徑
 
 [dummy]
-  noise_multiplier = 2.0            # 離線虛擬 VNA 的背景隨機噪聲放大倍數
+  noise_multiplier = 100.0            # 離線虛擬 VNA 的背景隨機噪聲放大倍數
+
+[manual_rescue]
+  enabled = true                    # Prompt for missed-cavity windows after every blind search
+  points = 1001                     # Points for each user-selected recovery window
+  if_bandwidth_hz = 200             # IF bandwidth for the focused recovery sweep
+  power = "auto"                    # Use the final blind-search pass power
+  window_multiplier = 6.0           # Final manual window is resonance center +/- 6 x FWHM
 
 [blind_search]
   start_freq_ghz = 4.0              # 多通道盲搜尋的全頻域掃描起始頻率 (GHz)
