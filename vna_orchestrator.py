@@ -1,6 +1,9 @@
 import os
 import sys
 import argparse
+import shutil
+import subprocess
+import time
 import numpy as np
 import matplotlib
 import tomlkit
@@ -118,6 +121,43 @@ class VNAOrchestrator:
         Saves TOML configuration (for backwards compatibility/main() CLI overrides).
         """
         self.cfg.save_toml(config, path)
+
+    @staticmethod
+    def _focus_file_in_vscode(file_path):
+        """Open a file in the existing VS Code window and make its tab active."""
+        code_cli = shutil.which("code.cmd") or shutil.which("code")
+        if not code_cli:
+            return False
+        try:
+            result = subprocess.run(
+                ["cmd.exe", "/d", "/c", code_cli, "--reuse-window", os.path.abspath(file_path)],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                timeout=10,
+                check=False,
+            )
+            return result.returncode == 0
+        except (OSError, subprocess.SubprocessError):
+            return False
+
+    @classmethod
+    def _close_vscode_preview(cls, file_path):
+        """Focus the preview again, then close only that active VS Code editor tab."""
+        if os.name != "nt" or not cls._focus_file_in_vscode(file_path):
+            return False
+        try:
+            import ctypes
+
+            time.sleep(0.6)
+            user32 = ctypes.windll.user32
+            key_up = 0x0002
+            user32.keybd_event(0x11, 0, 0, 0)       # Ctrl down
+            user32.keybd_event(ord("W"), 0, 0, 0)   # W down
+            user32.keybd_event(ord("W"), 0, key_up, 0)
+            user32.keybd_event(0x11, 0, key_up, 0)  # Ctrl up
+            return True
+        except (AttributeError, OSError):
+            return False
 
     @staticmethod
     def _estimate_manual_fwhm(freq_array, magnitude_db, minimum_idx):
@@ -453,33 +493,6 @@ class VNAOrchestrator:
             if not candidate_freqs:
                 print("No candidate frequencies found in coarse sweeps.")
 
-            if interactive_manual:
-                base_data_dir = self.cfg.res_pd_config.get("output", {}).get("data_path", "data/raw")
-                selection_plot = self.reporter.save_manual_selection_preview(
-                    base_data_dir, cached_sweeps, sweep_passes, vna_port,
-                    detected_frequencies=[candidate[0] for candidate in candidate_freqs]
-                )
-                print("\nManual rescue: enter frequency windows in GHz.")
-                if selection_plot:
-                    print(f"Manual rescue selection file (open it before entering ranges):\n  {selection_plot}")
-                print("Format: start:stop (for example 4.48:4.52). Enter a blank line when finished.")
-                while True:
-                    try:
-                        raw_range = input("Manual range [GHz]: ").strip()
-                    except EOFError:
-                        raw_range = ""
-                    if not raw_range:
-                        break
-                    try:
-                        left, right = raw_range.replace(",", ":").split(":", 1)
-                        range_start, range_stop = sorted((float(left), float(right)))
-                        if range_start == range_stop:
-                            raise ValueError("start and stop must differ")
-                        manual_ranges.append((range_start * 1e9, range_stop * 1e9))
-                        print(f"  Added manual window: {range_start:.6f} to {range_stop:.6f} GHz")
-                    except ValueError as exc:
-                        print(f"  Invalid range '{raw_range}': {exc}")
-                
             print(f"\nTotal candidate frequencies before verification: {len(candidate_freqs)}")
             for idx, (f_c, m_c, fwhm_c, p_c, score_c) in enumerate(candidate_freqs):
                 print(f"  {idx+1}: {f_c/1e9:.5f} GHz (found at {p_c} dBm, initial score: {score_c:.1f})")
@@ -848,13 +861,47 @@ class VNAOrchestrator:
                         if fwhm_v < min_fwhm: fwhm_v = min_fwhm
                         if fwhm_v > max_fwhm_adaptive: fwhm_v = max_fwhm_adaptive
                         
-                        # Final window using standard FWHM multiple, bounded below by verification_min_span
-                        half_window_span = max(window_multiplier * fwhm_v, 0.5 * verification_min_span)
+                        # Final window is exactly the configured multiple of FWHM.
+                        half_window_span = window_multiplier * fwhm_v
                         final_start = peak_freq - half_window_span
                         final_stop = peak_freq + half_window_span
                         cand_info["start"] = final_start
                         cand_info["stop"] = final_stop
                         cand_info["fwhm"] = fwhm_v
+
+                        # The verification trace is often narrower than the final
+                        # ±N×FWHM window. Measure the complete final window so the
+                        # review plot contains only real raw data with no padding.
+                        if freq_array_v.min() > final_start or freq_array_v.max() < final_stop:
+                            print(
+                                f"  [Window Preview] Measuring full {window_multiplier:g}×FWHM "
+                                "window for raw-data review..."
+                            )
+                            preview_start_time = datetime.now()
+                            freq_window, s_params_window = self.driver.measure_sweep(
+                                final_start, final_stop, verification_points,
+                                vna_port, v_power, verification_ibw
+                            )
+                            cand_info["freq_v"] = freq_window
+                            cand_info["s21_v"] = s_params_window
+                            cand_info["z_data_raw"] = s_params_window
+                            cand_info["s21_sim"] = None
+                            preview_path = os.path.join(
+                                base_data_dir, "nc",
+                                f"window_preview_{cand_info['label']}_"
+                                f"{preview_start_time.strftime('%Y%m%d_%H%M%S')}.nc"
+                            )
+                            self.reporter.save_sweep_netcdf(preview_path, freq_window, s_params_window, {
+                                "IF_bandwidth": int(verification_ibw),
+                                "power": float(v_power),
+                                "port": str(vna_port),
+                                "points": int(verification_points),
+                                "window_multiplier": float(window_multiplier),
+                                "fwhm_hz": float(fwhm_v),
+                                "window_start_ghz": float(final_start / 1e9),
+                                "window_stop_ghz": float(final_stop / 1e9),
+                                "measurement_purpose": "raw_final_window_preview",
+                            }, vna_port)
                         
                         temp_refined_resonators.append(cand_info)
                 else:
@@ -877,13 +924,59 @@ class VNAOrchestrator:
                         "Stop_Frequency_GHz": np.nan
                     })
             
+            # Ask for manual rescue windows only after every automatic verification
+            # sweep has finished, so the preview marks candidates that actually
+            # survived fine-scan filtering.
+            if interactive_manual:
+                base_data_dir = self.cfg.res_pd_config.get("output", {}).get("data_path", "data/raw")
+                selection_plot = self.reporter.save_manual_selection_preview(
+                    base_data_dir, cached_sweeps, sweep_passes, vna_port,
+                    detected_frequencies=[r["design_freq"] for r in temp_refined_resonators]
+                )
+                print("\nManual rescue (after verification): enter frequency windows in GHz.")
+                preview_opened = False
+                if selection_plot:
+                    preview_opened = self._focus_file_in_vscode(selection_plot)
+                    if preview_opened:
+                        print(f"Manual rescue selection plot opened in VS Code:\n  {selection_plot}")
+                    else:
+                        print("Warning: Could not open the manual selection plot in VS Code automatically.")
+                        print(f"Manual rescue selection file:\n  {selection_plot}")
+                print("Green lines are resonators retained after fine-scan verification.")
+                print("Format: start:stop (for example 4.48:4.52). Enter a blank line when finished.")
+                try:
+                    while True:
+                        try:
+                            raw_range = input("Manual range [GHz]: ").strip()
+                        except EOFError:
+                            raw_range = ""
+                        if not raw_range:
+                            break
+                        try:
+                            left, right = raw_range.replace(",", ":").split(":", 1)
+                            range_start, range_stop = sorted((float(left), float(right)))
+                            if range_start == range_stop:
+                                raise ValueError("start and stop must differ")
+                            manual_ranges.append((range_start * 1e9, range_stop * 1e9))
+                            print(f"  Added manual window: {range_start:.6f} to {range_stop:.6f} GHz")
+                        except ValueError as exc:
+                            print(f"  Invalid range '{raw_range}': {exc}")
+                finally:
+                    if preview_opened and selection_plot:
+                        if self._close_vscode_preview(selection_plot):
+                            print("Manual rescue selection plot closed in VS Code.")
+                        else:
+                            print("Warning: Could not close the VS Code selection plot automatically.")
+
             # Manual rescue: re-sweep each user-selected range and force the lowest
             # magnitude point into the final resonator list. This intentionally bypasses
             # the automatic prominence/FWHM/fit filters.
             manual_cfg = self.vna_config.get("manual_rescue", {})
             manual_points = int(manual_cfg.get("points", max(verification_points, 1001)))
             manual_ibw = int(manual_cfg.get("if_bandwidth_hz", verification_ibw))
-            manual_window_multiplier = float(manual_cfg.get("window_multiplier", 6.0))
+            # Manual rescues use the same final-window rule as automatically
+            # verified resonators, instead of maintaining a separate multiplier.
+            manual_window_multiplier = window_multiplier
             manual_power_cfg = manual_cfg.get("power", verification_power)
             if manual_power_cfg is None or str(manual_power_cfg).strip().lower() in ["auto", "none", "null", ""]:
                 manual_power = float(sweep_passes[-1]["power"])
@@ -922,7 +1015,7 @@ class VNAOrchestrator:
                     measured_fwhm = max(measured_fwhm, min_fwhm)
                     fwhm_method = "half_depth_crossings"
 
-                manual_half_window = max(manual_window_multiplier * measured_fwhm, 0.5 * verification_min_span)
+                manual_half_window = manual_window_multiplier * measured_fwhm
                 manual_window_start = max(start_freq, minimum_freq - manual_half_window)
                 manual_window_stop = min(stop_freq, minimum_freq + manual_half_window)
 
@@ -946,6 +1039,38 @@ class VNAOrchestrator:
                     "final_window_stop_ghz": manual_window_stop / 1e9
                 }, vna_port)
 
+                # Keep the original recovery scan, then acquire the complete
+                # ±N×FWHM final window if the selected scan did not cover it.
+                freq_manual_preview = freq_manual
+                s_params_manual_preview = s_params_manual
+                if freq_manual.min() > manual_window_start or freq_manual.max() < manual_window_stop:
+                    print(
+                        f"  [Window Preview] Measuring full {manual_window_multiplier:g}×FWHM "
+                        "manual window for raw-data review..."
+                    )
+                    preview_start_time = datetime.now()
+                    freq_manual_preview, s_params_manual_preview = self.driver.measure_sweep(
+                        manual_window_start, manual_window_stop, manual_points,
+                        vna_port, manual_power, manual_ibw
+                    )
+                    manual_preview_path = os.path.join(
+                        base_data_dir, "nc",
+                        f"window_preview_{label}_{preview_start_time.strftime('%Y%m%d_%H%M%S')}.nc"
+                    )
+                    self.reporter.save_sweep_netcdf(
+                        manual_preview_path, freq_manual_preview, s_params_manual_preview, {
+                            "IF_bandwidth": manual_ibw,
+                            "power": manual_power,
+                            "port": str(vna_port),
+                            "points": manual_points,
+                            "window_multiplier": float(manual_window_multiplier),
+                            "fwhm_hz": float(measured_fwhm),
+                            "window_start_ghz": float(manual_window_start / 1e9),
+                            "window_stop_ghz": float(manual_window_stop / 1e9),
+                            "measurement_purpose": "raw_final_window_preview",
+                        }, vna_port
+                    )
+
                 cand_info = {
                     "label": label,
                     "start": manual_window_start,
@@ -954,10 +1079,10 @@ class VNAOrchestrator:
                     "verified_depth": minimum_mag,
                     "fwhm": measured_fwhm,
                     "fwhm_fit": np.nan,
-                    "freq_v": freq_manual,
-                    "s21_v": s_params_manual,
+                    "freq_v": freq_manual_preview,
+                    "s21_v": s_params_manual_preview,
                     "s21_sim": None,
-                    "z_data_raw": s_params_manual,
+                    "z_data_raw": s_params_manual_preview,
                     "confidence_score": 10000.0,
                     "qi_fit": np.nan,
                     "chisq_fit": np.nan,
@@ -1143,6 +1268,11 @@ class VNAOrchestrator:
             
         # Generate plots
         self.reporter.generate_plots(base_data_dir, all_verification_candidates, refined_resonators, cached_sweeps, sweep_passes, vna_port)
+        self._window_review_context = {
+            "refined_resonators": refined_resonators,
+            "cached_sweeps": cached_sweeps,
+            "vna_port": vna_port,
+        }
 
     def compile_power_tasks(self):
         """
@@ -1151,6 +1281,91 @@ class VNAOrchestrator:
         self.compiler.compile_power_tasks()
         # Synchronize back res_pd_config from cfg in case caller needs to inspect it
         self.res_pd_config = self.cfg.res_pd_config
+
+    def review_run_all_windows(self):
+        """Show final windows and allow interactive overrides before task compilation."""
+        resonators = self.cfg.res_pd_config.get("resonator", [])
+        if not resonators:
+            print("Warning: No resonator windows are available for run-all review.")
+            return
+
+        base_data_dir = self.cfg.res_pd_config.get("output", {}).get("data_path", "data/raw")
+        window_plot = os.path.abspath(os.path.join(
+            base_data_dir, "plots", "blind_search_resonator_windows.png"
+        ))
+        preview_opened = False
+        if os.path.exists(window_plot):
+            preview_opened = self._focus_file_in_vscode(window_plot)
+            if preview_opened:
+                print(f"Run-all window overview opened in VS Code:\n  {window_plot}")
+            else:
+                print("Warning: Could not open the run-all window overview in VS Code automatically.")
+                print(f"Run-all window overview file:\n  {window_plot}")
+        else:
+            print(f"Warning: Run-all window overview was not found:\n  {window_plot}")
+
+        resonators_by_label = {str(r["label"]).upper(): r for r in resonators}
+        changed = False
+        print("\nReview run-all windows before measurement.")
+        print("Format: C60002 5.98:6.02 (GHz). Enter a blank line when finished.")
+        try:
+            while True:
+                try:
+                    raw_override = input("Window override: ").strip()
+                except EOFError:
+                    raw_override = ""
+                if not raw_override:
+                    break
+                try:
+                    label, raw_range = raw_override.split(None, 1)
+                    label = label.upper()
+                    if label not in resonators_by_label:
+                        available = ", ".join(sorted(resonators_by_label))
+                        raise ValueError(f"unknown resonator '{label}' (available: {available})")
+                    left, right = raw_range.replace(",", ":").split(":", 1)
+                    range_start_ghz, range_stop_ghz = sorted((float(left), float(right)))
+                    if range_start_ghz == range_stop_ghz:
+                        raise ValueError("start and stop must differ")
+                    if range_start_ghz <= 0:
+                        raise ValueError("frequencies must be positive")
+
+                    frequency = resonators_by_label[label]["frequency"]
+                    frequency["start"] = range_start_ghz * 1e9
+                    frequency["stop"] = range_stop_ghz * 1e9
+                    review_context = getattr(self, "_window_review_context", None)
+                    if review_context:
+                        for resonator in review_context["refined_resonators"]:
+                            if str(resonator["label"]).upper() == label:
+                                resonator["start"] = range_start_ghz * 1e9
+                                resonator["stop"] = range_stop_ghz * 1e9
+                                break
+                        self.reporter.save_resonator_window_overview(
+                            base_data_dir,
+                            review_context["refined_resonators"],
+                            review_context["cached_sweeps"],
+                            review_context["vna_port"],
+                        )
+                        self._focus_file_in_vscode(window_plot)
+                    changed = True
+                    print(
+                        f"  Updated {label}: {range_start_ghz:.9f} to "
+                        f"{range_stop_ghz:.9f} GHz"
+                    )
+                except (ValueError, KeyError) as exc:
+                    print(f"  Invalid window override '{raw_override}': {exc}")
+        finally:
+            if preview_opened:
+                if self._close_vscode_preview(window_plot):
+                    print("Run-all window overview closed in VS Code.")
+                else:
+                    print("Warning: Could not close the VS Code window overview automatically.")
+
+        if changed:
+            self.cfg.save_toml(self.cfg.res_pd_config, self.file_res_pd)
+            self.res_pd_config = self.cfg.res_pd_config
+            print("Run-all window overrides saved to resonator_PD.toml.")
+        else:
+            print("Run-all windows left unchanged.")
 
     def run_power_sweep(self):
         """
@@ -1429,6 +1644,9 @@ def main():
         elif args.find_windows:
             # Run manual legacy window finding from TOML
             orchestrator.find_all_windows(expected_dips_count=args.expected_dips)
+
+        if args.run_all:
+            orchestrator.review_run_all_windows()
             
         if args.compile_tasks or args.run_all:
             orchestrator.compile_power_tasks()

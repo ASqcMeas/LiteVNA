@@ -15,14 +15,14 @@
   data_path = "data/raw"            # 原始量測 NetCDF 與數據輸出之根目錄路徑
 
 [dummy]
-  noise_multiplier = 100.0            # 離線虛擬 VNA 的背景隨機噪聲放大倍數
+  noise_multiplier = 1.0            # 離線虛擬 VNA 的背景隨機噪聲放大倍數
 
 [manual_rescue]
   enabled = true                    # Prompt for missed-cavity windows after every blind search
   points = 1001                     # Points for each user-selected recovery window
   if_bandwidth_hz = 200             # IF bandwidth for the focused recovery sweep
   power = "auto"                    # Use the final blind-search pass power
-  window_multiplier = 6.0           # Final manual window is resonance center +/- 6 x FWHM
+  window_multiplier = 7.0           # Final manual window uses resonance center +/- 7 x FWHM
 
 [blind_search]
   start_freq_ghz = 4.0              # 多通道盲搜尋的全頻域掃描起始頻率 (GHz)
@@ -66,8 +66,8 @@
   noise_sigma_multiplier = 15.0     # 自動 Prominence 降噪門檻之噪聲標準差倍數 (N-sigma)
   min_noise_sigma_multiplier = 5.0  # 自動 Prominence 保底門檻之噪聲標準差倍數 (N-sigma)
   search_window_multiplier = 5.0    # 尋峰與驗證階段的小視窗倍數 (縮窄掃描時間)
-  fit_measurement_window_multiplier = 15.0 # 最終 VNA 量測與圓擬合的大視窗倍數 (確保完整 Baseline)
-  window_multiplier = 15.0          # 舊版相容預設視窗倍數
+  fit_measurement_window_multiplier = 7.0 # 最終 VNA 量測與圓擬合視窗為正負 7 倍半高寬
+  window_multiplier = 7.0           # 最終 resonator window 為中心頻率正負 7 倍半高寬
 
 [blind_search_passes]
   passes = [                        # 多通道盲搜尋的各 Pass 功率、中頻頻寬與點數設定

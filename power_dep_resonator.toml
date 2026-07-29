@@ -8,159 +8,471 @@ port = "S21"
 name = "aligned_test"
 
 [[measurement]]
-label = "C58449"
+label = "C45000"
 IF_bandwidth = 50
 power = -60.0
 repeat = 10
-output = "data/aligned_test_20260723_164733/C58449/att80_-60.0"
+output = "data/aligned_test_20260729_121813/C45000/att80_-60.0"
 
 [measurement.frequency]
-start = 5843199191.276213
-stop = 5846788104.761423
+start = 4400000000.0
+stop = 4600000000.0
 points = 501
 
 [[measurement]]
-label = "C58449"
+label = "C45000"
 IF_bandwidth = 50
 power = -55.0
 repeat = 10
-output = "data/aligned_test_20260723_164733/C58449/att80_-55.0"
+output = "data/aligned_test_20260729_121813/C45000/att80_-55.0"
 
 [measurement.frequency]
-start = 5843199191.276213
-stop = 5846788104.761423
+start = 4400000000.0
+stop = 4600000000.0
 points = 501
 
 [[measurement]]
-label = "C58449"
+label = "C45000"
 IF_bandwidth = 50
 power = -50.0
 repeat = 10
-output = "data/aligned_test_20260723_164733/C58449/att80_-50.0"
+output = "data/aligned_test_20260729_121813/C45000/att80_-50.0"
 
 [measurement.frequency]
-start = 5843199191.276213
-stop = 5846788104.761423
+start = 4400000000.0
+stop = 4600000000.0
 points = 501
 
 [[measurement]]
-label = "C58449"
+label = "C45000"
 IF_bandwidth = 50
 power = -45.0
 repeat = 3
-output = "data/aligned_test_20260723_164733/C58449/att80_-45.0"
+output = "data/aligned_test_20260729_121813/C45000/att80_-45.0"
 
 [measurement.frequency]
-start = 5843199191.276213
-stop = 5846788104.761423
+start = 4400000000.0
+stop = 4600000000.0
 points = 501
 
 [[measurement]]
-label = "C58449"
+label = "C45000"
 IF_bandwidth = 50
 power = -40.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C58449/att80_-40.0"
+output = "data/aligned_test_20260729_121813/C45000/att80_-40.0"
 
 [measurement.frequency]
-start = 5843199191.276213
-stop = 5846788104.761423
+start = 4400000000.0
+stop = 4600000000.0
 points = 501
 
 [[measurement]]
-label = "C58449"
+label = "C45000"
 IF_bandwidth = 50
 power = -35.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C58449/att80_-35.0"
+output = "data/aligned_test_20260729_121813/C45000/att80_-35.0"
 
 [measurement.frequency]
-start = 5843199191.276213
-stop = 5846788104.761423
+start = 4400000000.0
+stop = 4600000000.0
 points = 501
 
 [[measurement]]
-label = "C58449"
+label = "C45000"
 IF_bandwidth = 50
 power = -30.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C58449/att80_-30.0"
+output = "data/aligned_test_20260729_121813/C45000/att80_-30.0"
 
 [measurement.frequency]
-start = 5843199191.276213
-stop = 5846788104.761423
+start = 4400000000.0
+stop = 4600000000.0
 points = 501
 
 [[measurement]]
-label = "C58449"
+label = "C45000"
 IF_bandwidth = 50
 power = -25.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C58449/att80_-25.0"
+output = "data/aligned_test_20260729_121813/C45000/att80_-25.0"
 
 [measurement.frequency]
-start = 5843199191.276213
-stop = 5846788104.761423
+start = 4400000000.0
+stop = 4600000000.0
 points = 501
 
 [[measurement]]
-label = "C58449"
+label = "C45000"
 IF_bandwidth = 50
 power = -20.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C58449/att80_-20.0"
+output = "data/aligned_test_20260729_121813/C45000/att80_-20.0"
 
 [measurement.frequency]
-start = 5843199191.276213
-stop = 5846788104.761423
+start = 4400000000.0
+stop = 4600000000.0
 points = 501
 
 [[measurement]]
-label = "C58449"
+label = "C45000"
 IF_bandwidth = 50
 power = -15.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C58449/att80_-15.0"
+output = "data/aligned_test_20260729_121813/C45000/att80_-15.0"
 
 [measurement.frequency]
-start = 5843199191.276213
-stop = 5846788104.761423
+start = 4400000000.0
+stop = 4600000000.0
 points = 501
 
 [[measurement]]
-label = "C58449"
+label = "C45000"
 IF_bandwidth = 50
 power = -10.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C58449/att80_-10.0"
+output = "data/aligned_test_20260729_121813/C45000/att80_-10.0"
 
 [measurement.frequency]
-start = 5843199191.276213
-stop = 5846788104.761423
+start = 4400000000.0
+stop = 4600000000.0
 points = 501
 
 [[measurement]]
-label = "C58449"
+label = "C45000"
 IF_bandwidth = 50
 power = -5.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C58449/att80_-5.0"
+output = "data/aligned_test_20260729_121813/C45000/att80_-5.0"
 
 [measurement.frequency]
-start = 5843199191.276213
-stop = 5846788104.761423
+start = 4400000000.0
+stop = 4600000000.0
 points = 501
 
 [[measurement]]
-label = "C58449"
+label = "C45000"
 IF_bandwidth = 50
 power = 0.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C58449/att80_0.0"
+output = "data/aligned_test_20260729_121813/C45000/att80_0.0"
 
 [measurement.frequency]
-start = 5843199191.276213
-stop = 5846788104.761423
+start = 4400000000.0
+stop = 4600000000.0
+points = 501
+
+[[measurement]]
+label = "C58450"
+IF_bandwidth = 50
+power = -60.0
+repeat = 10
+output = "data/aligned_test_20260729_121813/C58450/att80_-60.0"
+
+[measurement.frequency]
+start = 5844130652.914595
+stop = 5845869722.4897
+points = 501
+
+[[measurement]]
+label = "C58450"
+IF_bandwidth = 50
+power = -55.0
+repeat = 10
+output = "data/aligned_test_20260729_121813/C58450/att80_-55.0"
+
+[measurement.frequency]
+start = 5844130652.914595
+stop = 5845869722.4897
+points = 501
+
+[[measurement]]
+label = "C58450"
+IF_bandwidth = 50
+power = -50.0
+repeat = 10
+output = "data/aligned_test_20260729_121813/C58450/att80_-50.0"
+
+[measurement.frequency]
+start = 5844130652.914595
+stop = 5845869722.4897
+points = 501
+
+[[measurement]]
+label = "C58450"
+IF_bandwidth = 50
+power = -45.0
+repeat = 3
+output = "data/aligned_test_20260729_121813/C58450/att80_-45.0"
+
+[measurement.frequency]
+start = 5844130652.914595
+stop = 5845869722.4897
+points = 501
+
+[[measurement]]
+label = "C58450"
+IF_bandwidth = 50
+power = -40.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C58450/att80_-40.0"
+
+[measurement.frequency]
+start = 5844130652.914595
+stop = 5845869722.4897
+points = 501
+
+[[measurement]]
+label = "C58450"
+IF_bandwidth = 50
+power = -35.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C58450/att80_-35.0"
+
+[measurement.frequency]
+start = 5844130652.914595
+stop = 5845869722.4897
+points = 501
+
+[[measurement]]
+label = "C58450"
+IF_bandwidth = 50
+power = -30.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C58450/att80_-30.0"
+
+[measurement.frequency]
+start = 5844130652.914595
+stop = 5845869722.4897
+points = 501
+
+[[measurement]]
+label = "C58450"
+IF_bandwidth = 50
+power = -25.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C58450/att80_-25.0"
+
+[measurement.frequency]
+start = 5844130652.914595
+stop = 5845869722.4897
+points = 501
+
+[[measurement]]
+label = "C58450"
+IF_bandwidth = 50
+power = -20.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C58450/att80_-20.0"
+
+[measurement.frequency]
+start = 5844130652.914595
+stop = 5845869722.4897
+points = 501
+
+[[measurement]]
+label = "C58450"
+IF_bandwidth = 50
+power = -15.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C58450/att80_-15.0"
+
+[measurement.frequency]
+start = 5844130652.914595
+stop = 5845869722.4897
+points = 501
+
+[[measurement]]
+label = "C58450"
+IF_bandwidth = 50
+power = -10.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C58450/att80_-10.0"
+
+[measurement.frequency]
+start = 5844130652.914595
+stop = 5845869722.4897
+points = 501
+
+[[measurement]]
+label = "C58450"
+IF_bandwidth = 50
+power = -5.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C58450/att80_-5.0"
+
+[measurement.frequency]
+start = 5844130652.914595
+stop = 5845869722.4897
+points = 501
+
+[[measurement]]
+label = "C58450"
+IF_bandwidth = 50
+power = 0.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C58450/att80_0.0"
+
+[measurement.frequency]
+start = 5844130652.914595
+stop = 5845869722.4897
+points = 501
+
+[[measurement]]
+label = "C59999"
+IF_bandwidth = 50
+power = -60.0
+repeat = 10
+output = "data/aligned_test_20260729_121813/C59999/att80_-60.0"
+
+[measurement.frequency]
+start = 5967591213.455392
+stop = 6032348457.206536
+points = 501
+
+[[measurement]]
+label = "C59999"
+IF_bandwidth = 50
+power = -55.0
+repeat = 10
+output = "data/aligned_test_20260729_121813/C59999/att80_-55.0"
+
+[measurement.frequency]
+start = 5967591213.455392
+stop = 6032348457.206536
+points = 501
+
+[[measurement]]
+label = "C59999"
+IF_bandwidth = 50
+power = -50.0
+repeat = 10
+output = "data/aligned_test_20260729_121813/C59999/att80_-50.0"
+
+[measurement.frequency]
+start = 5967591213.455392
+stop = 6032348457.206536
+points = 501
+
+[[measurement]]
+label = "C59999"
+IF_bandwidth = 50
+power = -45.0
+repeat = 3
+output = "data/aligned_test_20260729_121813/C59999/att80_-45.0"
+
+[measurement.frequency]
+start = 5967591213.455392
+stop = 6032348457.206536
+points = 501
+
+[[measurement]]
+label = "C59999"
+IF_bandwidth = 50
+power = -40.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C59999/att80_-40.0"
+
+[measurement.frequency]
+start = 5967591213.455392
+stop = 6032348457.206536
+points = 501
+
+[[measurement]]
+label = "C59999"
+IF_bandwidth = 50
+power = -35.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C59999/att80_-35.0"
+
+[measurement.frequency]
+start = 5967591213.455392
+stop = 6032348457.206536
+points = 501
+
+[[measurement]]
+label = "C59999"
+IF_bandwidth = 50
+power = -30.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C59999/att80_-30.0"
+
+[measurement.frequency]
+start = 5967591213.455392
+stop = 6032348457.206536
+points = 501
+
+[[measurement]]
+label = "C59999"
+IF_bandwidth = 50
+power = -25.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C59999/att80_-25.0"
+
+[measurement.frequency]
+start = 5967591213.455392
+stop = 6032348457.206536
+points = 501
+
+[[measurement]]
+label = "C59999"
+IF_bandwidth = 50
+power = -20.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C59999/att80_-20.0"
+
+[measurement.frequency]
+start = 5967591213.455392
+stop = 6032348457.206536
+points = 501
+
+[[measurement]]
+label = "C59999"
+IF_bandwidth = 50
+power = -15.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C59999/att80_-15.0"
+
+[measurement.frequency]
+start = 5967591213.455392
+stop = 6032348457.206536
+points = 501
+
+[[measurement]]
+label = "C59999"
+IF_bandwidth = 50
+power = -10.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C59999/att80_-10.0"
+
+[measurement.frequency]
+start = 5967591213.455392
+stop = 6032348457.206536
+points = 501
+
+[[measurement]]
+label = "C59999"
+IF_bandwidth = 50
+power = -5.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C59999/att80_-5.0"
+
+[measurement.frequency]
+start = 5967591213.455392
+stop = 6032348457.206536
+points = 501
+
+[[measurement]]
+label = "C59999"
+IF_bandwidth = 50
+power = 0.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C59999/att80_0.0"
+
+[measurement.frequency]
+start = 5967591213.455392
+stop = 6032348457.206536
 points = 501
 
 [[measurement]]
@@ -168,11 +480,11 @@ label = "C61500"
 IF_bandwidth = 50
 power = -60.0
 repeat = 10
-output = "data/aligned_test_20260723_164733/C61500/att80_-60.0"
+output = "data/aligned_test_20260729_121813/C61500/att80_-60.0"
 
 [measurement.frequency]
-start = 6148392846.113109
-stop = 6151608440.195571
+start = 6149298245.199805
+stop = 6150701781.275245
 points = 501
 
 [[measurement]]
@@ -180,11 +492,11 @@ label = "C61500"
 IF_bandwidth = 50
 power = -55.0
 repeat = 10
-output = "data/aligned_test_20260723_164733/C61500/att80_-55.0"
+output = "data/aligned_test_20260729_121813/C61500/att80_-55.0"
 
 [measurement.frequency]
-start = 6148392846.113109
-stop = 6151608440.195571
+start = 6149298245.199805
+stop = 6150701781.275245
 points = 501
 
 [[measurement]]
@@ -192,11 +504,11 @@ label = "C61500"
 IF_bandwidth = 50
 power = -50.0
 repeat = 10
-output = "data/aligned_test_20260723_164733/C61500/att80_-50.0"
+output = "data/aligned_test_20260729_121813/C61500/att80_-50.0"
 
 [measurement.frequency]
-start = 6148392846.113109
-stop = 6151608440.195571
+start = 6149298245.199805
+stop = 6150701781.275245
 points = 501
 
 [[measurement]]
@@ -204,11 +516,11 @@ label = "C61500"
 IF_bandwidth = 50
 power = -45.0
 repeat = 3
-output = "data/aligned_test_20260723_164733/C61500/att80_-45.0"
+output = "data/aligned_test_20260729_121813/C61500/att80_-45.0"
 
 [measurement.frequency]
-start = 6148392846.113109
-stop = 6151608440.195571
+start = 6149298245.199805
+stop = 6150701781.275245
 points = 501
 
 [[measurement]]
@@ -216,11 +528,11 @@ label = "C61500"
 IF_bandwidth = 50
 power = -40.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C61500/att80_-40.0"
+output = "data/aligned_test_20260729_121813/C61500/att80_-40.0"
 
 [measurement.frequency]
-start = 6148392846.113109
-stop = 6151608440.195571
+start = 6149298245.199805
+stop = 6150701781.275245
 points = 501
 
 [[measurement]]
@@ -228,11 +540,11 @@ label = "C61500"
 IF_bandwidth = 50
 power = -35.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C61500/att80_-35.0"
+output = "data/aligned_test_20260729_121813/C61500/att80_-35.0"
 
 [measurement.frequency]
-start = 6148392846.113109
-stop = 6151608440.195571
+start = 6149298245.199805
+stop = 6150701781.275245
 points = 501
 
 [[measurement]]
@@ -240,11 +552,11 @@ label = "C61500"
 IF_bandwidth = 50
 power = -30.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C61500/att80_-30.0"
+output = "data/aligned_test_20260729_121813/C61500/att80_-30.0"
 
 [measurement.frequency]
-start = 6148392846.113109
-stop = 6151608440.195571
+start = 6149298245.199805
+stop = 6150701781.275245
 points = 501
 
 [[measurement]]
@@ -252,11 +564,11 @@ label = "C61500"
 IF_bandwidth = 50
 power = -25.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C61500/att80_-25.0"
+output = "data/aligned_test_20260729_121813/C61500/att80_-25.0"
 
 [measurement.frequency]
-start = 6148392846.113109
-stop = 6151608440.195571
+start = 6149298245.199805
+stop = 6150701781.275245
 points = 501
 
 [[measurement]]
@@ -264,11 +576,11 @@ label = "C61500"
 IF_bandwidth = 50
 power = -20.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C61500/att80_-20.0"
+output = "data/aligned_test_20260729_121813/C61500/att80_-20.0"
 
 [measurement.frequency]
-start = 6148392846.113109
-stop = 6151608440.195571
+start = 6149298245.199805
+stop = 6150701781.275245
 points = 501
 
 [[measurement]]
@@ -276,11 +588,11 @@ label = "C61500"
 IF_bandwidth = 50
 power = -15.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C61500/att80_-15.0"
+output = "data/aligned_test_20260729_121813/C61500/att80_-15.0"
 
 [measurement.frequency]
-start = 6148392846.113109
-stop = 6151608440.195571
+start = 6149298245.199805
+stop = 6150701781.275245
 points = 501
 
 [[measurement]]
@@ -288,11 +600,11 @@ label = "C61500"
 IF_bandwidth = 50
 power = -10.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C61500/att80_-10.0"
+output = "data/aligned_test_20260729_121813/C61500/att80_-10.0"
 
 [measurement.frequency]
-start = 6148392846.113109
-stop = 6151608440.195571
+start = 6149298245.199805
+stop = 6150701781.275245
 points = 501
 
 [[measurement]]
@@ -300,11 +612,11 @@ label = "C61500"
 IF_bandwidth = 50
 power = -5.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C61500/att80_-5.0"
+output = "data/aligned_test_20260729_121813/C61500/att80_-5.0"
 
 [measurement.frequency]
-start = 6148392846.113109
-stop = 6151608440.195571
+start = 6149298245.199805
+stop = 6150701781.275245
 points = 501
 
 [[measurement]]
@@ -312,9 +624,321 @@ label = "C61500"
 IF_bandwidth = 50
 power = 0.0
 repeat = 1
-output = "data/aligned_test_20260723_164733/C61500/att80_0.0"
+output = "data/aligned_test_20260729_121813/C61500/att80_0.0"
 
 [measurement.frequency]
-start = 6148392846.113109
-stop = 6151608440.195571
+start = 6149298245.199805
+stop = 6150701781.275245
+points = 501
+
+[[measurement]]
+label = "C67500"
+IF_bandwidth = 50
+power = -60.0
+repeat = 10
+output = "data/aligned_test_20260729_121813/C67500/att80_-60.0"
+
+[measurement.frequency]
+start = 6741008804.992609
+stop = 6759004713.629749
+points = 501
+
+[[measurement]]
+label = "C67500"
+IF_bandwidth = 50
+power = -55.0
+repeat = 10
+output = "data/aligned_test_20260729_121813/C67500/att80_-55.0"
+
+[measurement.frequency]
+start = 6741008804.992609
+stop = 6759004713.629749
+points = 501
+
+[[measurement]]
+label = "C67500"
+IF_bandwidth = 50
+power = -50.0
+repeat = 10
+output = "data/aligned_test_20260729_121813/C67500/att80_-50.0"
+
+[measurement.frequency]
+start = 6741008804.992609
+stop = 6759004713.629749
+points = 501
+
+[[measurement]]
+label = "C67500"
+IF_bandwidth = 50
+power = -45.0
+repeat = 3
+output = "data/aligned_test_20260729_121813/C67500/att80_-45.0"
+
+[measurement.frequency]
+start = 6741008804.992609
+stop = 6759004713.629749
+points = 501
+
+[[measurement]]
+label = "C67500"
+IF_bandwidth = 50
+power = -40.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C67500/att80_-40.0"
+
+[measurement.frequency]
+start = 6741008804.992609
+stop = 6759004713.629749
+points = 501
+
+[[measurement]]
+label = "C67500"
+IF_bandwidth = 50
+power = -35.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C67500/att80_-35.0"
+
+[measurement.frequency]
+start = 6741008804.992609
+stop = 6759004713.629749
+points = 501
+
+[[measurement]]
+label = "C67500"
+IF_bandwidth = 50
+power = -30.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C67500/att80_-30.0"
+
+[measurement.frequency]
+start = 6741008804.992609
+stop = 6759004713.629749
+points = 501
+
+[[measurement]]
+label = "C67500"
+IF_bandwidth = 50
+power = -25.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C67500/att80_-25.0"
+
+[measurement.frequency]
+start = 6741008804.992609
+stop = 6759004713.629749
+points = 501
+
+[[measurement]]
+label = "C67500"
+IF_bandwidth = 50
+power = -20.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C67500/att80_-20.0"
+
+[measurement.frequency]
+start = 6741008804.992609
+stop = 6759004713.629749
+points = 501
+
+[[measurement]]
+label = "C67500"
+IF_bandwidth = 50
+power = -15.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C67500/att80_-15.0"
+
+[measurement.frequency]
+start = 6741008804.992609
+stop = 6759004713.629749
+points = 501
+
+[[measurement]]
+label = "C67500"
+IF_bandwidth = 50
+power = -10.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C67500/att80_-10.0"
+
+[measurement.frequency]
+start = 6741008804.992609
+stop = 6759004713.629749
+points = 501
+
+[[measurement]]
+label = "C67500"
+IF_bandwidth = 50
+power = -5.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C67500/att80_-5.0"
+
+[measurement.frequency]
+start = 6741008804.992609
+stop = 6759004713.629749
+points = 501
+
+[[measurement]]
+label = "C67500"
+IF_bandwidth = 50
+power = 0.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C67500/att80_0.0"
+
+[measurement.frequency]
+start = 6741008804.992609
+stop = 6759004713.629749
+points = 501
+
+[[measurement]]
+label = "C77999"
+IF_bandwidth = 50
+power = -60.0
+repeat = 10
+output = "data/aligned_test_20260729_121813/C77999/att80_-60.0"
+
+[measurement.frequency]
+start = 7760382928.991048
+stop = 7839616052.205098
+points = 501
+
+[[measurement]]
+label = "C77999"
+IF_bandwidth = 50
+power = -55.0
+repeat = 10
+output = "data/aligned_test_20260729_121813/C77999/att80_-55.0"
+
+[measurement.frequency]
+start = 7760382928.991048
+stop = 7839616052.205098
+points = 501
+
+[[measurement]]
+label = "C77999"
+IF_bandwidth = 50
+power = -50.0
+repeat = 10
+output = "data/aligned_test_20260729_121813/C77999/att80_-50.0"
+
+[measurement.frequency]
+start = 7760382928.991048
+stop = 7839616052.205098
+points = 501
+
+[[measurement]]
+label = "C77999"
+IF_bandwidth = 50
+power = -45.0
+repeat = 3
+output = "data/aligned_test_20260729_121813/C77999/att80_-45.0"
+
+[measurement.frequency]
+start = 7760382928.991048
+stop = 7839616052.205098
+points = 501
+
+[[measurement]]
+label = "C77999"
+IF_bandwidth = 50
+power = -40.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C77999/att80_-40.0"
+
+[measurement.frequency]
+start = 7760382928.991048
+stop = 7839616052.205098
+points = 501
+
+[[measurement]]
+label = "C77999"
+IF_bandwidth = 50
+power = -35.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C77999/att80_-35.0"
+
+[measurement.frequency]
+start = 7760382928.991048
+stop = 7839616052.205098
+points = 501
+
+[[measurement]]
+label = "C77999"
+IF_bandwidth = 50
+power = -30.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C77999/att80_-30.0"
+
+[measurement.frequency]
+start = 7760382928.991048
+stop = 7839616052.205098
+points = 501
+
+[[measurement]]
+label = "C77999"
+IF_bandwidth = 50
+power = -25.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C77999/att80_-25.0"
+
+[measurement.frequency]
+start = 7760382928.991048
+stop = 7839616052.205098
+points = 501
+
+[[measurement]]
+label = "C77999"
+IF_bandwidth = 50
+power = -20.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C77999/att80_-20.0"
+
+[measurement.frequency]
+start = 7760382928.991048
+stop = 7839616052.205098
+points = 501
+
+[[measurement]]
+label = "C77999"
+IF_bandwidth = 50
+power = -15.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C77999/att80_-15.0"
+
+[measurement.frequency]
+start = 7760382928.991048
+stop = 7839616052.205098
+points = 501
+
+[[measurement]]
+label = "C77999"
+IF_bandwidth = 50
+power = -10.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C77999/att80_-10.0"
+
+[measurement.frequency]
+start = 7760382928.991048
+stop = 7839616052.205098
+points = 501
+
+[[measurement]]
+label = "C77999"
+IF_bandwidth = 50
+power = -5.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C77999/att80_-5.0"
+
+[measurement.frequency]
+start = 7760382928.991048
+stop = 7839616052.205098
+points = 501
+
+[[measurement]]
+label = "C77999"
+IF_bandwidth = 50
+power = 0.0
+repeat = 1
+output = "data/aligned_test_20260729_121813/C77999/att80_0.0"
+
+[measurement.frequency]
+start = 7760382928.991048
+stop = 7839616052.205098
 points = 501

@@ -63,7 +63,7 @@ class VNA_DUMMY(VNA):
                 {"f0": 5.8500e9, "depth": 0.75, "fwhm": 4.0e6},
                 {"f0": 6.0000e9, "depth": 0.25, "fwhm": 3.5e6},
                 {"f0": 6.1500e9, "depth": 0.95, "fwhm": 1.0e5},
-                {"f0": 6.7500e9, "depth": 0.15, "fwhm": 1.0e6},
+                {"f0": 6.7500e9, "depth": 0.5, "fwhm": 1.0e6},
                 {"f0": 7.8000e9, "depth": 0.50, "fwhm": 4.5e6}
             ]
             for d in demo_dips:

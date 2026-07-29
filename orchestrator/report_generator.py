@@ -34,7 +34,7 @@ class ReportGenerator:
 
     def save_manual_selection_preview(self, base_data_dir, cached_sweeps, sweep_passes, vna_port,
                                       detected_frequencies=None):
-        """Save coarse traces before asking for manual rescue ranges."""
+        """Save coarse traces for post-verification manual rescue selection."""
         if not cached_sweeps:
             return None
         plots_dir = os.path.join(base_data_dir, "plots")
@@ -55,7 +55,7 @@ class ReportGenerator:
                      verticalalignment="bottom", horizontalalignment="right")
         plt.xlabel("Frequency (GHz)")
         plt.ylabel(f"{vna_port} Magnitude (dB)")
-        plt.title("Select ranges for missed resonators (green = already detected)")
+        plt.title("Select missed-resonator ranges (green = retained after fine scan)")
         plt.legend()
         plt.grid(True, alpha=0.3)
         plt.tight_layout()
@@ -95,6 +95,69 @@ class ReportGenerator:
         fig.savefig(output_path, dpi=150)
         plt.close(fig)
         print(f"Saved run-all resonator window overview to: {output_path}")
+
+    def save_resonator_window_overview(self, base_data_dir, refined_resonators,
+                                       cached_sweeps, vna_port):
+        """Save the editable pre-run-all window overview and return its path."""
+        if not refined_resonators:
+            return None
+        plots_dir = os.path.join(base_data_dir, "plots")
+        os.makedirs(plots_dir, exist_ok=True)
+        n_res = len(refined_resonators)
+        n_cols = min(5, n_res)
+        n_rows = int(np.ceil(n_res / n_cols))
+        fig, axes = plt.subplots(
+            n_rows, n_cols,
+            figsize=(3.2 * n_cols, 5.0 * n_rows),
+            squeeze=False
+        )
+        for idx, resonator in enumerate(refined_resonators):
+            ax = axes.flat[idx]
+            if "freq_v" in resonator and len(resonator["freq_v"]) > 1:
+                freq_w = np.asarray(resonator["freq_v"])
+                s21_w = np.asarray(resonator["s21_v"])
+            else:
+                continue
+
+            window_start_ghz = resonator["start"] / 1e9
+            window_stop_ghz = resonator["stop"] / 1e9
+            window_start_hz = resonator["start"]
+            window_stop_hz = resonator["stop"]
+            magnitude_db = 20 * np.log10(np.maximum(np.abs(s21_w), 1e-18))
+            raw_window_mask = (
+                (freq_w >= window_start_hz) &
+                (freq_w <= window_stop_hz)
+            )
+            if np.any(raw_window_mask):
+                ax.plot(
+                    freq_w[raw_window_mask] / 1e9,
+                    magnitude_db[raw_window_mask],
+                    ".", color="#1f77b4", markersize=2.5,
+                    label="raw fine-sweep data"
+                )
+            ax.axvline(
+                resonator["design_freq"] / 1e9,
+                color="red", linestyle="--", linewidth=1.2,
+                label="resonance"
+            )
+            ax.set_xlim(window_start_ghz, window_stop_ghz)
+            ax.set_title(
+                f"{resonator['label']}\n"
+                f"{window_start_ghz:.6f}:{window_stop_ghz:.6f} GHz"
+            )
+            ax.set_xlabel("RF frequency [GHz]")
+            ax.set_ylabel(f"{vna_port} magnitude [dB]")
+            ax.grid(True, alpha=0.25)
+            ax.legend(fontsize=8)
+
+        for idx in range(n_res, n_rows * n_cols):
+            axes.flat[idx].set_visible(False)
+        fig.suptitle("Resonator windows used by run-all", fontsize=14)
+        fig.tight_layout(rect=(0, 0, 1, 0.96))
+        output_path = os.path.abspath(os.path.join(plots_dir, "blind_search_resonator_windows.png"))
+        fig.savefig(output_path, dpi=150)
+        plt.close(fig)
+        return output_path
 
     def generate_audit_csv(self, base_data_dir, start_freq, stop_freq, search_report, configs):
         """
@@ -375,55 +438,11 @@ class ReportGenerator:
                 plt.close()
                 print(f"Saved combined fine sweeps plot to: {fine_all_path}")
 
-                # 2b. Save a spectroscopy-style overview of every final run-all window.
-                # Prefer the focused verification/manual sweep; fall back to the coarse
-                # sweep clipped to the final TOML window when necessary.
+                # 2b. Save an editable overview of every final run-all window.
                 if refined_resonators:
-                    n_res = len(refined_resonators)
-                    n_cols = min(5, n_res)
-                    n_rows = int(np.ceil(n_res / n_cols))
-                    fig, axes = plt.subplots(
-                        n_rows, n_cols,
-                        figsize=(3.2 * n_cols, 5.0 * n_rows),
-                        squeeze=False
+                    windows_path = self.save_resonator_window_overview(
+                        base_data_dir, refined_resonators, cached_sweeps, vna_port
                     )
-                    for idx, resonator in enumerate(refined_resonators):
-                        ax = axes.flat[idx]
-                        if "freq_v" in resonator and len(resonator["freq_v"]) > 1:
-                            freq_w = np.asarray(resonator["freq_v"])
-                            s21_w = np.asarray(resonator["s21_v"])
-                        else:
-                            freq_w, s21_w = cached_sweeps[-1]
-                            freq_w = np.asarray(freq_w)
-                            s21_w = np.asarray(s21_w)
-
-                        window_mask = (
-                            (freq_w >= resonator["start"]) &
-                            (freq_w <= resonator["stop"])
-                        )
-                        if not np.any(window_mask):
-                            window_mask = np.ones(freq_w.shape, dtype=bool)
-                        x_ghz = freq_w[window_mask] / 1e9
-                        magnitude_db = 20 * np.log10(np.maximum(np.abs(s21_w[window_mask]), 1e-18))
-                        ax.plot(x_ghz, magnitude_db, color="#1f77b4", linewidth=1.4, label="measured")
-                        ax.axvline(
-                            resonator["design_freq"] / 1e9,
-                            color="red", linestyle="--", linewidth=1.2,
-                            label="resonance"
-                        )
-                        ax.set_title(resonator["label"])
-                        ax.set_xlabel("RF frequency [GHz]")
-                        ax.set_ylabel(f"{vna_port} magnitude [dB]")
-                        ax.grid(True, alpha=0.25)
-                        ax.legend(fontsize=8)
-
-                    for idx in range(n_res, n_rows * n_cols):
-                        axes.flat[idx].set_visible(False)
-                    fig.suptitle("Resonator windows used by run-all", fontsize=14)
-                    fig.tight_layout(rect=(0, 0, 1, 0.96))
-                    windows_path = os.path.join(plots_dir, "blind_search_resonator_windows.png")
-                    fig.savefig(windows_path, dpi=150)
-                    plt.close(fig)
                     print(f"Saved resonator window overview to: {windows_path}")
                 
                 # 3. Save individual fine sweeps and IQ circle plots for all candidates (separated into passed and discarded)

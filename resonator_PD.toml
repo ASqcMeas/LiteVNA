@@ -1,20 +1,52 @@
 
 
 [[resonator]]
-label = "C58449"
+label = "C45000"
 IF_bandwidth = 50
-fwhm_hz = 119630.44950704023
+fwhm_hz = 19664261.19963646
 snr = {max_repeat = 10, min_repeat = 1, power_ave_ratio = -120.0}
 power = {min = -60.0, max = 0.0, step = 5.0}
-frequency = {start = 5843199191.276213, stop = 5846788104.761423, points = 501}
+frequency = {start = 4400000000.0, stop = 4600000000.0, points = 501}
+
+[[resonator]]
+label = "C58450"
+IF_bandwidth = 50
+fwhm_hz = 124219.25536464507
+snr = {max_repeat = 10, min_repeat = 1, power_ave_ratio = -120.0}
+power = {min = -60.0, max = 0.0, step = 5.0}
+frequency = {start = 5844130652.914595, stop = 5845869722.4897, points = 501}
+
+[[resonator]]
+label = "C59999"
+IF_bandwidth = 50
+fwhm_hz = 4625517.410796024
+snr = {max_repeat = 10, min_repeat = 1, power_ave_ratio = -120.0}
+power = {min = -60.0, max = 0.0, step = 5.0}
+frequency = {start = 5967591213.455392, stop = 6032348457.206536, points = 501}
 
 [[resonator]]
 label = "C61500"
 IF_bandwidth = 50
-fwhm_hz = 107186.4694154121
+fwhm_hz = 100252.57681715662
 snr = {max_repeat = 10, min_repeat = 1, power_ave_ratio = -120.0}
 power = {min = -60.0, max = 0.0, step = 5.0}
-frequency = {start = 6148392846.113109, stop = 6151608440.195571, points = 501}
+frequency = {start = 6149298245.199805, stop = 6150701781.275245, points = 501}
+
+[[resonator]]
+label = "C67500"
+IF_bandwidth = 50
+fwhm_hz = 1285422.0455100487
+snr = {max_repeat = 10, min_repeat = 1, power_ave_ratio = -120.0}
+power = {min = -60.0, max = 0.0, step = 5.0}
+frequency = {start = 6741008804.992609, stop = 6759004713.629749, points = 501}
+
+[[resonator]]
+label = "C77999"
+IF_bandwidth = 50
+fwhm_hz = 5659508.801003572
+snr = {max_repeat = 10, min_repeat = 1, power_ave_ratio = -120.0}
+power = {min = -60.0, max = 0.0, step = 5.0}
+frequency = {start = 7760382928.991048, stop = 7839616052.205098, points = 501}
 [hardware]
   model = "DUMMY"                     # 儀器型號: 支援 "ZNB", "E5080B", 或 "DUMMY" (虛擬模擬)
   address = "DUMMY_VISA_ADDRESS"  # VNA 儀器的 VISA 連線位址 (GPIB / TCPIP 格式)
@@ -25,5 +57,5 @@ frequency = {start = 6148392846.113109, stop = 6151608440.195571, points = 501}
   name = "aligned_test"             # 晶片/樣品名稱 (將作為資料夾輸出與分析報告的前綴標識)
 
 [output]
-  data_path = "data/aligned_test_20260723_164733"
+  data_path = "data/aligned_test_20260729_121813"
 
