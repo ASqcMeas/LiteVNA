@@ -1,0 +1,104 @@
+[hardware]
+  model = "ZNB"                     # 儀器型號: 支援 "ZNB", "E5080B", 或 "DUMMY" (虛擬模擬)
+  address = "TCPIP0::192.168.1.123::inst0::INSTR"  # VNA 儀器的 VISA 連線位址 (GPIB / TCPIP 格式)
+  attenuation = 80                  # 輸入/輸出線路之總衰減量 (dB, 晶片端功率 = VNA功率 - 衰減量)
+  port = "S21"                      # 主要量測的 S 參數埠別 (例如 "S21", "S11", "S22", "S33", "S44" 等)
+
+[sample]
+  name = "aligned_test"             # 晶片/樣品名稱 (將作為資料夾輸出與分析報告的前綴標識)
+
+[execution]
+  action = "run-all"                # 執行動作模式: "run-all", "blind-search", "find-windows", "compile", "sweep", "fit"
+  dummy = true                      # 是否開啟離線模擬測試模式 (true / false)
+
+[output]
+  data_path = "data/raw"            # 原始量測 NetCDF 與數據輸出之根目錄路徑
+
+[dummy]
+  noise_multiplier = 1.0            # 離線虛擬 VNA 的背景隨機噪聲放大倍數
+
+[manual_rescue]
+  enabled = true                    # Prompt for missed-cavity windows after every blind search
+  points = 1001                     # Points for each user-selected recovery window
+  if_bandwidth_hz = 200             # IF bandwidth for the focused recovery sweep
+  power = "auto"                    # Use the final blind-search pass power
+  window_multiplier = 7.0           # Final manual window uses resonance center +/- 7 x FWHM
+
+[blind_search]
+  start_freq_ghz = 4.0              # 多通道盲搜尋的全頻域掃描起始頻率 (GHz)
+  stop_freq_ghz = 8.0              # 多通道盲搜尋的全頻域掃描終止頻率 (GHz)
+  prominence_db = "auto"            # 尋峰波谷深度顯著度門檻 (dB, 可填具體數值如 3.0 或 "auto")
+  min_prominence_db = "auto"        # 尋峰顯著度硬性下限門檻 (dB, 可填具體數值如 0.5 或 "auto")
+
+[deduplication]
+  coarse_spacing_mhz = 0.25         # 盲掃粗掃階段合併重複候選腔的最小頻率間隔 (MHz)
+  precise_spacing_mhz = 0.15        # 細掃驗證後合併重複候選腔的最小頻率間隔 (MHz)
+
+[verification]
+  points = 501                      # 驗證細掃的頻率點數
+  if_bandwidth_hz = 200             # 驗證細掃的中頻頻寬 IF Bandwidth (Hz)
+  min_span_mhz = 0.2                # 驗證細掃跨距的硬性下限 (MHz)
+  window_span_mhz = 10.0            # 驗證細掃基礎跨距的上限 (MHz)
+  power = "auto"                    # 強制指定驗證細掃功率 (dBm, 或 "auto" 跟隨盲掃 Candidate 功率)
+  prominence_db = "auto"            # 驗證階段獨立的尋峰顯著度門檻 (dB, 或 "auto" 繼承盲掃設定)
+  min_prominence_db = "auto"        # 驗證階段獨立的顯著度底限門檻 (dB, 或 "auto" 繼承盲掃設定)
+  high_q_trigger_ratio = 2.5        # 觸發 High-Q 窄共振峰動態重掃的跨距與線寬臨界倍數
+  min_resweep_span_mhz = 0.05       # High-Q 動態重掃時的最小跨距 (MHz)
+
+[filtering]
+  scoring_method = "geometric"      # 評分計算方式: "geometric" (幾何平均) 或 "arithmetic" (算術平均)
+  allow_negative_qi = true          # 是否放行圓擬合 Qi < 0 的共振腔 (true / false)
+  min_arithmetic_score = 50.0       # 算術平均總分硬性下限門檻 (0-100, 或 "none" 取消過濾)
+  min_geometric_score = 20.0        # 幾何平均總分硬性下限門檻 (0-100, 或 "none" 取消過濾)
+  max_chisq_fit = 0.05              # 物理圓擬合殘差 Chi-Square 最大允許上限 (或 "none" 取消過濾)
+  max_fwhm_ratio = 100.0            # 擬合 FWHM 與光譜估算 FWHM 最大允許不一致倍數 (或 "none")
+  min_fwhm_khz = 5.0                # 驗證 FWHM 硬性下限 (kHz, 或 "none")
+  max_fwhm_mhz = 100.0              # 驗證 FWHM 硬性上限 (MHz, 或 "none")
+  weight_fwhm = 0.4                 # 評分中 FWHM 頻寬分數的權重比例 (0.0 ~ 1.0)
+  weight_depth = 0.3                # 評分中波谷深度分數的權重比例 (0.0 ~ 1.0)
+  weight_iq = 0.3                   # 評分中圓擬合品質分數的權重比例 (0.0 ~ 1.0)
+
+[fwhm]
+  min_khz = 5.0                     # 硬性 FWHM 下限護欄 (kHz)
+  max_mhz = 30.0                    # 硬性 FWHM 上限護欄 (MHz)
+  target_fwhm_khz = 300.0           # FWHM 評分滿分之中心目標寬度 (kHz)
+  fwhm_sigma_decade = 0.5           # FWHM 評分 Gaussian 容忍對數標準差 (Decades)
+  noise_sigma_multiplier = 15.0     # 自動 Prominence 降噪門檻之噪聲標準差倍數 (N-sigma)
+  min_noise_sigma_multiplier = 5.0  # 自動 Prominence 保底門檻之噪聲標準差倍數 (N-sigma)
+  search_window_multiplier = 5.0    # 尋峰與驗證階段的小視窗倍數 (縮窄掃描時間)
+  fit_measurement_window_multiplier = 7.0 # 最終 VNA 量測與圓擬合視窗為正負 7 倍半高寬
+  window_multiplier = 7.0           # 最終 resonator window 為中心頻率正負 7 倍半高寬
+
+[blind_search_passes]
+  passes = [                        # 多通道盲搜尋的各 Pass 功率、中頻頻寬與點數設定
+    { power = 0, if_bandwidth = 1000, points = 8001, name = "Pass 1 (0 dBm, 1 kHz)" },
+    { power = -10.0, if_bandwidth = 500,  points = 8001, name = "Pass 2 (-10 dBm, 500 Hz)" }
+  ]
+
+[resonator_defaults]
+  if_bandwidth = 50                 # 輸出至 resonator_PD.toml 的預設中頻頻寬 (Hz)
+  points = 501                      # 輸出至 resonator_PD.toml 的預設量測點數
+  max_repeat = 10                   # 低功率區間的預設最高重複平均次數 (高 SNR 降噪)
+  min_repeat = 1                    # 高功率區間的預設最低重複平均次數
+  power_ave_ratio = -120            # 觸發多次重複平均的晶片端功率臨界值 (dBm)
+  power_min = -60                   # VNA 功率掃描的最小功率 (dBm)
+  power_max = 0                     # VNA 功率掃描的最大功率 (dBm)
+  power_step = 5                    # VNA 功率掃描的功率步進間隔 (dB)
+
+[peak_finding_retry]
+  max_retries = 3                   # 尋找 Dip 失敗時的最大重試調整次數
+  retry_1_points = 1601             # Retry 1: 提升頻率解析度的掃描點數
+  retry_1_ibw_hz = 200              # Retry 1: 降低中頻頻寬以提升 SNR (Hz)
+  retry_2_range_multiplier = 2.0    # Retry 2: 放大掃描頻率跨距 deltafre 的倍數
+  retry_3_power_boost_db = 5.0      # Retry 3: 提高 VNA 功率以增強訊號強度 (dB)
+  fallback_window_mhz = 2.0        # 所有 Retry 失敗時降級採用的預設固定量測視窗 (MHz)
+
+[fitting]
+  mode = "refined"                  # 批次圓擬合模式: "refined" (兩階段固定 Qc 擬合) 或 "free" (單次自由擬合)
+
+[tls_analysis]
+  enabled = true                    # 是否在 run-all 時自動執行 TLS 雙位準系統損耗擬合
+  n_sat_lowerbound = 0.01           # TLS 擬合飽和光子數 N_sat 擬合下界
+  n_sat_upperbound = 10000          # TLS 擬合飽和光子數 N_sat 擬合上界
+  alpha_lowerbound = 0.2            # TLS 擬合指數 alpha 擬合下界
+  max_error_threshold = 1e8         # 剔除品質因子 Fit Error 過大數據點的殘差門檻

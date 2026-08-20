@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "LiteMWSInstr"
+version = "0.1.0"
+description = "自動化 VNA 共振腔量測與批次物理擬合協調器"
+readme = "vna_orchestrator_doc.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = [
+    "numpy>=1.20",
+    "scipy>=1.7",
+    "matplotlib>=3.5",
+    "xarray>=2022.0",
+    "pandas>=1.4",
+    "tomlkit>=0.11",
+    "tomli-w>=1.0",
+    "pyvisa>=1.11",
+    "pyvisa-py>=0.5",
+    "qcodes>=0.30",
+    "h5netcdf>=1.0",
+    "resonator_tools @ git+https://github.com/sebastianprobst/resonator_tools.git",
+]
+
+[tool.setuptools]
+py-modules = ["vna_orchestrator", "vna_config_gui", "window_finding", "linear_freq_sweep", "power_dep_resonator", "batch_fit"]
+
+[tool.setuptools.packages.find]
+include = ["driver*", "orchestrator*"]
+
+[project.scripts]
+vna-run = "vna_orchestrator:main"

@@ -4,27 +4,62 @@ from qcodes.instrument_drivers.rohde_schwarz import (
     RohdeSchwarzZNB20,
     RohdeSchwarzZNBChannel,
 )
-from qcodes.dataset.measurements import Measurement
+from qcodes.instrument.instrument import Instrument
 
 class VNA_ZNB20:
     def __init__(self, address: str):
         self.address = address
+        self.connect()
+
+    def connect(self) -> bool:
+        import time
+        
+        # Explicitly close any existing instrument named 'VNA' in QCodes registry to avoid duplicate errors
         try:
-            self.vna = RohdeSchwarzZNB20('VNA', address, timeout=300)
-            print(f'Connected to: {self.vna.IDN()}')
+            if 'VNA' in Instrument._all_instruments:
+                Instrument._all_instruments['VNA'].close()
         except Exception as e:
-            print(f"Connection error: {e}")
+            print(f"Error closing existing QCodes 'VNA' instrument: {e}")
+
+        max_connect_attempts = 3
+        for attempt in range(1, max_connect_attempts + 1):
+            try:
+                self.vna = RohdeSchwarzZNB20('VNA', self.address, timeout=300)
+                print(f'Connected to: {self.vna.IDN()}')
+                return True
+            except Exception as e:
+                print(f"Connection attempt {attempt}/{max_connect_attempts} to VNA at {self.address} failed: {e}")
+                if attempt < max_connect_attempts:
+                    time.sleep(2)
+        return False
+
+    def reconnect(self) -> bool:
+        print(f"Attempting to reconnect to VNA at {self.address}...")
+        self.disconnect()
+        return self.connect()
     
     def check_error(self):
         # Check for errors
         pass
 
     def delete_all_traces(self):
-        self.vna.clear_channels()
+        try:
+            self.vna.clear_channels()
+        except Exception as e:
+            print(f"Error clearing channels: {e}. Retrying after reconnect...")
+            self.reconnect()
+            self.vna.clear_channels()
     
     def setup_measurement(self, parameter: str):
-        self.vna.add_channel(parameter)
-        self.current_channel = parameter
+        try:
+            self.vna.add_channel(parameter)
+            self.current_channel = parameter
+        except Exception as e:
+            print(f"Error setting up measurement channel '{parameter}': {e}. Retrying after reconnect...")
+            self.reconnect()
+            self.vna.add_channel(parameter)
+            self.current_channel = parameter
+
 
     def set_linfreq(self, start: float, stop: float):
         getattr(self.vna.channels, self.current_channel).start(start)
@@ -56,31 +91,61 @@ class VNA_ZNB20:
     def measure(self):
         self.vna.rf_on()
         self.vna.channels.avg(1)
-        meas = Measurement()
-        meas.register_parameter(getattr(self.vna.channels, self.current_channel).trace_db_phase)
+        # Disable continuous sweep, trigger a single sweep, and wait for completion
+        # before reading data. This mirrors the *OPC? synchronization in E5080B.py
+        # and prevents returning stale data from a previous sweep's buffer.
+        self.vna.write(':INIT:CONT OFF')  # Stop continuous sweep mode
+        self.vna.write(':INIT:IMM')        # Trigger one sweep
+        self.vna.ask('*OPC?')              # Block until sweep is complete
 
     def lin_freq_sweep(self, start, stop, points: int, port, power: float = -20, IF_bandwith: int = 1000):
-        
-        self.delete_all_traces()
-        self.setup_measurement(port)
-        self.set_power(power)
-        self.set_IF_bandwidth(IF_bandwith)
-        self.set_linfreq(start, stop)
-        self.set_sweep_points(points)
+        import time
+        import pyvisa
 
-        self.measure()
-        data = self.get_data()
+        max_attempts = 3
+        for attempt in range(1, max_attempts + 1):
+            try:
+                if attempt > 1:
+                    print(f"Retrying VNA sweep (attempt {attempt}/{max_attempts})...")
+                    self.reconnect()
+                
+                self.delete_all_traces()
+                self.setup_measurement(port)
+                self.set_power(power)
+                self.set_IF_bandwidth(IF_bandwith)
+                self.set_linfreq(start, stop)
+                self.set_sweep_points(points)
 
-        start_freq = getattr(self.vna.channels, self.current_channel).start()
-        stop_freq = getattr(self.vna.channels, self.current_channel).stop()
-        num_points = getattr(self.vna.channels, self.current_channel).npts()
-        
-        freq_array = np.linspace(start_freq, stop_freq, num_points)
-        s21_data = data
-        return freq_array, s21_data
+                self.measure()
+                data = self.get_data()
+
+                start_freq = getattr(self.vna.channels, self.current_channel).start()
+                stop_freq = getattr(self.vna.channels, self.current_channel).stop()
+                s21_data = data
+                num_points = len(s21_data) if s21_data is not None and len(s21_data) > 0 else getattr(self.vna.channels, self.current_channel).npts()
+                freq_array = np.linspace(start_freq, stop_freq, num_points)
+                return freq_array, s21_data
+            except (pyvisa.errors.VisaIOError, Exception) as e:
+                print(f"Error during VNA sweep on attempt {attempt}: {e}")
+                if attempt == max_attempts:
+                    raise e
+                time.sleep(2)
 
     def disconnect(self):
-        self.vna.close()
+        if hasattr(self, "vna"):
+            try:
+                self.vna.close()
+            except Exception as e:
+                print(f"Error closing RohdeSchwarzZNB20: {e}")
+            finally:
+                if hasattr(self, "vna"):
+                    del self.vna
+        # Also clean up QCodes registry entry for 'VNA'
+        try:
+            if 'VNA' in Instrument._all_instruments:
+                Instrument._all_instruments['VNA'].close()
+        except Exception:
+            pass
         print("VNA_ZNB20 object connection is closed.")
 
     def __del__(self):
